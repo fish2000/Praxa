@@ -75,6 +75,17 @@ echo ""
 
 export PRAXON_TEMPLATES="${PRAXIME_BASE}/Templates"
 
+cd $VIRTUAL_ENV
+if [[ -r "${PRAXON_TEMPLATES}/.password" ]]
+then
+    export INSTANCE_PASSWORD="$(cat ${PRAXON_TEMPLATES}/.password)"
+else
+    export INSTANCE_PASSWORD="XXX"
+fi
+echo "+ Writing the instance default password \"${INSTANCE_PASSWORD}\" to ${VIRTUAL_ENV}/.password ..."
+echo $INSTANCE_PASSWORD > ${VIRTUAL_ENV}/.password
+export INSTANCE_PASSWORD_HASH=`md5 -q ${VIRTUAL_ENV}/.password`
+
 echo "+ Setting bpython shell defaults ..."
 cd $VIRTUAL_ENV
 export INSTANCE_BPYTHON_SETTINGS=${INSTANCE_ADNAUSEUM}/bpython-settings.py
@@ -178,13 +189,17 @@ cd $VIRTUAL_ENV
 export INSTANCE_REDIS_CONF=${INSTANCE_ADNAUSEUM}/redis.conf
 bin/viron -q -f ${PRAXON_TEMPLATES}/redis.conf > $INSTANCE_REDIS_CONF
 
-echo "+ Aliasing the Django admin script ..."
+echo "+ Preparing the executable Django admin script ..."
+cd $VIRTUAL_ENV
 DJANGO_ROOT=`bin/python -c "import django,os;print os.path.dirname(django.__file__)"`
 DJANGO_ADMIN_SCRIPT="${DJANGO_ROOT}/bin/django-admin.py"
 chmod +x $DJANGO_ADMIN_SCRIPT
 chmod g+x $DJANGO_ADMIN_SCRIPT
 export DJANGO_ADMIN="${INSTANCE_BIN}/$(basename $DJANGO_ADMIN_SCRIPT)"
-ln -s $DJANGO_ADMIN_SCRIPT $DJANGO_ADMIN
+if [[ ! -r $DJANGO_ADMIN ]]
+then
+    ln -s $DJANGO_ADMIN_SCRIPT $DJANGO_ADMIN
+fi
 
 export DJANGO_SETTINGS_MODULE="settings"
 
@@ -208,7 +223,14 @@ function vmate () {
     DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "mate ${VIRTUAL_ENV} $@"
 }
 
+echo ""
+echo "+ Initializing a Django SQLite development database ..."
 eval "vj syncdb --migrate --noinput"
+
+echo ""
+echo "+ Creating a default superuser for use the Django admin"
+echo ">>> username: fish"
+echo ">>> password: ${INSTANCE_PASSWORD}"
 eval "vj createsuperuser --noinput --username=fish --email=yodogg@gmail.com"
 
 setsuperuserpassword="\
@@ -217,16 +239,18 @@ from django.core.management import setup_environ\
 ;setup_environ(settings)\
 ;from django.contrib.auth.models import User\
 ;fish = User.objects.get(username='fish')\
-;fish.set_password('XXX')\
+;fish.set_password('${INSTANCE_PASSWORD}')\
 ;fish.save()\
 "
 ${INSTANCE_BIN}/python -c "${setsuperuserpassword}"
 
-#vj syncdb --noinput --all
-#vj migrate
 #mkdir -p instance/bfd2/words && vj startapp words instance/bfd2/words
+
+echo ""
+echo "Preparing static files for access via the local development server ..."
 eval "vj collectstatic --noinput"
 
+echo ""
 echo "+ Setting up a local git repository ..."
 cd $VIRTUAL_ENV
 git init

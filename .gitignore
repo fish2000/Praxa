@@ -1,5 +1,10 @@
 .DS_Store
+.password
 */
+!Praximes/
+!Templates/
+PipCache/*
+*/PipCache/*
 hook.log
 hook.log.*
 !pre*
