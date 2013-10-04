@@ -1,0 +1,65 @@
+#!/usr/local/bin/bash
+# This hook is run after every virtualenv is activated.
+
+export INSTANCE=${VIRTUAL_ENV}/instance
+export INSTANCE_BIN=${VIRTUAL_ENV}/bin
+export INSTANCE_ADNAUSEUM=${VIRTUAL_ENV}/etc
+export INSTANCE_VARIANT=${VIRTUAL_ENV}/var
+export INSTANCE_LOGDIR=${VIRTUAL_ENV}/logs
+export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | $(which sed) -e s/[^A-Za-z0-9]/_/g`
+export INSTANCE_BPYTHON_SETTINGS=${INSTANCE_ADNAUSEUM}/bpython-settings.py
+export INSTANCE_MODULE="${INSTANCE}/${INSTANCE_NAME}"
+export INSTANCE_MANAGE="${INSTANCE}/manage.py"
+export INSTANCE_SCREENRC=${INSTANCE_ADNAUSEUM}/screenrc-virtualenv
+
+export LOCAL=${VIRTUAL_ENV}/local
+export LOCAL_BIN=${LOCAL}/bin
+export LOCAL_LIB=${LOCAL}/lib
+export LOCAL_PYTHON=${LOCAL_LIB}/python${PYTHON_NUMBER}
+export LOCAL_PYTHON_SITE=${LOCAL_PYTHON}/site-packages
+
+export DJANGO_SETTINGS_MODULE="settings"
+export DJANGO_ADMIN="${INSTANCE_BIN}/django-admin.py"
+
+export SUPERVISORD_CONF=${INSTANCE_ADNAUSEUM}/supervisord.conf
+export SUPERVISORD="${INSTANCE_BIN}/supervisord -n -c ${SUPERVISORD_CONF}"
+export SUPERVISORCTL="${INSTANCE_BIN}/supervisorctl -c ${SUPERVISORD_CONF}"
+
+export PYTHONPATH=".:\
+${VIRTUAL_ENV}/lib/python2.7/site-packages:\
+${LOCAL_PYTHON_SITE}:\
+${INSTANCE_MODULE}:\
+${INSTANCE}:\
+${INSTANCE}/${INSTANCE_NAME}:\
+${VIRTUAL_ENV}"
+
+export PATH=".:\
+${LOCAL_BIN}:\
+${INSTANCE_BIN}:\
+${PATH}:\
+${VIRTUAL_ENV}"
+
+function vbp () {
+    SIGNALQUEUE_RUNMODE=SQ_SYNC ${INSTANCE_BIN}/bpython --interactive $INSTANCE_BPYTHON_SETTINGS
+}
+
+function vj () {
+    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${DJANGO_ADMIN} $@"
+}
+
+function vrun () {
+    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${SUPERVISORD} $@"
+}
+
+function vsuper () {
+    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${SUPERVISORCTL} $@"
+}
+
+function vmate () {
+    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "mate ${VIRTUAL_ENV} $@"
+}
+
+
+PS1="\[\033[01;33m\]($(basename ${VIRTUAL_ENV}))\[\033[00m\] ${_OLD_VIRTUAL_PS1}"
+
+cd $VIRTUAL_ENV

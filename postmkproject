@@ -1,0 +1,6 @@
+#!/usr/local/bin/bash
+# This hook is run after a new project is activated.
+
+#export PYTHONPATH=".:\
+#${VIRTUAL_ENV}/lib/python2.7/site-packages:\
+#${VIRTUAL_ENV}"

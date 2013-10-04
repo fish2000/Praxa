@@ -1,0 +1,237 @@
+#!/usr/local/bin/bash
+# This hook is run after a new virtualenv is activated.
+
+export PYTHON_NUMBER=`${VIRTUAL_ENV}/bin/python -c "import platform;print '%s.%s' % platform.python_version_tuple()[:2]"`
+export PYTHONPATH=".:\
+${VIRTUAL_ENV}/lib/python${PYTHON_NUMBER}/site-packages:\
+${VIRTUAL_ENV}"
+
+cd $VIRTUAL_ENV
+mkdir -p ./etc
+mkdir -p ./var
+mkdir -p ./var/logs
+mkdir -p ./instance
+
+export INSTANCE=${VIRTUAL_ENV}/instance
+export LOCAL=${VIRTUAL_ENV}/local
+
+export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | $(which sed) -e s/[^A-Za-z0-9]/_/g`
+export INSTANCE_SRC=`echo "$(basename ${VIRTUAL_ENV})"`
+export INSTANCE_MODULE="${INSTANCE}/${INSTANCE_NAME}"
+#export INSTANCE_PROJECT="${INSTANCE}/base"
+export INSTANCE_BIN=${VIRTUAL_ENV}/bin
+export INSTANCE_LIB=${VIRTUAL_ENV}/lib
+export INSTANCE_PYTHON=${INSTANCE_LIB}/python${PYTHON_NUMBER}
+export INSTANCE_PYTHON_SITE=${INSTANCE_PYTHON}/site-packages
+export INSTANCE_ADNAUSEUM=${VIRTUAL_ENV}/etc
+export INSTANCE_VARIANT=${VIRTUAL_ENV}/var
+export INSTANCE_VARIANT_DATA=${INSTANCE_VARIANT}/db
+export INSTANCE_LOGS=${INSTANCE_VARIANT}/logs
+export INSTANCE_CACHE=${INSTANCE_VARIANT}/cache
+export INSTANCE_RUN=${INSTANCE_VARIANT}/run
+
+export LOCAL_BIN=${LOCAL}/bin
+export LOCAL_LIB=${LOCAL}/lib
+export LOCAL_PYTHON=${LOCAL_LIB}/python${PYTHON_NUMBER}
+export LOCAL_PYTHON_SITE=${LOCAL_PYTHON}/site-packages
+
+#export PYTHONHOME=$LOCAL_LIB
+
+mkdir -p ${INSTANCE_VARIANT_DATA}
+mkdir -p ${INSTANCE_VARIANT_DATA}/redis
+mkdir -p ${INSTANCE_VARIANT_DATA}/postgresql
+mkdir -p ${INSTANCE_VARIANT_DATA}/mysql
+mkdir -p ${INSTANCE_VARIANT}/web
+mkdir -p ${INSTANCE_VARIANT}/web/static
+mkdir -p ${INSTANCE_VARIANT}/web/face
+mkdir -p ${INSTANCE_LOGS}
+mkdir -p ${INSTANCE_CACHE}
+mkdir -p ${INSTANCE_RUN}
+mkdir -p ${INSTANCE_MODULE}
+mkdir -p ${LOCAL}
+mkdir -p ${LOCAL_BIN}
+mkdir -p ${LOCAL_LIB}
+mkdir -p ${LOCAL_PYTHON}
+mkdir -p ${LOCAL_PYTHON_SITE}
+
+export PATH=".:\
+${LOCAL_BIN}:\
+${INSTANCE_BIN}:\
+${PATH}:\
+${VIRTUAL_ENV}"
+
+export PYTHONPATH=".:\
+${VIRTUAL_ENV}/lib/python${PYTHON_NUMBER}/site-packages:\
+${LOCAL_PYTHON_SITE}:\
+${INSTANCE_MODULE}:\
+${INSTANCE}:\
+${INSTANCE_PYTHON_SITE}:\
+${VIRTUAL_ENV}"
+
+echo "+ Installing python modules for viron ..."
+cd $VIRTUAL_ENV
+bin/pip install -U argparse argh viron pysqlite
+echo ""
+
+export PRAXON_TEMPLATES="${PRAXIME_BASE}/Templates"
+
+echo "+ Setting bpython shell defaults ..."
+cd $VIRTUAL_ENV
+export INSTANCE_BPYTHON_SETTINGS=${INSTANCE_ADNAUSEUM}/bpython-settings.py
+bin/viron -q -f ${PRAXON_TEMPLATES}/bpython-settings.py > $INSTANCE_BPYTHON_SETTINGS
+
+echo "+ Setting default GNU screen properties ..."
+cd $VIRTUAL_ENV
+export INSTANCE_SCREENRC=${INSTANCE_ADNAUSEUM}/screenrc-virtualenv
+bin/viron -q -f ${PRAXON_TEMPLATES}/screenrc-virtualenv > $INSTANCE_SCREENRC
+
+echo "+ Setting default TextMate properties ..."
+cd $VIRTUAL_ENV
+export INSTANCE_TM_PROPERTIES=${VIRTUAL_ENV}/.tm_properties
+bin/viron -q -f ${PRAXON_TEMPLATES}/tm_properties > $INSTANCE_TM_PROPERTIES
+
+echo "+ Installing CheeseShop essentials ..."
+cd /tmp
+
+${VIRTUAL_ENV}/bin/pip install -U \
+django django-tagging \
+
+#${VIRTUAL_ENV}/bin/pip install -U \
+#nose rednose unittest2 \
+
+${VIRTUAL_ENV}/bin/pip install -U \
+south watchdog supervisor django-supervisor superlance \
+pylibmc django-memcached \
+greenlet eventlet gunicorn psycopg2 simplejson xerox \
+bpython requests BeautifulSoup setproctitle \
+
+
+#PIL Pillow \
+#oursql redis hiredis \
+#pyasn1 pycrypto pyhash rsa \
+#requests github2 httplib2 urllib3 \
+#tornado gunicorn Werkzeug TornadIO2 \
+#rauth requests-oauth tweepy python-openid oauth2 oauthlib \
+#fabric django-fabfile django-fabtastic django-fab-templates woven \
+#django-fsfield django-imagekit django-nose \
+#django-mediagenerator django-jsmin South \
+#boto django-storages s3cmd python-s3file \
+#couchdbkit django-docfield-couchdb \
+#decorator watchdog chardet pytz python-dateutil \
+#ujson czjson ijson python-cjson yajl jsonlib jsonlib2 demjson \
+#BeautifulSoup pyquery elementtree celementtree httpie pycurl html5lib feedparser \
+#gevent gevent-psycopg2 \
+
+${VIRTUAL_ENV}/bin/pip install -U \
+django-delegate django-signalqueue \
+
+#mahotas imread ipython \
+#celery celerymon django-celery django-oembed django-kombu \
+
+#pysolr Whoosh sphinxsearch django-haystack \
+#anyjson jsonschema jsonish jsontools \
+#pyyaml msgpack-python \
+#scipy scikits-image scimath \
+#scikits-learn nibabel nltk \
+#pandas quantities units Pint numexpr \
+#pyhdf5io h5py tables \
+#pycdf Puppy netCDF4 ncdftools pupynere CDF \
+#Pydap PydapSearch DistributedPydap pydap.handlers.hdf5 pydap.handlers.netcdf \
+#pyisbn book.isbn isbnutils \
+#pymarc marcdb PyZ3950 re2 \
+#bottlenose python-amazon-simple-product-api python-amazon-product-api \
+#pygraphviz pydot reportlab \
+#matplotlib \
+
+#${VIRTUAL_ENV}/bin/pip install -U https://github.com/twig/django-wordpress/zipball/master
+#${VIRTUAL_ENV}/bin/pip install -U grappelli_safe
+#echo "grappelli_safe" > ${INSTANCE_PYTHON_SITE}/grappelli.pth
+#${VIRTUAL_ENV}/bin/pip install -U mezzanine
+
+echo ""
+
+echo "+ Initializing project template ..."
+cd $VIRTUAL_ENV
+bin/viron -q -f ${PRAXON_TEMPLATES}/gitignore > "${VIRTUAL_ENV}/.gitignore"
+bin/viron -q -f ${PRAXON_TEMPLATES}/django-manage.py > "${INSTANCE}/manage.py"
+bin/viron -q -f ${PRAXON_TEMPLATES}/django-settings.py > "${INSTANCE_MODULE}/settings.py"
+bin/viron -q -f ${PRAXON_TEMPLATES}/urls.py > "${INSTANCE_MODULE}/urls.py"
+bin/viron -q -f ${PRAXON_TEMPLATES}/wsgi.py > "${INSTANCE_MODULE}/wsgi.py"
+
+mkdir -p ${INSTANCE}/gunicorn
+bin/viron -q -f ${PRAXON_TEMPLATES}/gunicorn-devel.py > "${INSTANCE}/gunicorn/devel.py"
+bin/viron -q -f ${PRAXON_TEMPLATES}/gunicorn-debug.py > "${INSTANCE}/gunicorn/debug.py"
+
+bin/viron -q -f ${PRAXON_TEMPLATES}/init.py > "${INSTANCE}/__init__.py"
+bin/viron -q -f ${PRAXON_TEMPLATES}/init.py > "${INSTANCE}/gunicorn/__init__.py"
+bin/viron -q -f ${PRAXON_TEMPLATES}/init.py > "${INSTANCE_MODULE}/__init__.py"
+
+echo "+ Setting up supervisord ..."
+cd $VIRTUAL_ENV
+export SUPERVISORD_CONF=${INSTANCE_ADNAUSEUM}/supervisord.conf
+bin/viron -q -f ${PRAXON_TEMPLATES}/supervisord.conf > $SUPERVISORD_CONF
+export SUPERVISORD="${INSTANCE_BIN}/supervisord -n -c ${SUPERVISORD_CONF}"
+export SUPERVISORCTL="${INSTANCE_BIN}/supervisorctl -c ${SUPERVISORD_CONF}"
+
+echo "+ Setting up redis ..."
+cd $VIRTUAL_ENV
+export INSTANCE_REDIS_CONF=${INSTANCE_ADNAUSEUM}/redis.conf
+bin/viron -q -f ${PRAXON_TEMPLATES}/redis.conf > $INSTANCE_REDIS_CONF
+
+echo "+ Aliasing the Django admin script ..."
+DJANGO_ROOT=`bin/python -c "import django,os;print os.path.dirname(django.__file__)"`
+DJANGO_ADMIN_SCRIPT="${DJANGO_ROOT}/bin/django-admin.py"
+chmod +x $DJANGO_ADMIN_SCRIPT
+chmod g+x $DJANGO_ADMIN_SCRIPT
+export DJANGO_ADMIN="${INSTANCE_BIN}/$(basename $DJANGO_ADMIN_SCRIPT)"
+ln -s $DJANGO_ADMIN_SCRIPT $DJANGO_ADMIN
+
+export DJANGO_SETTINGS_MODULE="settings"
+
+function vbp () {
+    SIGNALQUEUE_RUNMODE=SQ_SYNC ${INSTANCE_BIN}/bpython --interactive $INSTANCE_BPYTHON_SETTINGS
+}
+
+function vj () {
+    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${DJANGO_ADMIN} $@"
+}
+
+function vrun () {
+    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${SUPERVISORD} $@"
+}
+
+function vsuper () {
+    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${SUPERVISORCTL} $@"
+}
+
+function vmate () {
+    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "mate ${VIRTUAL_ENV} $@"
+}
+
+eval "vj syncdb --migrate --noinput"
+eval "vj createsuperuser --noinput --username=fish --email=yodogg@gmail.com"
+
+setsuperuserpassword="\
+from django.core.management import setup_environ\
+;import settings\
+;setup_environ(settings)\
+;from django.contrib.auth.models import User\
+;fish = User.objects.get(username='fish')\
+;fish.set_password('XXX')\
+;fish.save()\
+"
+${INSTANCE_BIN}/python -c "${setsuperuserpassword}"
+
+#vj syncdb --noinput --all
+#vj migrate
+#mkdir -p instance/bfd2/words && vj startapp words instance/bfd2/words
+eval "vj collectstatic --noinput"
+
+echo "+ Setting up a local git repository ..."
+cd $VIRTUAL_ENV
+git init
+git addremove $VIRTUAL_ENV
+git status
+git commit -m "First commit for $INSTANCE_NAME (via praxime by virtualenvwrapper hook)."
+git checkout -b $INSTANCE_NAME
+echo ""

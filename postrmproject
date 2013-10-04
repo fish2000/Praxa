@@ -1,0 +1,7 @@
+#!/usr/local/bin/bash
+# This hook is run after a project is deleted.
+
+#export PYTHONPATH=''
+#source ~/.bash_profile
+
+#cd /tmp

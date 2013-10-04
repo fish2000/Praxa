@@ -1,0 +1,6 @@
+.DS_Store
+*/
+hook.log
+hook.log.*
+!pre*
+!post*
