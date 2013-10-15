@@ -104,18 +104,17 @@ bin/viron -q -f ${PRAXON_TEMPLATES}/tm_properties > $INSTANCE_TM_PROPERTIES
 echo "+ Installing CheeseShop essentials ..."
 cd /tmp
 
-${VIRTUAL_ENV}/bin/pip install -U \
-django django-tagging \
-
 #${VIRTUAL_ENV}/bin/pip install -U \
 #nose rednose unittest2 \
 
-${VIRTUAL_ENV}/bin/pip install -U \
-south watchdog supervisor django-supervisor superlance \
-pylibmc django-memcached \
-greenlet eventlet gunicorn psycopg2 simplejson xerox \
-bpython requests BeautifulSoup setproctitle \
+${VIRTUAL_ENV}/bin/pip install -U django django-tagging
 
+${VIRTUAL_ENV}/bin/pip install -U \
+watchdog supervisor superlance \
+pylibmc greenlet eventlet gunicorn psycopg2 simplejson \
+xerox bpython requests BeautifulSoup setproctitle \
+ujson yolk pyyaml pysolr redis httplib2 urllib3 \
+httpie boto python-s3file
 
 #PIL Pillow \
 #oursql redis hiredis \
@@ -133,8 +132,19 @@ bpython requests BeautifulSoup setproctitle \
 #BeautifulSoup pyquery elementtree celementtree httpie pycurl html5lib feedparser \
 #gevent gevent-psycopg2 \
 
+
+${VIRTUAL_ENV}/bin/pip install -U Pillow pilkit django-imagekit
 ${VIRTUAL_ENV}/bin/pip install -U \
-django-delegate django-signalqueue \
+django-delegate django-docfield-couchdb django-twemoir \
+django-storages django-toolbelt django-countries django-shapes \
+django-memcached django-supervisor django-jquery-widgets \
+django-location django-locations django-locationstree \
+django-bootstrap-admin django-admin-bootstrapped \
+django-haystack django-autoslug django-autoslug-field \
+django-uuidfield django-multifilefield django-appconf \
+requests requests-oauthlib oauthlib oauth2 \
+south yolk python-twitter twitter-text-python nltk
+${VIRTUAL_ENV}/bin/pip install -U uWSGI
 
 #mahotas imread ipython \
 #celery celerymon django-celery django-oembed django-kombu \
@@ -160,6 +170,21 @@ django-delegate django-signalqueue \
 #${VIRTUAL_ENV}/bin/pip install -U mezzanine
 
 echo ""
+
+echo "+ Installing Apache Solr server ..."
+cd $LOCAL_LIB
+export SOLR_TARBALL_URL="http://mirror.cogentco.com/pub/apache/lucene/solr/4.5.0/solr-4.5.0.tgz"
+export SOLR_TARBALL="${VIRTUAL_ENV}/solr.tgz"
+export SOLR_ROOT="${LOCAL_LIB}/solr"
+export SOLR_SCHEMA="${SOLR_ROOT}/example/solr/collection1/conf/schema.xml"
+test ! -r $SOLR_TARBALL && test -x `which wget` && wget $SOLR_TARBALL_URL -O $SOLR_TARBALL
+test ! -r $SOLR_TARBALL && test -x `which http` && http -d $SOLR_TARBALL_URL -o $SOLR_TARBALL
+test ! -r $SOLR_TARBALL && test -x `which curl` && curl $SOLR_TARBALL_URL -o $SOLR_TARBALL
+if [[ -r $SOLR_TARBALL ]];
+then
+    mkdir -p $SOLR_ROOT && cd $SOLR_ROOT
+    tar -xvzf $SOLR_TARBALL --strip-components=1 -C $SOLR_ROOT && rm $SOLR_TARBALL
+fi
 
 echo "+ Initializing project template ..."
 cd $VIRTUAL_ENV
@@ -223,11 +248,9 @@ function vmate () {
     DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "mate ${VIRTUAL_ENV} $@"
 }
 
-echo ""
 echo "+ Initializing a Django SQLite development database ..."
 eval "vj syncdb --migrate --noinput"
 
-echo ""
 echo "+ Creating a default superuser for use the Django admin"
 echo ">>> username: fish"
 echo ">>> password: ${INSTANCE_PASSWORD}"
@@ -247,10 +270,11 @@ ${INSTANCE_BIN}/python -c "${setsuperuserpassword}"
 #mkdir -p instance/bfd2/words && vj startapp words instance/bfd2/words
 
 echo ""
-echo "Preparing static files for access via the local development server ..."
+echo "+ Generating initial Solr schema ..."
+eval "vj build_solr_schema -f ${SOLR_SCHEMA}"
+echo "+ Preparing static files for access via the local development server ..."
 eval "vj collectstatic --noinput"
 
-echo ""
 echo "+ Setting up a local git repository ..."
 cd $VIRTUAL_ENV
 git init

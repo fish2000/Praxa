@@ -94,18 +94,29 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    #'bootstrap_admin',
+    'django_admin_bootstrapped',
+    
     'django.contrib.admin',
     'django.contrib.humanize',
     'django.contrib.messages',
     'django.contrib.markup',
     
+    'haystack',
     'south',
     'tagging',
+    'twemoir',
     'gunicorn',
-    #'django_nose',
-    #'imagekit',
-    'signalqueue',
+    'imagekit',
 )
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://127.0.0.1:8983/solr',
+    },
+}
 
 LOGGING = {
     'version': 1,
