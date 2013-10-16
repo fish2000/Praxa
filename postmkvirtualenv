@@ -70,7 +70,9 @@ ${VIRTUAL_ENV}"
 
 echo "+ Installing python modules for viron ..."
 cd $VIRTUAL_ENV
-bin/pip install -U argparse argh viron pysqlite
+bin/pip install bz2file
+bin/pip install pysqlite
+bin/pip install -U argparse argh viron
 echo ""
 
 export PRAXON_TEMPLATES="${PRAXIME_BASE}/Templates"
