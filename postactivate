@@ -67,5 +67,6 @@ cd $VIRTUAL_ENV
 if [[ -r .password ]]
 then
     export INSTANCE_PASSWORD=`cat .password`
-    export INSTANCE_PASSWORD_HASH=`md5 -q .password`
+    #export INSTANCE_PASSWORD_HASH=`md5 -q .password`
+    export INSTANCE_PASSWORD_HASH=`md5sum .password | awk '{split($1,list,"\n")} END{print list[1]}'`
 fi

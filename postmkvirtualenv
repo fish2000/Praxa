@@ -84,7 +84,8 @@ else
 fi
 echo "+ Writing the instance default password \"${INSTANCE_PASSWORD}\" to ${VIRTUAL_ENV}/.password ..."
 echo $INSTANCE_PASSWORD > ${VIRTUAL_ENV}/.password
-export INSTANCE_PASSWORD_HASH=`md5 -q ${VIRTUAL_ENV}/.password`
+#export INSTANCE_PASSWORD_HASH=`md5 -q ${VIRTUAL_ENV}/.password`
+export INSTANCE_PASSWORD_HASH=`md5sum ${VIRTUAL_ENV}/.password | awk '{split($1,list,"\n")} END{print list[1]}'`
 
 echo "+ Setting bpython shell defaults ..."
 cd $VIRTUAL_ENV
