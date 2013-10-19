@@ -18,7 +18,6 @@ export LOCAL=${VIRTUAL_ENV}/local
 export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | $(which sed) -e s/[^A-Za-z0-9]/_/g`
 export INSTANCE_SRC=`echo "$(basename ${VIRTUAL_ENV})"`
 export INSTANCE_MODULE="${INSTANCE}/${INSTANCE_NAME}"
-#export INSTANCE_PROJECT="${INSTANCE}/base"
 export INSTANCE_BIN=${VIRTUAL_ENV}/bin
 export INSTANCE_LIB=${VIRTUAL_ENV}/lib
 export INSTANCE_PYTHON=${INSTANCE_LIB}/python${PYTHON_NUMBER}
@@ -34,8 +33,6 @@ export LOCAL_BIN=${LOCAL}/bin
 export LOCAL_LIB=${LOCAL}/lib
 export LOCAL_PYTHON=${LOCAL_LIB}/python${PYTHON_NUMBER}
 export LOCAL_PYTHON_SITE=${LOCAL_PYTHON}/site-packages
-
-#export PYTHONHOME=$LOCAL_LIB
 
 mkdir -p ${INSTANCE_VARIANT_DATA}
 mkdir -p ${INSTANCE_VARIANT_DATA}/redis
@@ -85,7 +82,6 @@ else
 fi
 echo "+ Writing the instance default password \"${INSTANCE_PASSWORD}\" to ${VIRTUAL_ENV}/.password ..."
 echo $INSTANCE_PASSWORD > ${VIRTUAL_ENV}/.password
-#export INSTANCE_PASSWORD_HASH=`md5 -q ${VIRTUAL_ENV}/.password`
 export INSTANCE_PASSWORD_HASH=`md5sum ${VIRTUAL_ENV}/.password | awk '{split($1,list,"\n")} END{print list[1]}'`
 
 echo "+ Setting bpython shell defaults ..."
@@ -106,13 +102,10 @@ bin/viron -q -f ${PRAXON_TEMPLATES}/tm_properties > $INSTANCE_TM_PROPERTIES
 echo "+ Installing CheeseShop essentials ..."
 cd /tmp
 
-#${VIRTUAL_ENV}/bin/pip install -U \
-#nose rednose unittest2 \
-
 ${VIRTUAL_ENV}/bin/pip install -U django django-tagging
 
 ${VIRTUAL_ENV}/bin/pip install -U \
-watchdog supervisor superlance \
+watchdog supervisor superlance nose \
 pylibmc greenlet eventlet gunicorn psycopg2 simplejson \
 xerox bpython requests BeautifulSoup setproctitle \
 ujson yolk pyyaml pysolr redis httplib2 urllib3 \
@@ -141,7 +134,7 @@ django-delegate django-docfield-couchdb django-twemoir \
 django-storages django-toolbelt django-countries django-shapes \
 django-memcached django-supervisor django-jquery-widgets \
 django-location django-locations django-locationstree \
-django-bootstrap-admin django-admin-bootstrapped \
+django-bootstrap-admin django-admin-bootstrapped django-nose \
 django-haystack django-autoslug django-autoslug-field \
 django-uuidfield django-multifilefield django-appconf \
 requests requests-oauthlib oauthlib oauth2 \
@@ -166,13 +159,7 @@ ${VIRTUAL_ENV}/bin/pip install -U uWSGI
 #pygraphviz pydot reportlab \
 #matplotlib \
 
-#${VIRTUAL_ENV}/bin/pip install -U https://github.com/twig/django-wordpress/zipball/master
-#${VIRTUAL_ENV}/bin/pip install -U grappelli_safe
-#echo "grappelli_safe" > ${INSTANCE_PYTHON_SITE}/grappelli.pth
-#${VIRTUAL_ENV}/bin/pip install -U mezzanine
-
 echo ""
-
 echo "+ Installing Apache Solr server ..."
 cd $LOCAL_LIB
 export SOLR_TARBALL_URL="http://mirror.cogentco.com/pub/apache/lucene/solr/4.5.0/solr-4.5.0.tgz"
