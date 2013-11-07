@@ -18,7 +18,6 @@ export LOCAL=${VIRTUAL_ENV}/local
 export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | $(which sed) -e s/[^A-Za-z0-9]/_/g`
 export INSTANCE_SRC=`echo "$(basename ${VIRTUAL_ENV})"`
 export INSTANCE_MODULE="${INSTANCE}/${INSTANCE_NAME}"
-#export INSTANCE_PROJECT="${INSTANCE}/base"
 export INSTANCE_BIN=${VIRTUAL_ENV}/bin
 export INSTANCE_LIB=${VIRTUAL_ENV}/lib
 export INSTANCE_PYTHON=${INSTANCE_LIB}/python${PYTHON_NUMBER}
@@ -34,8 +33,6 @@ export LOCAL_BIN=${LOCAL}/bin
 export LOCAL_LIB=${LOCAL}/lib
 export LOCAL_PYTHON=${LOCAL_LIB}/python${PYTHON_NUMBER}
 export LOCAL_PYTHON_SITE=${LOCAL_PYTHON}/site-packages
-
-#export PYTHONHOME=$LOCAL_LIB
 
 mkdir -p ${INSTANCE_VARIANT_DATA}
 mkdir -p ${INSTANCE_VARIANT_DATA}/redis
@@ -70,8 +67,7 @@ ${VIRTUAL_ENV}"
 
 echo "+ Installing python modules for viron ..."
 cd $VIRTUAL_ENV
-bin/pip install bz2file
-bin/pip install pysqlite
+bin/pip install -U pysqlite
 bin/pip install -U argparse argh viron
 echo ""
 
@@ -86,7 +82,6 @@ else
 fi
 echo "+ Writing the instance default password \"${INSTANCE_PASSWORD}\" to ${VIRTUAL_ENV}/.password ..."
 echo $INSTANCE_PASSWORD > ${VIRTUAL_ENV}/.password
-#export INSTANCE_PASSWORD_HASH=`md5 -q ${VIRTUAL_ENV}/.password`
 export INSTANCE_PASSWORD_HASH=`md5sum ${VIRTUAL_ENV}/.password | awk '{split($1,list,"\n")} END{print list[1]}'`
 
 echo "+ Setting bpython shell defaults ..."
@@ -107,13 +102,10 @@ bin/viron -q -f ${PRAXON_TEMPLATES}/tm_properties > $INSTANCE_TM_PROPERTIES
 echo "+ Installing CheeseShop essentials ..."
 cd /tmp
 
-#${VIRTUAL_ENV}/bin/pip install -U \
-#nose rednose unittest2 \
-
 ${VIRTUAL_ENV}/bin/pip install -U django django-tagging
 
 ${VIRTUAL_ENV}/bin/pip install -U \
-watchdog supervisor superlance \
+watchdog supervisor superlance nose \
 pylibmc greenlet eventlet gunicorn psycopg2 simplejson \
 xerox bpython requests BeautifulSoup setproctitle \
 ujson yolk pyyaml pysolr redis httplib2 urllib3 \
@@ -142,7 +134,7 @@ django-delegate django-docfield-couchdb django-twemoir \
 django-storages django-toolbelt django-countries django-shapes \
 django-memcached django-supervisor django-jquery-widgets \
 django-location django-locations django-locationstree \
-django-bootstrap-admin django-admin-bootstrapped \
+django-bootstrap-admin django-admin-bootstrapped django-nose \
 django-haystack django-autoslug django-autoslug-field \
 django-uuidfield django-multifilefield django-appconf \
 requests requests-oauthlib oauthlib oauth2 \
@@ -167,13 +159,7 @@ ${VIRTUAL_ENV}/bin/pip install -U uWSGI
 #pygraphviz pydot reportlab \
 #matplotlib \
 
-#${VIRTUAL_ENV}/bin/pip install -U https://github.com/twig/django-wordpress/zipball/master
-#${VIRTUAL_ENV}/bin/pip install -U grappelli_safe
-#echo "grappelli_safe" > ${INSTANCE_PYTHON_SITE}/grappelli.pth
-#${VIRTUAL_ENV}/bin/pip install -U mezzanine
-
 echo ""
-
 echo "+ Installing Apache Solr server ..."
 cd $LOCAL_LIB
 export SOLR_TARBALL_URL="http://mirror.cogentco.com/pub/apache/lucene/solr/4.5.0/solr-4.5.0.tgz"
@@ -197,12 +183,10 @@ bin/viron -q -f ${PRAXON_TEMPLATES}/django-settings.py > "${INSTANCE_MODULE}/set
 bin/viron -q -f ${PRAXON_TEMPLATES}/urls.py > "${INSTANCE_MODULE}/urls.py"
 bin/viron -q -f ${PRAXON_TEMPLATES}/wsgi.py > "${INSTANCE_MODULE}/wsgi.py"
 
-mkdir -p ${INSTANCE}/gunicorn
-bin/viron -q -f ${PRAXON_TEMPLATES}/gunicorn-devel.py > "${INSTANCE}/gunicorn/devel.py"
-bin/viron -q -f ${PRAXON_TEMPLATES}/gunicorn-debug.py > "${INSTANCE}/gunicorn/debug.py"
+bin/viron -q -f ${PRAXON_TEMPLATES}/gunicorn-devel.py > "${INSTANCE_ADNAUSEUM}/gunicorn-devel.py"
+bin/viron -q -f ${PRAXON_TEMPLATES}/gunicorn-debug.py > "${INSTANCE_ADNAUSEUM}/gunicorn-debug.py"
 
 bin/viron -q -f ${PRAXON_TEMPLATES}/init.py > "${INSTANCE}/__init__.py"
-bin/viron -q -f ${PRAXON_TEMPLATES}/init.py > "${INSTANCE}/gunicorn/__init__.py"
 bin/viron -q -f ${PRAXON_TEMPLATES}/init.py > "${INSTANCE_MODULE}/__init__.py"
 
 echo "+ Setting up supervisord ..."
@@ -270,19 +254,17 @@ from django.core.management import setup_environ\
 "
 ${INSTANCE_BIN}/python -c "${setsuperuserpassword}"
 
-#mkdir -p instance/bfd2/words && vj startapp words instance/bfd2/words
-
 echo ""
 echo "+ Generating initial Solr schema ..."
 eval "vj build_solr_schema -f ${SOLR_SCHEMA}"
-echo "+ Preparing static files for access via the local development server ..."
+
+echo "+ Preparing static files for access ..."
 eval "vj collectstatic --noinput"
 
 echo "+ Setting up a local git repository ..."
 cd $VIRTUAL_ENV
 git init
-git addremove $VIRTUAL_ENV
+git add $VIRTUAL_ENV
 git status
 git commit -m "First commit for $INSTANCE_NAME (via praxime by virtualenvwrapper hook)."
-git checkout -b $INSTANCE_NAME
 echo ""
