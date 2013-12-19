@@ -1,8 +1,8 @@
 
 
 export TMP="/tmp"
-#export USR_LOCAL=/usr/local
-export USR_LOCAL="${TMP}/YoDogg"
+export USR_LOCAL=/usr/local
+#export USR_LOCAL="${TMP}/YoDogg"
 
 export PYTHONPATH=""
 export PYTHONHOME=$USR_LOCAL
