@@ -9,7 +9,7 @@ export OLD_PATH=$PATH
 export TMP="/tmp"
 
 load_praxon() {
-    source "${PRAXIME_BASE}/${1:?praxtype expected}${2:?praxon expected}.sh"
+    source "${PRAXIME_BASE}/${1:?praxtype expected}/${2:?praxon expected}.sh"
 }
 
 cd $WORKON_HOME
