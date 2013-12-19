@@ -64,7 +64,8 @@ cd $PYTHON_SRC && \
         --prefix=$USR_LOCAL \
         --without-gcc \
         --enable-ipv6 \
-        --enable-shared && \
+        --enable-shared \
+        --enable-unicode=ucs4 && \
     make && make install
 
 [[ ! -d $PYLIB ]] && mkdir -p $PYLIB
