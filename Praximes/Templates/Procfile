@@ -1,0 +1,20 @@
+#
+# MTV's Proc My File
+#
+
+# web server
+web:            ${INSTANCE_BIN}/gunicorn_django -c ${INSTANCE_ADNAUSEUM}/gunicorn-devel.py
+
+# memcached, redis, solr
+memcached:      memcached -s ${INSTANCE_RUN}/memcached.sock
+redis:          redis-server ${INSTANCE_ADNAUSEUM}/redis.conf
+solr:           java -jar ${LOCAL_LIB}/solr/example/start.jar
+
+# web server reloader
+#webreloader:    ${INSTANCE_BIN}/watchmedo shell-command --patterns="*.py;*.txt;*.html;*.css;*.less;*.js;*.coffee" -R --command='kill -HUP $(cat ${INSTANCE_RUN}/gunicorn.pid)' ${INSTANCE}/
+
+# django signalqueue worker
+#worker:         ${INSTANCE_BIN}/python ${INSTANCE}/manage.py runqueueserver -x --settings=settings --queuename=default localhost:11231
+
+# postgresql w/ local data layout
+#postgresql:     postmaster -D ${INSTANCE_VARIANT_DATA}/postgresql

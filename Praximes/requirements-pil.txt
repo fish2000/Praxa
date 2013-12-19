@@ -1,0 +1,7 @@
+#Pillow
+
+# Temporarily use this one-off fork until PyPI version compiles
+https://github.com/fish2000/Pillow/archive/master.zip
+
+pilkit
+django-imagekit

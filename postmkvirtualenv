@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 # This hook is run after a new virtualenv is activated.
 
 export PYTHON_NUMBER=`${VIRTUAL_ENV}/bin/python -c "import platform;print '%s.%s' % platform.python_version_tuple()[:2]"`
@@ -14,6 +14,8 @@ mkdir -p ./instance
 
 export INSTANCE=${VIRTUAL_ENV}/instance
 export LOCAL=${VIRTUAL_ENV}/local
+
+export DJANGO_VERSION="1.5.4"
 
 export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | $(which sed) -e s/[^A-Za-z0-9]/_/g`
 export INSTANCE_SRC=`echo "$(basename ${VIRTUAL_ENV})"`
@@ -65,6 +67,14 @@ ${INSTANCE}:\
 ${INSTANCE_PYTHON_SITE}:\
 ${VIRTUAL_ENV}"
 
+is_dir() { 
+    (cd ${1:?pathname expected}) || return
+}
+
+vremove() {
+    is_dir "${VIRTUAL_ENV}/${1:?pathname expected}" && rm -rf "${VIRTUAL_ENV}/${1}"
+}
+
 echo "+ Installing python modules for viron ..."
 cd $VIRTUAL_ENV
 bin/pip install -U pysqlite
@@ -102,62 +112,33 @@ bin/viron -q -f ${PRAXON_TEMPLATES}/tm_properties > $INSTANCE_TM_PROPERTIES
 echo "+ Installing CheeseShop essentials ..."
 cd /tmp
 
-${VIRTUAL_ENV}/bin/pip install -U django django-tagging
+echo ""
+echo "+ Installing Django ${DJANGO_VERSION} ..."
+${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION
 
-${VIRTUAL_ENV}/bin/pip install -U \
-watchdog supervisor superlance nose \
-pylibmc greenlet eventlet gunicorn psycopg2 simplejson \
-xerox bpython requests BeautifulSoup setproctitle \
-ujson yolk pyyaml pysolr redis httplib2 urllib3 \
-httpie boto python-s3file
+echo ""
+echo "+ Installing Cython ..."
+${VIRTUAL_ENV}/bin/pip install -U Cython
 
-#PIL Pillow \
-#oursql redis hiredis \
-#pyasn1 pycrypto pyhash rsa \
-#requests github2 httplib2 urllib3 \
-#tornado gunicorn Werkzeug TornadIO2 \
-#rauth requests-oauth tweepy python-openid oauth2 oauthlib \
-#fabric django-fabfile django-fabtastic django-fab-templates woven \
-#django-fsfield django-imagekit django-nose \
-#django-mediagenerator django-jsmin South \
-#boto django-storages s3cmd python-s3file \
-#couchdbkit django-docfield-couchdb \
-#decorator watchdog chardet pytz python-dateutil \
-#ujson czjson ijson python-cjson yajl jsonlib jsonlib2 demjson \
-#BeautifulSoup pyquery elementtree celementtree httpie pycurl html5lib feedparser \
-#gevent gevent-psycopg2 \
+echo ""
+echo "+ Installing web utilities ..."
+${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-web-tools.txt
 
+echo ""
+echo "+ Installing PIL/Pillow and related packages ..."
+${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-pil.txt
 
-${VIRTUAL_ENV}/bin/pip install -U Pillow pilkit django-imagekit
-${VIRTUAL_ENV}/bin/pip install -U \
-django-delegate django-docfield-couchdb django-twemoir \
-django-storages django-toolbelt django-countries django-shapes \
-django-memcached django-supervisor django-jquery-widgets \
-django-location django-locations django-locationstree \
-django-bootstrap-admin django-admin-bootstrapped django-nose \
-django-haystack django-autoslug django-autoslug-field \
-django-uuidfield django-multifilefield django-appconf \
-requests requests-oauthlib oauthlib oauth2 \
-south yolk python-twitter twitter-text-python nltk
-${VIRTUAL_ENV}/bin/pip install -U uWSGI
+echo ""
+echo "+ Installing Django apps and utilities ..."
+${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-django.txt
 
-#mahotas imread ipython \
-#celery celerymon django-celery django-oembed django-kombu \
-
-#pysolr Whoosh sphinxsearch django-haystack \
-#anyjson jsonschema jsonish jsontools \
-#pyyaml msgpack-python \
-#scipy scikits-image scimath \
-#scikits-learn nibabel nltk \
-#pandas quantities units Pint numexpr \
-#pyhdf5io h5py tables \
-#pycdf Puppy netCDF4 ncdftools pupynere CDF \
-#Pydap PydapSearch DistributedPydap pydap.handlers.hdf5 pydap.handlers.netcdf \
-#pyisbn book.isbn isbnutils \
-#pymarc marcdb PyZ3950 re2 \
-#bottlenose python-amazon-simple-product-api python-amazon-product-api \
-#pygraphviz pydot reportlab \
-#matplotlib \
+# the requirements most likely updated django to whatever the latest is...
+# uninstall it, then reinstall the specified version
+echo ""
+echo "+ Refreshing Django installation back to ${DJANGO_VERSION} ..."
+${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION
+/usr/bin/yes | ${VIRTUAL_ENV}/bin/pip uninstall django
+${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION
 
 echo ""
 echo "+ Installing Apache Solr server ..."
@@ -167,12 +148,14 @@ export SOLR_TARBALL="${VIRTUAL_ENV}/solr.tgz"
 export SOLR_ROOT="${LOCAL_LIB}/solr"
 export SOLR_SCHEMA="${SOLR_ROOT}/example/solr/collection1/conf/schema.xml"
 test ! -r $SOLR_TARBALL && test -x `which wget` && wget $SOLR_TARBALL_URL -O $SOLR_TARBALL
-test ! -r $SOLR_TARBALL && test -x `which http` && http -d $SOLR_TARBALL_URL -o $SOLR_TARBALL
 test ! -r $SOLR_TARBALL && test -x `which curl` && curl $SOLR_TARBALL_URL -o $SOLR_TARBALL
+test ! -r $SOLR_TARBALL && test -x `which http` && http -d $SOLR_TARBALL_URL -o $SOLR_TARBALL
 if [[ -r $SOLR_TARBALL ]];
 then
-    mkdir -p $SOLR_ROOT && cd $SOLR_ROOT
-    tar -xvzf $SOLR_TARBALL --strip-components=1 -C $SOLR_ROOT && rm $SOLR_TARBALL
+    mkdir -p $SOLR_ROOT && \
+    cd $SOLR_ROOT && \
+    tar -xvzf $SOLR_TARBALL --strip-components=1 -C $SOLR_ROOT && \
+    rm $SOLR_TARBALL
 fi
 
 echo "+ Initializing project template ..."
@@ -186,15 +169,23 @@ bin/viron -q -f ${PRAXON_TEMPLATES}/wsgi.py > "${INSTANCE_MODULE}/wsgi.py"
 bin/viron -q -f ${PRAXON_TEMPLATES}/gunicorn-devel.py > "${INSTANCE_ADNAUSEUM}/gunicorn-devel.py"
 bin/viron -q -f ${PRAXON_TEMPLATES}/gunicorn-debug.py > "${INSTANCE_ADNAUSEUM}/gunicorn-debug.py"
 
-bin/viron -q -f ${PRAXON_TEMPLATES}/init.py > "${INSTANCE}/__init__.py"
-bin/viron -q -f ${PRAXON_TEMPLATES}/init.py > "${INSTANCE_MODULE}/__init__.py"
+INIT_PY=`bin/viron -q -f ${PRAXON_TEMPLATES}/init.py`
+echo $INIT_PY > "${INSTANCE}/__init__.py"
+echo $INIT_PY > "${INSTANCE_MODULE}/__init__.py"
 
-echo "+ Setting up supervisord ..."
+echo "+ Setting up supervisord.conf ..."
 cd $VIRTUAL_ENV
 export SUPERVISORD_CONF=${INSTANCE_ADNAUSEUM}/supervisord.conf
 bin/viron -q -f ${PRAXON_TEMPLATES}/supervisord.conf > $SUPERVISORD_CONF
 export SUPERVISORD="${INSTANCE_BIN}/supervisord -n -c ${SUPERVISORD_CONF}"
 export SUPERVISORCTL="${INSTANCE_BIN}/supervisorctl -c ${SUPERVISORD_CONF}"
+
+echo "+ Setting up Procfile ..."
+cd $VIRTUAL_ENV
+export PROCFILE=${VIRTUAL_ENV}/Procfile
+bin/viron -q -f ${PRAXON_TEMPLATES}/supervisord.conf > $PROCFILE
+export HONCHO="${INSTANCE_BIN}/honcho -f ${PROCFILE}"
+
 
 echo "+ Setting up redis ..."
 cd $VIRTUAL_ENV
@@ -235,6 +226,10 @@ function vmate () {
     DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "mate ${VIRTUAL_ENV} $@"
 }
 
+function vforeman () {
+    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${HONCHO} $@"
+}
+
 echo "+ Initializing a Django SQLite development database ..."
 eval "vj syncdb --migrate --noinput"
 
@@ -261,6 +256,11 @@ eval "vj build_solr_schema -f ${SOLR_SCHEMA}"
 echo "+ Preparing static files for access ..."
 eval "vj collectstatic --noinput"
 
+echo "+ Cleaning up ..."
+cd $VIRTUAL_ENV
+vremove pysqlite
+
+
 echo "+ Setting up a local git repository ..."
 cd $VIRTUAL_ENV
 git init
@@ -268,3 +268,5 @@ git add $VIRTUAL_ENV
 git status
 git commit -m "First commit for $INSTANCE_NAME (via praxime by virtualenvwrapper hook)."
 echo ""
+
+

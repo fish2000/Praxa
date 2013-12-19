@@ -1,3 +1,3 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 # This hook is run during the startup phase when loading virtualenvwrapper.sh.
 

@@ -97,11 +97,7 @@ INSTALLED_APPS = (
     
     #'bootstrap_admin',
     'django_admin_bootstrapped',
-    
     'django.contrib.admin',
-    'django.contrib.humanize',
-    'django.contrib.messages',
-    'django.contrib.markup',
     
     'haystack',
     'south',
