@@ -1,6 +1,8 @@
-The MIT License (MIT)
 
-Copyright (c) 2013 Alexander Bohn / FI$H2k
+The MIT License (MIT) -- OST Praxa -- http://github.com/fish2000/Praxa/LICENSE.md
+=================================================================================
+
+*Copyright (c) 2013 Alexander Bohn / FI$H2k and Objects In Space And Time, LLC*
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
