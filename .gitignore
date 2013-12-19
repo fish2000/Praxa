@@ -2,6 +2,10 @@
 .password
 */
 !Praximes/
+!Library/
+!Install/
+!Praximes/Library/*
+!Praximes/Install/*
 !Templates/
 PipCache/*
 */PipCache/*
