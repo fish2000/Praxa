@@ -43,4 +43,4 @@ brew install gnutls openssl
 brew -v install python
 
 # PYTHON_BINARY
-export PYTHON_BINARY=
+export PYTHON_BINARY=`which python`

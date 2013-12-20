@@ -31,7 +31,17 @@ pip install -U argparse argh viron
 
 # TILDE EXPANSION.
 USER_BASH_SCRIPT=`user_bash_script`
-VIRTUALENVWRAPPER_BOOTSTRAP=/usr/local/bin/virtualenvwrapper.sh
+
+cd $PRAXIME_BASE
+echo "+ Installing virtualenv and virtualenvwrapper ..."
+pip install -U virtualenv virtualenv-clone virtualenvwrapper
+VIRTUALENVWRAPPER_BOOTSTRAP=`which virtualenvwrapper.sh`
+echo "" >> ${USER_BASH_SCRIPT}
+echo "" >> ${USER_BASH_SCRIPT}
+echo "# Source virtualenvwrapper config script (command added by Praxa/setup.sh)" >> ${USER_BASH_SCRIPT}
+echo "source ${VIRTUALENVWRAPPER_BOOTSTRAP}" >> ${USER_BASH_SCRIPT}
+
+export PYTHON_BINARY=`which python`
 export PRAXA_ENV_SCRIPT=~/.praxa-environment.sh
 
 echo "+ Saving environment modifications to ${PRAXA_ENV_SCRIPT} ..."
@@ -42,10 +52,3 @@ echo "" >> ${USER_BASH_SCRIPT}
 echo "# Source Praxa's environment script (command added by Praxa/setup.sh)" >> ${USER_BASH_SCRIPT}
 echo "source ${PRAXA_ENV_SCRIPT}" >> ${USER_BASH_SCRIPT}
 
-cd $PRAXIME_BASE
-echo "+ Installing virtualenv and virtualenvwrapper ..."
-pip install -U virtualenv virtualenv-clone virtualenvwrapper
-echo "" >> ${USER_BASH_SCRIPT}
-echo "" >> ${USER_BASH_SCRIPT}
-echo "# Source virtualenvwrapper config script (command added by Praxa/setup.sh)" >> ${USER_BASH_SCRIPT}
-echo "source ${VIRTUALENVWRAPPER_BOOTSTRAP}" >> ${USER_BASH_SCRIPT}
