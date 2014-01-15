@@ -2,6 +2,8 @@
 # This hook is run after every virtualenv is activated.
 cd $VIRTUAL_ENV
 
+export PYTHON_NUMBER=`${VIRTUAL_ENV}/bin/python -c "import platform;print '%s.%s' % platform.python_version_tuple()[:2]"`
+
 export INSTANCE=${VIRTUAL_ENV}/instance
 export INSTANCE_BIN=${VIRTUAL_ENV}/bin
 export INSTANCE_ADNAUSEUM=${VIRTUAL_ENV}/etc
@@ -26,19 +28,27 @@ export SUPERVISORD_CONF=${INSTANCE_ADNAUSEUM}/supervisord.conf
 export SUPERVISORD="${INSTANCE_BIN}/supervisord -n -c ${SUPERVISORD_CONF}"
 export SUPERVISORCTL="${INSTANCE_BIN}/supervisorctl -c ${SUPERVISORD_CONF}"
 
-export PYTHONPATH=".:\
-${VIRTUAL_ENV}/lib/python2.7/site-packages:\
+export PYTHONPATH="\
 ${LOCAL_PYTHON_SITE}:\
 ${INSTANCE_MODULE}:\
 ${INSTANCE}:\
-${INSTANCE}/${INSTANCE_NAME}:\
-${VIRTUAL_ENV}"
+${INSTANCE_PYTHON_SITE}:\
+${VIRTUAL_ENV}:\
+."
 
-export PATH=".:\
+export PATH="\
 ${LOCAL_BIN}:\
 ${INSTANCE_BIN}:\
 ${PATH}:\
-${VIRTUAL_ENV}"
+."
+
+function is_dir () {
+    (cd ${1:?pathname expected}) || return
+}
+
+function vremove () {
+    is_dir "${VIRTUAL_ENV}/${1:?pathname expected}" && rm -rf "${VIRTUAL_ENV}/${1}"
+}
 
 function vbp () {
     SIGNALQUEUE_RUNMODE=SQ_SYNC ${INSTANCE_BIN}/bpython --interactive $INSTANCE_BPYTHON_SETTINGS

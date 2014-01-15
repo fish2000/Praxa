@@ -2,9 +2,10 @@
 # This hook is run after a new virtualenv is activated.
 
 export PYTHON_NUMBER=`${VIRTUAL_ENV}/bin/python -c "import platform;print '%s.%s' % platform.python_version_tuple()[:2]"`
-export PYTHONPATH=".:\
+export PYTHONPATH="\
 ${VIRTUAL_ENV}/lib/python${PYTHON_NUMBER}/site-packages:\
-${VIRTUAL_ENV}"
+${VIRTUAL_ENV}:\
+."
 
 cd $VIRTUAL_ENV
 mkdir -p ./etc
@@ -53,25 +54,25 @@ mkdir -p ${LOCAL_LIB}
 mkdir -p ${LOCAL_PYTHON}
 mkdir -p ${LOCAL_PYTHON_SITE}
 
-export PATH=".:\
-${LOCAL_BIN}:\
-${INSTANCE_BIN}:\
-${PATH}:\
-${VIRTUAL_ENV}"
-
-export PYTHONPATH=".:\
-${VIRTUAL_ENV}/lib/python${PYTHON_NUMBER}/site-packages:\
+export PYTHONPATH="\
 ${LOCAL_PYTHON_SITE}:\
 ${INSTANCE_MODULE}:\
 ${INSTANCE}:\
 ${INSTANCE_PYTHON_SITE}:\
-${VIRTUAL_ENV}"
+${VIRTUAL_ENV}:\
+."
 
-is_dir() { 
+export PATH="\
+${LOCAL_BIN}:\
+${INSTANCE_BIN}:\
+${PATH}:\
+."
+
+function is_dir () { 
     (cd ${1:?pathname expected}) || return
 }
 
-vremove() {
+function vremove () {
     is_dir "${VIRTUAL_ENV}/${1:?pathname expected}" && rm -rf "${VIRTUAL_ENV}/${1}"
 }
 
@@ -82,11 +83,12 @@ bin/pip install -U argparse argh viron
 echo ""
 
 export PRAXON_TEMPLATES="${PRAXIME_BASE}/Templates"
+export TEMPLATES=$PRAXON_TEMPLATES
 
 cd $VIRTUAL_ENV
-if [[ -r "${PRAXON_TEMPLATES}/.password" ]]
+if [[ -r "${TEMPLATES}/.password" ]]
 then
-    export INSTANCE_PASSWORD="$(cat ${PRAXON_TEMPLATES}/.password)"
+    export INSTANCE_PASSWORD="$(cat ${TEMPLATES}/.password)"
 else
     export INSTANCE_PASSWORD="XXX"
 fi
@@ -97,17 +99,17 @@ export INSTANCE_PASSWORD_HASH=`md5sum ${VIRTUAL_ENV}/.password | awk '{split($1,
 echo "+ Setting bpython shell defaults ..."
 cd $VIRTUAL_ENV
 export INSTANCE_BPYTHON_SETTINGS=${INSTANCE_ADNAUSEUM}/bpython-settings.py
-bin/viron -q -f ${PRAXON_TEMPLATES}/bpython-settings.py > $INSTANCE_BPYTHON_SETTINGS
+bin/viron -q -f ${TEMPLATES}/bpython-settings.py > $INSTANCE_BPYTHON_SETTINGS
 
 echo "+ Setting default GNU screen properties ..."
 cd $VIRTUAL_ENV
 export INSTANCE_SCREENRC=${INSTANCE_ADNAUSEUM}/screenrc-virtualenv
-bin/viron -q -f ${PRAXON_TEMPLATES}/screenrc-virtualenv > $INSTANCE_SCREENRC
+bin/viron -q -f ${TEMPLATES}/screenrc-virtualenv > $INSTANCE_SCREENRC
 
 echo "+ Setting default TextMate properties ..."
 cd $VIRTUAL_ENV
 export INSTANCE_TM_PROPERTIES=${VIRTUAL_ENV}/.tm_properties
-bin/viron -q -f ${PRAXON_TEMPLATES}/tm_properties > $INSTANCE_TM_PROPERTIES
+bin/viron -q -f ${TEMPLATES}/tm_properties > $INSTANCE_TM_PROPERTIES
 
 echo "+ Installing CheeseShop essentials ..."
 cd /tmp
@@ -136,7 +138,7 @@ ${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-django.txt
 # uninstall it, then reinstall the specified version
 echo ""
 echo "+ Refreshing Django installation back to ${DJANGO_VERSION} ..."
-${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION
+#${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION
 /usr/bin/yes | ${VIRTUAL_ENV}/bin/pip uninstall django
 ${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION
 
@@ -167,36 +169,36 @@ test ! -r $SOLR_STOPWORDS_EN && test -r $SOLR_STOPWORDS && cp $SOLR_STOPWORDS $S
 
 echo "+ Initializing project template ..."
 cd $VIRTUAL_ENV
-bin/viron -q -f ${PRAXON_TEMPLATES}/gitignore > "${VIRTUAL_ENV}/.gitignore"
-bin/viron -q -f ${PRAXON_TEMPLATES}/django-manage.py > "${INSTANCE}/manage.py"
-bin/viron -q -f ${PRAXON_TEMPLATES}/django-settings.py > "${INSTANCE_MODULE}/settings.py"
-bin/viron -q -f ${PRAXON_TEMPLATES}/urls.py > "${INSTANCE_MODULE}/urls.py"
-bin/viron -q -f ${PRAXON_TEMPLATES}/wsgi.py > "${INSTANCE_MODULE}/wsgi.py"
+bin/viron -q -f ${TEMPLATES}/gitignore > "${VIRTUAL_ENV}/.gitignore"
+bin/viron -q -f ${TEMPLATES}/django-manage.py > "${INSTANCE}/manage.py"
+bin/viron -q -f ${TEMPLATES}/django-settings.py > "${INSTANCE_MODULE}/settings.py"
+bin/viron -q -f ${TEMPLATES}/urls.py > "${INSTANCE_MODULE}/urls.py"
+bin/viron -q -f ${TEMPLATES}/wsgi.py > "${INSTANCE_MODULE}/wsgi.py"
 
-bin/viron -q -f ${PRAXON_TEMPLATES}/gunicorn-devel.py > "${INSTANCE_ADNAUSEUM}/gunicorn-devel.py"
-bin/viron -q -f ${PRAXON_TEMPLATES}/gunicorn-debug.py > "${INSTANCE_ADNAUSEUM}/gunicorn-debug.py"
+bin/viron -q -f ${TEMPLATES}/gunicorn-devel.py > "${INSTANCE_ADNAUSEUM}/gunicorn-devel.py"
+bin/viron -q -f ${TEMPLATES}/gunicorn-debug.py > "${INSTANCE_ADNAUSEUM}/gunicorn-debug.py"
 
-INIT_PY=`bin/viron -q -f ${PRAXON_TEMPLATES}/init.py`
+INIT_PY=`bin/viron -q -f ${TEMPLATES}/init.py`
 echo $INIT_PY > "${INSTANCE}/__init__.py"
 echo $INIT_PY > "${INSTANCE_MODULE}/__init__.py"
 
 echo "+ Setting up supervisord.conf ..."
 cd $VIRTUAL_ENV
 export SUPERVISORD_CONF=${INSTANCE_ADNAUSEUM}/supervisord.conf
-bin/viron -q -f ${PRAXON_TEMPLATES}/supervisord.conf > $SUPERVISORD_CONF
+bin/viron -q -f ${TEMPLATES}/supervisord.conf > $SUPERVISORD_CONF
 export SUPERVISORD="${INSTANCE_BIN}/supervisord -n -c ${SUPERVISORD_CONF}"
 export SUPERVISORCTL="${INSTANCE_BIN}/supervisorctl -c ${SUPERVISORD_CONF}"
 
 echo "+ Setting up Procfile ..."
 cd $VIRTUAL_ENV
 export PROCFILE=${VIRTUAL_ENV}/Procfile
-bin/viron -q -f ${PRAXON_TEMPLATES}/Procfile > $PROCFILE
+bin/viron -q -f ${TEMPLATES}/Procfile > $PROCFILE
 export HONCHO="${INSTANCE_BIN}/honcho -f ${PROCFILE}"
 
 echo "+ Setting up redis ..."
 cd $VIRTUAL_ENV
 export INSTANCE_REDIS_CONF=${INSTANCE_ADNAUSEUM}/redis.conf
-bin/viron -q -f ${PRAXON_TEMPLATES}/redis.conf > $INSTANCE_REDIS_CONF
+bin/viron -q -f ${TEMPLATES}/redis.conf > $INSTANCE_REDIS_CONF
 
 echo "+ Preparing the executable Django admin script ..."
 cd $VIRTUAL_ENV
@@ -205,18 +207,15 @@ DJANGO_ADMIN_SCRIPT="${DJANGO_ROOT}/bin/django-admin.py"
 chmod +x $DJANGO_ADMIN_SCRIPT
 chmod g+x $DJANGO_ADMIN_SCRIPT
 export DJANGO_ADMIN="${INSTANCE_BIN}/$(basename $DJANGO_ADMIN_SCRIPT)"
-if [[ ! -r $DJANGO_ADMIN ]]
-then
-    ln -s $DJANGO_ADMIN_SCRIPT $DJANGO_ADMIN
-fi
+test ! -r $DJANGO_ADMIN && ln -s $DJANGO_ADMIN_SCRIPT $DJANGO_ADMIN
 
 echo "+ Trashing installation artifacts ..."
-cd $VIRTUAL_ENV
-is_dir "pysqlite2-doc" && rm -rf "pysqlite2-doc"
-is_dir "restkit" && rm -rf "restkit"
-is_dir "socketpool" && rm -rf "socketpool"
+vremove pysqlite2-doc
+vremove restkit
+vremove socketpool
 
 echo "+ Setting up development environment bash functions ..."
+cd $VIRTUAL_ENV
 export DJANGO_SETTINGS_MODULE="settings"
 
 function vbp () {
@@ -240,7 +239,7 @@ function vmate () {
 }
 
 function vforeman () {
-    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${HONCHO} $@"
+    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${HONCHO} start $@"
 }
 
 echo "+ Initializing a Django SQLite development database ..."
@@ -271,7 +270,7 @@ eval "vj collectstatic --noinput"
 
 echo "+ Cleaning up ..."
 cd $VIRTUAL_ENV
-vremove pysqlite
+#vremove pysqlite
 
 
 echo "+ Setting up a local git repository ..."
