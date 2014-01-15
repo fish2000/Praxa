@@ -183,9 +183,8 @@ export SUPERVISORCTL="${INSTANCE_BIN}/supervisorctl -c ${SUPERVISORD_CONF}"
 echo "+ Setting up Procfile ..."
 cd $VIRTUAL_ENV
 export PROCFILE=${VIRTUAL_ENV}/Procfile
-bin/viron -q -f ${PRAXON_TEMPLATES}/supervisord.conf > $PROCFILE
+bin/viron -q -f ${PRAXON_TEMPLATES}/Procfile > $PROCFILE
 export HONCHO="${INSTANCE_BIN}/honcho -f ${PROCFILE}"
-
 
 echo "+ Setting up redis ..."
 cd $VIRTUAL_ENV
