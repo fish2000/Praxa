@@ -203,6 +203,13 @@ then
     ln -s $DJANGO_ADMIN_SCRIPT $DJANGO_ADMIN
 fi
 
+echo "+ Trashing installation artifacts ..."
+cd $VIRTUAL_ENV
+is_dir "pysqlite2-doc" && rm -rf "pysqlite2-doc"
+is_dir "restkit" && rm -rf "restkit"
+is_dir "socketpool" && rm -rf "socketpool"
+
+echo "+ Setting up development environment bash functions ..."
 export DJANGO_SETTINGS_MODULE="settings"
 
 function vbp () {
