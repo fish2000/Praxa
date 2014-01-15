@@ -1,5 +1,6 @@
 *~
 \#*\#
+stdout
 *.eprj
 *.svn
 *.pyc
@@ -11,6 +12,10 @@
 *.jar
 .DS_Store
 .password
+
+*.aof
+*.rdb
+*.db
 
 *.dropbox
 .dropbox
