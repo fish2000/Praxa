@@ -8,7 +8,7 @@ web:            ${INSTANCE_BIN}/gunicorn_django -c ${INSTANCE_ADNAUSEUM}/gunicor
 # memcached, redis, solr
 memcached:      memcached -s ${INSTANCE_RUN}/memcached.sock
 redis:          redis-server ${INSTANCE_ADNAUSEUM}/redis.conf
-solr:           java -jar ${LOCAL_LIB}/solr/example/start.jar
+solr:           cd ${LOCAL_LIB}/solr/example/ && java -jar start.jar
 
 # web server reloader
 #webreloader:    ${INSTANCE_BIN}/watchmedo shell-command --patterns="*.py;*.txt;*.html;*.css;*.less;*.js;*.coffee" -R --command='kill -HUP $(cat ${INSTANCE_RUN}/gunicorn.pid)' ${INSTANCE}/

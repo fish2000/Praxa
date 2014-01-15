@@ -158,6 +158,13 @@ then
     rm $SOLR_TARBALL
 fi
 
+echo ""
+echo "+ Fixing Solr stopwords config file ..."
+cd $SOLR_ROOT
+export SOLR_STOPWORDS="${SOLR_ROOT}/example/solr/collection1/conf/stopwords.txt"
+export SOLR_STOPWORDS_EN="${SOLR_ROOT}/example/solr/collection1/conf/stopwords_en.txt"
+test ! -r $SOLR_STOPWORDS_EN && test -r $SOLR_STOPWORDS && cp $SOLR_STOPWORDS $SOLR_STOPWORDS_EN
+
 echo "+ Initializing project template ..."
 cd $VIRTUAL_ENV
 bin/viron -q -f ${PRAXON_TEMPLATES}/gitignore > "${VIRTUAL_ENV}/.gitignore"
