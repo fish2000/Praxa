@@ -170,7 +170,7 @@ test ! -r $SOLR_STOPWORDS_EN && test -r $SOLR_STOPWORDS && cp $SOLR_STOPWORDS $S
 echo "+ Initializing project template ..."
 cd $VIRTUAL_ENV
 bin/viron ${TEMPLATES}/gitignore > "${VIRTUAL_ENV}/.gitignore"
-bin/viron ${TEMPLATES}/django-manage.py > "${INSTANCE}/manage.py"
+bin/viron ${TEMPLATES}/django-manage.py > "${VIRTUAL_ENV}/manage.py"
 bin/viron ${TEMPLATES}/django-settings.py > "${INSTANCE_MODULE}/settings.py"
 bin/viron ${TEMPLATES}/urls.py > "${INSTANCE_MODULE}/urls.py"
 bin/viron ${TEMPLATES}/wsgi.py > "${INSTANCE_MODULE}/wsgi.py"
@@ -263,7 +263,9 @@ ${INSTANCE_BIN}/python -c "${setsuperuserpassword}"
 
 echo ""
 echo "+ Generating initial Solr schema ..."
+cd $VIRTUAL_ENV
 eval "vj build_solr_schema -f ${SOLR_SCHEMA}"
+ln -s "${SOLR_SCHEMA}" "${INSTANCE_ADNAUSEUM}/solr-schema.xml"
 
 echo "+ Preparing static files for access ..."
 eval "vj collectstatic --noinput"

@@ -12,7 +12,7 @@ export INSTANCE_LOGDIR=${VIRTUAL_ENV}/logs
 export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | $(which sed) -e s/[^A-Za-z0-9]/_/g`
 export INSTANCE_BPYTHON_SETTINGS=${INSTANCE_ADNAUSEUM}/bpython-settings.py
 export INSTANCE_MODULE="${INSTANCE}/${INSTANCE_NAME}"
-export INSTANCE_MANAGE="${INSTANCE}/manage.py"
+export INSTANCE_MANAGE="${VIRTUAL_ENV}/manage.py"
 export INSTANCE_SCREENRC=${INSTANCE_ADNAUSEUM}/screenrc-virtualenv
 
 export LOCAL=${VIRTUAL_ENV}/local
