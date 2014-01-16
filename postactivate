@@ -3,19 +3,30 @@
 cd $VIRTUAL_ENV
 
 export PYTHON_NUMBER=`${VIRTUAL_ENV}/bin/python -c "import platform;print '%s.%s' % platform.python_version_tuple()[:2]"`
+export PYTHONPATH="\
+${VIRTUAL_ENV}/lib/python${PYTHON_NUMBER}/site-packages:\
+${VIRTUAL_ENV}:\
+."
 
 export INSTANCE=${VIRTUAL_ENV}/instance
+export LOCAL=${VIRTUAL_ENV}/local
+
+export DJANGO_VERSION="1.5.4"
+
+export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | $(which sed) -e s/[^A-Za-z0-9]/_/g`
+export INSTANCE_SRC=`echo "$(basename ${VIRTUAL_ENV})"`
+export INSTANCE_MODULE="${INSTANCE}/${INSTANCE_NAME}"
 export INSTANCE_BIN=${VIRTUAL_ENV}/bin
+export INSTANCE_LIB=${VIRTUAL_ENV}/lib
+export INSTANCE_PYTHON=${INSTANCE_LIB}/python${PYTHON_NUMBER}
+export INSTANCE_PYTHON_SITE=${INSTANCE_PYTHON}/site-packages
 export INSTANCE_ADNAUSEUM=${VIRTUAL_ENV}/etc
 export INSTANCE_VARIANT=${VIRTUAL_ENV}/var
-export INSTANCE_LOGDIR=${VIRTUAL_ENV}/logs
-export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | $(which sed) -e s/[^A-Za-z0-9]/_/g`
-export INSTANCE_BPYTHON_SETTINGS=${INSTANCE_ADNAUSEUM}/bpython-settings.py
-export INSTANCE_MODULE="${INSTANCE}/${INSTANCE_NAME}"
-export INSTANCE_MANAGE="${VIRTUAL_ENV}/manage.py"
-export INSTANCE_SCREENRC=${INSTANCE_ADNAUSEUM}/screenrc-virtualenv
+export INSTANCE_VARIANT_DATA=${INSTANCE_VARIANT}/db
+export INSTANCE_LOGS=${INSTANCE_VARIANT}/logs
+export INSTANCE_CACHE=${INSTANCE_VARIANT}/cache
+export INSTANCE_RUN=${INSTANCE_VARIANT}/run
 
-export LOCAL=${VIRTUAL_ENV}/local
 export LOCAL_BIN=${LOCAL}/bin
 export LOCAL_LIB=${LOCAL}/lib
 export LOCAL_PYTHON=${LOCAL_LIB}/python${PYTHON_NUMBER}
