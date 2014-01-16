@@ -18,6 +18,7 @@ django-autoslug-field
 django-uuidfield
 django-multifilefield
 django-appconf
+django-postgrespool
 
 requests
 requests-oauthlib
