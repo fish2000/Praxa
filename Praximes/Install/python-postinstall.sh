@@ -45,7 +45,7 @@ export PYTHON_BINARY=`which python`
 export PRAXA_ENV_SCRIPT=~/.praxa-environment.sh
 
 echo "+ Saving environment modifications to ${PRAXA_ENV_SCRIPT} ..."
-DIR=${WORKON_HOME} viron -q -f ${PRAXON_TEMPLATES}/praxa-environment.sh --ignore=WORKON_HOME,PRAXIME_BASE > $PRAXA_ENV_SCRIPT
+DIR=${WORKON_HOME} viron ${PRAXON_TEMPLATES}/praxa-environment.sh --ignore=WORKON_HOME,PRAXIME_BASE > $PRAXA_ENV_SCRIPT
 echo "+ Appending 'source ${PRAXA_ENV_SCRIPT}' at the end of ${USER_BASH_SCRIPT} ..."
 echo "" >> ${USER_BASH_SCRIPT}
 echo "" >> ${USER_BASH_SCRIPT}
