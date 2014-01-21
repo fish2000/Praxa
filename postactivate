@@ -2,6 +2,10 @@
 # This hook is run after every virtualenv is activated.
 cd $VIRTUAL_ENV
 
+echo "+ Clearing filesystem gremlins..."
+find $VIRTUAL_ENV -iname ".DS_Store" -print -delete
+echo ""
+
 export PYTHON_NUMBER=`${VIRTUAL_ENV}/bin/python -c "import platform;print '%s.%s' % platform.python_version_tuple()[:2]"`
 export PYTHONPATH="\
 ${VIRTUAL_ENV}/lib/python${PYTHON_NUMBER}/site-packages:\

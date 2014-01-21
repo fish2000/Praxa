@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 # This hook is run before every virtualenv is deactivated.
 
+echo "+ Clearing filesystem gremlins..."
+find $VIRTUAL_ENV -iname ".DS_Store" -print -delete
+echo ""
+
