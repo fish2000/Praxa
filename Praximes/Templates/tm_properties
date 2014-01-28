@@ -1,7 +1,11 @@
+TM_GIT = "/usr/local/bin/git"
 TM_PYTHON = "$INSTANCE_BIN/python"
 TM_PYTHONPATH = "$PYTHONPATH"
 PYTHONPATH = "$PYTHONPATH"
+
 DJANGO_SETTINGS_MODULE = "$DJANGO_SETTINGS_MODULE"
+
 
 [*.*]
 windowTitle = "$INSTANCE_NAME • $TM_DISPLAYNAME"
+projectDirectory = "$CWD"

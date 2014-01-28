@@ -8,12 +8,12 @@ export PRAXA_SETUP="${BASH_SOURCE[0]}"
 export OLD_PATH=$PATH
 export TMP="/tmp"
 
-load_praxon() {
+function load_praxon () {
     source "${PRAXIME_BASE}/${1:?praxtype expected}/${2:?praxon expected}.sh"
 }
 
 cd $WORKON_HOME
-if [[ ! -d $PRAXIME_BASE ]];
+if [[ ! -d Praximes ]];
 then
     echo ""
     echo "*** ERROR: ${PRAXA_SETUP} needs to run from the repository root."

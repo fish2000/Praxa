@@ -1,7 +1,7 @@
-
+#!/usr/bin/env bash
 # download_to, expand_tarball_to, download_and_expand
 
-download_to() {
+download_to () {
     in_url="${1:?URL expected}"
     out_file="${2:?pathname expected}"
     [[ -r $out_file ]] && echo "- Already exists: ${out_file}" && return
@@ -13,7 +13,7 @@ download_to() {
     test ! -r $out_file && "- Couldn't download. Tried: wget, curl, httpie"
 }
 
-expand_tarball_to() {
+expand_tarball_to () {
     in_tarball="${1:?tarball expected}"
     out_directory="${2:?pathname expected}"
     [[ ! -r $in_tarball ]] && echo "- Can't read tarball: ${in_tarball}" && return
@@ -23,7 +23,7 @@ expand_tarball_to() {
     tar xzf $in_tarball --strip-components=1 --directory=$out_directory
 }
 
-download_and_expand() {
+download_and_expand () {
     url="${1:?URL expected}"
     url_basename="$(basename ${url})"
     src_directory="${2:?pathname expected}"

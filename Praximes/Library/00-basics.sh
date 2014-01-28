@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 
 export TMP="/tmp"
 export USR_LOCAL=/usr/local
@@ -18,7 +18,7 @@ export PYLIB=${LIB}/python2.7/site-packages
 
 export PATH="${BIN}:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/bin"
 
-user_bash_script() {
+user_bash_script () {
     if [[ "$1" ]]
     then
         script=$1

@@ -1,100 +1,12 @@
 #!/usr/bin/env bash
 # This hook is run after every virtualenv is activated.
-cd $VIRTUAL_ENV
+source "${WORKON_HOME}/env_preinit"
 
-echo "+ Clearing filesystem gremlins..."
-find $VIRTUAL_ENV -iname ".DS_Store" -print -delete
-echo ""
+# CLEAR OUT GREMLINS (e.g. ".DS_Store")
+load_praxon "Install" "clear-filesystem-gremlins"
 
-export PYTHON_NUMBER=`${VIRTUAL_ENV}/bin/python -c "import platform;print '%s.%s' % platform.python_version_tuple()[:2]"`
-export PYTHONPATH="\
-${VIRTUAL_ENV}/lib/python${PYTHON_NUMBER}/site-packages:\
-${VIRTUAL_ENV}:\
-."
+# LOAD THE DEV-ENVIRONMENT FUNCS
+load_praxon "Library" "88-postinit"
 
-export INSTANCE=${VIRTUAL_ENV}/instance
-export LOCAL=${VIRTUAL_ENV}/local
-
-export DJANGO_VERSION="1.5.4"
-
-export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | $(which sed) -e s/[^A-Za-z0-9]/_/g`
-export INSTANCE_SRC=`echo "$(basename ${VIRTUAL_ENV})"`
-export INSTANCE_MODULE="${INSTANCE}/${INSTANCE_NAME}"
-export INSTANCE_BIN=${VIRTUAL_ENV}/bin
-export INSTANCE_LIB=${VIRTUAL_ENV}/lib
-export INSTANCE_PYTHON=${INSTANCE_LIB}/python${PYTHON_NUMBER}
-export INSTANCE_PYTHON_SITE=${INSTANCE_PYTHON}/site-packages
-export INSTANCE_ADNAUSEUM=${VIRTUAL_ENV}/etc
-export INSTANCE_VARIANT=${VIRTUAL_ENV}/var
-export INSTANCE_VARIANT_DATA=${INSTANCE_VARIANT}/db
-export INSTANCE_LOGS=${INSTANCE_VARIANT}/logs
-export INSTANCE_CACHE=${INSTANCE_VARIANT}/cache
-export INSTANCE_RUN=${INSTANCE_VARIANT}/run
-
-export LOCAL_BIN=${LOCAL}/bin
-export LOCAL_LIB=${LOCAL}/lib
-export LOCAL_PYTHON=${LOCAL_LIB}/python${PYTHON_NUMBER}
-export LOCAL_PYTHON_SITE=${LOCAL_PYTHON}/site-packages
-
-export DJANGO_SETTINGS_MODULE="settings"
-export DJANGO_ADMIN="${INSTANCE_BIN}/django-admin.py"
-
-export SUPERVISORD_CONF=${INSTANCE_ADNAUSEUM}/supervisord.conf
-export SUPERVISORD="${INSTANCE_BIN}/supervisord -n -c ${SUPERVISORD_CONF}"
-export SUPERVISORCTL="${INSTANCE_BIN}/supervisorctl -c ${SUPERVISORD_CONF}"
-
-export PYTHONPATH="\
-${LOCAL_PYTHON_SITE}:\
-${INSTANCE_MODULE}:\
-${INSTANCE}:\
-${INSTANCE_PYTHON_SITE}:\
-${VIRTUAL_ENV}:\
-."
-
-export PATH="\
-${LOCAL_BIN}:\
-${INSTANCE_BIN}:\
-${PATH}:\
-."
-
-function is_dir () {
-    (cd ${1:?pathname expected}) || return
-}
-
-function vremove () {
-    is_dir "${VIRTUAL_ENV}/${1:?pathname expected}" && rm -rf "${VIRTUAL_ENV}/${1}"
-}
-
-function vbp () {
-    SIGNALQUEUE_RUNMODE=SQ_SYNC ${INSTANCE_BIN}/bpython --interactive $INSTANCE_BPYTHON_SETTINGS
-}
-
-function vj () {
-    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${DJANGO_ADMIN} $@"
-}
-
-function vrun () {
-    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${SUPERVISORD} $@"
-}
-
-function vsuper () {
-    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${SUPERVISORCTL} $@"
-}
-
-function vmate () {
-    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "mate ${VIRTUAL_ENV} $@"
-}
-
-
-PS1="\[\033[01;33m\]($(basename ${VIRTUAL_ENV}))\[\033[00m\] ${_OLD_VIRTUAL_PS1}"
-
-cd $VIRTUAL_ENV
-if [[ -r ${VIRTUAL_ENV}/.password ]]
-then
-    export INSTANCE_PASSWORD=`cat ${VIRTUAL_ENV}/.password`
-    export INSTANCE_PASSWORD_HASH=`sha256deep ${VIRTUAL_ENV}/.password | awk '{split($1,list,"\n")} END{print list[1]}'`
-fi
-
-#echo ""
-#echo ">>> JUST HOOKED ME SOME POST-ACTIVATE"
-#echo ""
+# READ IN THE PASSWORD
+load_praxon "Install" "password-read"

@@ -1,289 +1,48 @@
 #!/usr/bin/env bash
 # This hook is run after a new virtualenv is activated.
+source "${WORKON_HOME}/env_preinit"
 
-export PYTHON_NUMBER=`${VIRTUAL_ENV}/bin/python -c "import platform;print '%s.%s' % platform.python_version_tuple()[:2]"`
-export PYTHONPATH="\
-${VIRTUAL_ENV}/lib/python${PYTHON_NUMBER}/site-packages:\
-${VIRTUAL_ENV}:\
-."
+# CREATE INSTANCE FILESYSTEM LAYOUT
+load_praxon "Install" "create-instance-filesystem"
 
-cd $VIRTUAL_ENV
-mkdir -p ./etc
-mkdir -p ./var
-mkdir -p ./var/logs
-mkdir -p ./instance
+# PROVISION VIRON
+load_praxon "Install" "provision-viron"
 
-export INSTANCE=${VIRTUAL_ENV}/instance
-export LOCAL=${VIRTUAL_ENV}/local
+# WRITE THE PASSWORD
+load_praxon "Install" "password-write"
 
-export DJANGO_VERSION="1.5.4"
+# PIP-INSTALL EVERYTHING
+load_praxon "Install" "provision-cheeseshop"
 
-export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | $(which sed) -e s/[^A-Za-z0-9]/_/g`
-export INSTANCE_SRC=`echo "$(basename ${VIRTUAL_ENV})"`
-export INSTANCE_MODULE="${INSTANCE}/${INSTANCE_NAME}"
-export INSTANCE_BIN=${VIRTUAL_ENV}/bin
-export INSTANCE_LIB=${VIRTUAL_ENV}/lib
-export INSTANCE_PYTHON=${INSTANCE_LIB}/python${PYTHON_NUMBER}
-export INSTANCE_PYTHON_SITE=${INSTANCE_PYTHON}/site-packages
-export INSTANCE_ADNAUSEUM=${VIRTUAL_ENV}/etc
-export INSTANCE_VARIANT=${VIRTUAL_ENV}/var
-export INSTANCE_VARIANT_DATA=${INSTANCE_VARIANT}/db
-export INSTANCE_LOGS=${INSTANCE_VARIANT}/logs
-export INSTANCE_CACHE=${INSTANCE_VARIANT}/cache
-export INSTANCE_RUN=${INSTANCE_VARIANT}/run
+# INSTALL SOLR
+load_praxon "Install" "provision-solr-instance"
 
-export LOCAL_BIN=${LOCAL}/bin
-export LOCAL_LIB=${LOCAL}/lib
-export LOCAL_PYTHON=${LOCAL_LIB}/python${PYTHON_NUMBER}
-export LOCAL_PYTHON_SITE=${LOCAL_PYTHON}/site-packages
+# PRE-TEMPLATE FILES
+load_praxon "Install" "project-template-preinit"
 
-mkdir -p ${INSTANCE_VARIANT_DATA}
-mkdir -p ${INSTANCE_VARIANT_DATA}/redis
-mkdir -p ${INSTANCE_VARIANT_DATA}/postgresql
-mkdir -p ${INSTANCE_VARIANT_DATA}/mysql
-mkdir -p ${INSTANCE_VARIANT}/web
-mkdir -p ${INSTANCE_VARIANT}/web/static
-mkdir -p ${INSTANCE_VARIANT}/web/face
-mkdir -p ${INSTANCE_LOGS}
-mkdir -p ${INSTANCE_CACHE}
-mkdir -p ${INSTANCE_RUN}
-mkdir -p ${INSTANCE_MODULE}
-mkdir -p ${LOCAL}
-mkdir -p ${LOCAL_BIN}
-mkdir -p ${LOCAL_LIB}
-mkdir -p ${LOCAL_PYTHON}
-mkdir -p ${LOCAL_PYTHON_SITE}
+# GENERATE PROJECT TEMPLATE
+load_praxon "Install" "project-template"
 
-export PYTHONPATH="\
-${LOCAL_PYTHON_SITE}:\
-${INSTANCE_MODULE}:\
-${INSTANCE}:\
-${INSTANCE_PYTHON_SITE}:\
-${VIRTUAL_ENV}:\
-."
-
-export PATH="\
-${LOCAL_BIN}:\
-${INSTANCE_BIN}:\
-${PATH}:\
-."
-
-function is_dir () { 
-    (cd ${1:?pathname expected}) || return
-}
-
-function vremove () {
-    is_dir "${VIRTUAL_ENV}/${1:?pathname expected}" && rm -rf "${VIRTUAL_ENV}/${1}"
-}
-
-echo "+ Installing python modules for viron ..."
-cd $VIRTUAL_ENV
-bin/pip install -U pysqlite
-bin/pip install -U argparse argh viron
-echo ""
-
-export PRAXON_TEMPLATES="${PRAXIME_BASE}/Templates"
-export TEMPLATES=$PRAXON_TEMPLATES
-
-cd $VIRTUAL_ENV
-if [[ -r "${TEMPLATES}/.password" ]]
-then
-    export INSTANCE_PASSWORD="$(cat ${TEMPLATES}/.password)"
-else
-    export INSTANCE_PASSWORD="XXX"
-fi
-echo "+ Writing the instance default password \"${INSTANCE_PASSWORD}\" to ${VIRTUAL_ENV}/.password ..."
-echo $INSTANCE_PASSWORD > ${VIRTUAL_ENV}/.password
-export INSTANCE_PASSWORD_HASH=`sha256deep ${VIRTUAL_ENV}/.password | awk '{split($1,list,"\n")} END{print list[1]}'`
-
-echo "+ Setting bpython shell defaults ..."
-cd $VIRTUAL_ENV
-export INSTANCE_BPYTHON_SETTINGS=${INSTANCE_ADNAUSEUM}/bpython-settings.py
-bin/viron ${TEMPLATES}/bpython-settings.py > $INSTANCE_BPYTHON_SETTINGS
-
-echo "+ Setting default GNU screen properties ..."
-cd $VIRTUAL_ENV
-export INSTANCE_SCREENRC=${INSTANCE_ADNAUSEUM}/screenrc-virtualenv
-bin/viron ${TEMPLATES}/screenrc-virtualenv > $INSTANCE_SCREENRC
-
-echo "+ Setting default TextMate properties ..."
-cd $VIRTUAL_ENV
-export INSTANCE_TM_PROPERTIES=${VIRTUAL_ENV}/.tm_properties
-bin/viron ${TEMPLATES}/tm_properties > $INSTANCE_TM_PROPERTIES
-
-echo "+ Installing CheeseShop essentials ..."
-cd /tmp
-
-echo ""
-echo "+ Installing Django ${DJANGO_VERSION} ..."
-${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION
-
-echo ""
-echo "+ Installing Cython ..."
-${VIRTUAL_ENV}/bin/pip install -U Cython
-
-echo ""
-echo "+ Installing web utilities ..."
-${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-web-tools.txt
-
-echo ""
-echo "+ Installing PIL/Pillow and related packages ..."
-${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-pil.txt
-
-echo ""
-echo "+ Installing Django apps and utilities ..."
-${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-django.txt
-
-# the requirements most likely updated django to whatever the latest is...
-# uninstall it, then reinstall the specified version
-echo ""
-echo "+ Refreshing Django installation back to ${DJANGO_VERSION} ..."
-#${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION
-/usr/bin/yes | ${VIRTUAL_ENV}/bin/pip uninstall django
-${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION
-
-echo ""
-echo "+ Installing Apache Solr server ..."
-cd $LOCAL_LIB
-export SOLR_TARBALL_URL="http://mirror.cogentco.com/pub/apache/lucene/solr/4.5.0/solr-4.5.0.tgz"
-export SOLR_TARBALL="${VIRTUAL_ENV}/solr.tgz"
-export SOLR_ROOT="${LOCAL_LIB}/solr"
-export SOLR_SCHEMA="${SOLR_ROOT}/example/solr/collection1/conf/schema.xml"
-test ! -r $SOLR_TARBALL && test -x `which wget` && wget $SOLR_TARBALL_URL -O $SOLR_TARBALL
-test ! -r $SOLR_TARBALL && test -x `which curl` && curl $SOLR_TARBALL_URL -o $SOLR_TARBALL
-test ! -r $SOLR_TARBALL && test -x `which http` && http -d $SOLR_TARBALL_URL -o $SOLR_TARBALL
-if [[ -r $SOLR_TARBALL ]];
-then
-    mkdir -p $SOLR_ROOT && \
-    cd $SOLR_ROOT && \
-    tar -xvzf $SOLR_TARBALL --strip-components=1 -C $SOLR_ROOT && \
-    rm $SOLR_TARBALL
-fi
-
-echo ""
-echo "+ Fixing Solr stopwords config file ..."
-cd $SOLR_ROOT
-export SOLR_STOPWORDS="${SOLR_ROOT}/example/solr/collection1/conf/stopwords.txt"
-export SOLR_STOPWORDS_EN="${SOLR_ROOT}/example/solr/collection1/conf/stopwords_en.txt"
-test ! -r $SOLR_STOPWORDS_EN && test -r $SOLR_STOPWORDS && cp $SOLR_STOPWORDS $SOLR_STOPWORDS_EN
-
-echo "+ Initializing project template ..."
-cd $VIRTUAL_ENV
-bin/viron ${TEMPLATES}/gitignore > "${VIRTUAL_ENV}/.gitignore"
-MANAGE_PY="${VIRTUAL_ENV}/manage.py"
-bin/viron ${TEMPLATES}/django-manage.py > $MANAGE_PY
-chmod +x $MANAGE_PY
-
-bin/viron ${TEMPLATES}/django-settings.py > "${INSTANCE_MODULE}/settings.py"
-bin/viron ${TEMPLATES}/urls.py > "${INSTANCE_MODULE}/urls.py"
-bin/viron ${TEMPLATES}/wsgi.py > "${INSTANCE_MODULE}/wsgi.py"
-
-bin/viron ${TEMPLATES}/gunicorn-devel.py > "${INSTANCE_ADNAUSEUM}/gunicorn-devel.py"
-bin/viron ${TEMPLATES}/gunicorn-debug.py > "${INSTANCE_ADNAUSEUM}/gunicorn-debug.py"
-
-INIT_PY_SRC=`bin/viron ${TEMPLATES}/init.py`
-echo $INIT_PY_SRC > "${INSTANCE}/__init__.py"
-echo $INIT_PY_SRC > "${INSTANCE_MODULE}/__init__.py"
-
-echo "+ Setting up supervisord.conf ..."
-cd $VIRTUAL_ENV
-export SUPERVISORD_CONF=${INSTANCE_ADNAUSEUM}/supervisord.conf
-bin/viron ${TEMPLATES}/supervisord.conf > $SUPERVISORD_CONF
-export SUPERVISORD="${INSTANCE_BIN}/supervisord -n -c ${SUPERVISORD_CONF}"
-export SUPERVISORCTL="${INSTANCE_BIN}/supervisorctl -c ${SUPERVISORD_CONF}"
-
-echo "+ Setting up Procfile ..."
-cd $VIRTUAL_ENV
-export PROCFILE=${VIRTUAL_ENV}/Procfile
-bin/viron ${TEMPLATES}/Procfile > $PROCFILE
-export HONCHO="${INSTANCE_BIN}/honcho -f ${PROCFILE}"
-
-echo "+ Setting up redis ..."
-cd $VIRTUAL_ENV
-export INSTANCE_REDIS_CONF=${INSTANCE_ADNAUSEUM}/redis.conf
-bin/viron ${TEMPLATES}/redis.conf > $INSTANCE_REDIS_CONF
-
-echo "+ Preparing the executable Django admin script ..."
-cd $VIRTUAL_ENV
-DJANGO_ROOT=`bin/python -c "import django,os;print os.path.dirname(django.__file__)"`
-DJANGO_ADMIN_SCRIPT="${DJANGO_ROOT}/bin/django-admin.py"
-chmod +x $DJANGO_ADMIN_SCRIPT
-chmod g+x $DJANGO_ADMIN_SCRIPT
-export DJANGO_ADMIN="${INSTANCE_BIN}/$(basename $DJANGO_ADMIN_SCRIPT)"
-test ! -r $DJANGO_ADMIN && ln -s $DJANGO_ADMIN_SCRIPT $DJANGO_ADMIN
+# POST-TEMPLATE FILES
+load_praxon "Install" "project-template-postinit"
 
 echo "+ Trashing installation artifacts ..."
 vremove pysqlite2-doc
 vremove restkit
 vremove socketpool
 
-echo "+ Setting up development environment bash functions ..."
-cd $VIRTUAL_ENV
-export DJANGO_SETTINGS_MODULE="settings"
+# CONFIGURE DEV-ENVIRONMENT FUNCTIONS
+load_praxon "Library" "88-postinit"
 
-function vbp () {
-    SIGNALQUEUE_RUNMODE=SQ_SYNC ${INSTANCE_BIN}/bpython --interactive $INSTANCE_BPYTHON_SETTINGS
-}
+# INITIALIZE ALL THE DJANGO THINGS
+load_praxon "Install" "initialize-django-instance"
 
-function vj () {
-    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${DJANGO_ADMIN} $@"
-}
-
-function vrun () {
-    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${SUPERVISORD} $@"
-}
-
-function vsuper () {
-    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${SUPERVISORCTL} $@"
-}
-
-function vmate () {
-    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "mate ${VIRTUAL_ENV} $@"
-}
-
-function vforeman () {
-    DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE eval "${HONCHO} start $@"
-}
-
-echo "+ Initializing a Django SQLite development database ..."
-eval "vj syncdb --migrate --noinput"
-
-echo "+ Creating a default superuser for use the Django admin"
-echo ">>> username: fish"
-echo ">>> password: ${INSTANCE_PASSWORD}"
-eval "vj createsuperuser --noinput --username=fish --email=yodogg@gmail.com"
-
-setsuperuserpassword="\
-from django.core.management import setup_environ\
-;import settings\
-;setup_environ(settings)\
-;from django.contrib.auth.models import User\
-;fish = User.objects.get(username='fish')\
-;fish.set_password('${INSTANCE_PASSWORD}')\
-;fish.save()\
-"
-${INSTANCE_BIN}/python -c "${setsuperuserpassword}"
-
-echo ""
-echo "+ Generating initial Solr schema ..."
-cd $VIRTUAL_ENV
-eval "vj build_solr_schema -f ${SOLR_SCHEMA}"
-ln -s "${SOLR_SCHEMA}" "${INSTANCE_ADNAUSEUM}/solr-schema.xml"
-
-echo "+ Preparing static files for access ..."
-eval "vj collectstatic --noinput"
+# INITIALIZE ALL THE DJANGO THINGS
+load_praxon "Install" "create-solr-schema-and-etc-links"
 
 echo "+ Cleaning up ..."
 cd $VIRTUAL_ENV
-#vremove pysqlite
 
-
-echo "+ Setting up a local git repository ..."
-cd $VIRTUAL_ENV
-git init
-git add $VIRTUAL_ENV
-git status
-git commit -m "First commit for $INSTANCE_NAME (via praxime by virtualenvwrapper hook)."
-echo ""
-
+# SET UP GIT
+load_praxon "Install" "initialize-venv-git-repo"
 
