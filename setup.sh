@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# N.B. turn this into a makefile
 
 # where am I? (see http://stackoverflow.com/a/246128/298171)
 export WORKON_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
