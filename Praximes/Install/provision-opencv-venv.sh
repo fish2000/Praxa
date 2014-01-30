@@ -4,7 +4,7 @@
 echo ""
 echo "+ Installing NumPy and SciPy ..."
 cd ${VIRTUAL_ENV}
-pip install -U numpy scipy
+bin/pip install -U numpy scipy
 
 echo ""
 echo "+ Installing OpenCV ..."
