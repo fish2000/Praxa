@@ -26,6 +26,9 @@ load_praxon "Install" "project-template"
 # POST-TEMPLATE FILES
 load_praxon "Install" "project-template-postinit"
 
+# PROJECT-LOCAL OPENCV
+#load_praxon "Install" "provision-opencv-venv"
+
 # GET RID OF THIS SHIT
 echo "+ Trashing installation artifacts ..."
 vremove pysqlite2-doc
