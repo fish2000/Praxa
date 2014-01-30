@@ -20,15 +20,36 @@ expand_tarball_to () {
     [[ -d $out_directory ]] && rm -rf $out_directory
     mkdir -p $out_directory
     echo "+ Expanding tarball: ${in_tarball}"
+    echo "+ Expansion destination: ${out_directory}"
     tar xzf $in_tarball --strip-components=1 --directory=$out_directory
+}
+
+expand_zipwad_to () {
+    in_zipwad="${1:?zipwad expected}"
+    out_directory="${2:?pathname expected}"
+    tmp_directory="$(mktemp -d -t `basename "$in_zipwad" | sed -e "s#.zip##"`)"
+    [[ ! -r $in_zipwad ]] && echo "- Can't read zipwad: ${in_zipwad}" && return
+    [[ -d $out_directory ]] && rm -rf $out_directory
+    echo "+ Unzipping zipwad: ${in_zipwad}"
+    echo "+ Temporary files: ${tmp_directory}"
+    echo "+ Unzipped directory destination: ${out_directory}"
+    unzip -d $tmp_directory $in_zipwad
+    expanded_directory=("$tmp_directory"/*)
+    if (( ${#tmp_directory[@]} == 1 )) && [[ -d $tmp_directory ]]; then
+        mv "${tmp_directory}"/* $out_directory && rm -rf $tmp_directory
+    fi
 }
 
 download_and_expand () {
     url="${1:?URL expected}"
     url_basename="$(basename ${url})"
+    #url_suffix="${url_basename#*.}"
     src_directory="${2:?pathname expected}"
     tmp_tarball="/tmp/${url_basename}"
     download_to $url $tmp_tarball
-    expand_tarball_to $tmp_tarball $src_directory
+    [[ ${url_basename,,} == *.zip ]] \
+        && expand_zipwad_to $tmp_tarball $src_directory
+    [[ ${url_basename,,} != *.zip ]] \
+        && expand_tarball_to $tmp_tarball $src_directory
     rm $tmp_tarball
 }

@@ -3,6 +3,10 @@
 echo "+ Setting up development environment bash functions ..."
 cd $VIRTUAL_ENV
 
+function vcd () {
+    HOME=$VIRTUAL_ENV CDPATH="${VIRTUAL_ENV}:${VIRTUAL_ENV}/local:${VIRTUAL_ENV}/var:/tmp:${CDPATH}" eval "cd $@"
+}
+
 function vbp () {
     SIGNALQUEUE_RUNMODE=SQ_SYNC ${INSTANCE_BIN}/bpython --interactive $INSTANCE_BPYTHON_SETTINGS
 }

@@ -26,6 +26,7 @@ load_praxon "Install" "project-template"
 # POST-TEMPLATE FILES
 load_praxon "Install" "project-template-postinit"
 
+# GET RID OF THIS SHIT
 echo "+ Trashing installation artifacts ..."
 vremove pysqlite2-doc
 vremove restkit
@@ -37,7 +38,8 @@ load_praxon "Library" "88-postinit"
 # INITIALIZE ALL THE DJANGO THINGS
 load_praxon "Install" "initialize-django-instance"
 
-# INITIALIZE ALL THE DJANGO THINGS
+# SCHEMATIZE SOLR (using django-haystack)
+# AND LINK XML CONFIGS INTO etc/
 load_praxon "Install" "create-solr-schema-and-etc-links"
 
 echo "+ Cleaning up ..."
