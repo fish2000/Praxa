@@ -22,6 +22,7 @@ mkdir -p ${INSTANCE_MODULE}
 mkdir -p ${LOCAL}
 mkdir -p ${LOCAL_BIN}
 mkdir -p ${LOCAL_LIB}
+mkdir -p ${LOCAL_INCLUDE}
 mkdir -p ${LOCAL_PYTHON}
 mkdir -p ${LOCAL_PYTHON_SITE}
 set +x

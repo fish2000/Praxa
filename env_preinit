@@ -20,6 +20,7 @@ export INSTANCE_SRC=`echo "$(basename ${VIRTUAL_ENV})"`
 export INSTANCE_MODULE="${INSTANCE}/${INSTANCE_NAME}"
 export INSTANCE_BIN="${VIRTUAL_ENV}/bin"
 export INSTANCE_LIB="${VIRTUAL_ENV}/lib"
+export INSTANCE_INCLUDE="${VIRTUAL_ENV}/include"
 export INSTANCE_PYTHON="${INSTANCE_LIB}/python${PYTHON_NUMBER}"
 export INSTANCE_PYTHON_SITE="${INSTANCE_PYTHON}/site-packages"
 export INSTANCE_ADNAUSEUM="${VIRTUAL_ENV}/etc"
@@ -32,6 +33,7 @@ export INSTANCE_TMP="${INSTANCE_VARIANT}/tmp"
 
 export LOCAL_BIN="${LOCAL}/bin"
 export LOCAL_LIB="${LOCAL}/lib"
+export LOCAL_INCLUDE="${LOCAL}/include"
 export LOCAL_PYTHON="${LOCAL_LIB}/python${PYTHON_NUMBER}"
 export LOCAL_PYTHON_SITE="${LOCAL_PYTHON}/site-packages"
 
