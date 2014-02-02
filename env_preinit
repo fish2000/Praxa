@@ -11,29 +11,29 @@ ${VIRTUAL_ENV}/lib/python${PYTHON_NUMBER}/site-packages:\
 ${VIRTUAL_ENV}:\
 ."
 
-export VENV=${VIRTUAL_ENV}
-export INSTANCE=${VIRTUAL_ENV}/instance
-export LOCAL=${VIRTUAL_ENV}/local
+export VENV="${VIRTUAL_ENV}"
+export INSTANCE="${VIRTUAL_ENV}/instance"
+export LOCAL="${VIRTUAL_ENV}/local"
 
 export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | $(which sed) -e s/[^A-Za-z0-9]/_/g`
 export INSTANCE_SRC=`echo "$(basename ${VIRTUAL_ENV})"`
 export INSTANCE_MODULE="${INSTANCE}/${INSTANCE_NAME}"
-export INSTANCE_BIN=${VIRTUAL_ENV}/bin
-export INSTANCE_LIB=${VIRTUAL_ENV}/lib
-export INSTANCE_PYTHON=${INSTANCE_LIB}/python${PYTHON_NUMBER}
-export INSTANCE_PYTHON_SITE=${INSTANCE_PYTHON}/site-packages
-export INSTANCE_ADNAUSEUM=${VIRTUAL_ENV}/etc
-export INSTANCE_VARIANT=${VIRTUAL_ENV}/var
-export INSTANCE_VARIANT_DATA=${INSTANCE_VARIANT}/db
-export INSTANCE_LOGS=${INSTANCE_VARIANT}/logs
-export INSTANCE_CACHE=${INSTANCE_VARIANT}/cache
-export INSTANCE_RUN=${INSTANCE_VARIANT}/run
-export INSTANCE_TMP=${INSTANCE_VARIANT}/tmp
+export INSTANCE_BIN="${VIRTUAL_ENV}/bin"
+export INSTANCE_LIB="${VIRTUAL_ENV}/lib"
+export INSTANCE_PYTHON="${INSTANCE_LIB}/python${PYTHON_NUMBER}"
+export INSTANCE_PYTHON_SITE="${INSTANCE_PYTHON}/site-packages"
+export INSTANCE_ADNAUSEUM="${VIRTUAL_ENV}/etc"
+export INSTANCE_VARIANT="${VIRTUAL_ENV}/var"
+export INSTANCE_VARIANT_DATA="${INSTANCE_VARIANT}/db"
+export INSTANCE_LOGS="${INSTANCE_VARIANT}/logs"
+export INSTANCE_CACHE="${INSTANCE_VARIANT}/cache"
+export INSTANCE_RUN="${INSTANCE_VARIANT}/run"
+export INSTANCE_TMP="${INSTANCE_VARIANT}/tmp"
 
-export LOCAL_BIN=${LOCAL}/bin
-export LOCAL_LIB=${LOCAL}/lib
-export LOCAL_PYTHON=${LOCAL_LIB}/python${PYTHON_NUMBER}
-export LOCAL_PYTHON_SITE=${LOCAL_PYTHON}/site-packages
+export LOCAL_BIN="${LOCAL}/bin"
+export LOCAL_LIB="${LOCAL}/lib"
+export LOCAL_PYTHON="${LOCAL_LIB}/python${PYTHON_NUMBER}"
+export LOCAL_PYTHON_SITE="${LOCAL_PYTHON}/site-packages"
 
 export PYTHONPATH="\
 ${LOCAL_PYTHON_SITE}:\
@@ -68,13 +68,14 @@ load_praxon "Library" "01-download"
 export DJANGO_VERSION="1.5.4"
 export DJANGO_SETTINGS_MODULE="settings"
 export DJANGO_ADMIN="${INSTANCE_BIN}/django-admin.py"
+export DJANGO_ADMINSITE_USER="admin"
 
-export SUPERVISORD_CONF=${INSTANCE_ADNAUSEUM}/supervisord.conf
+export SUPERVISORD_CONF="${INSTANCE_ADNAUSEUM}/supervisord.conf"
 export SUPERVISORD="${INSTANCE_BIN}/supervisord -n -c ${SUPERVISORD_CONF}"
 export SUPERVISORCTL="${INSTANCE_BIN}/supervisorctl -c ${SUPERVISORD_CONF}"
 
 export PRAXON_TEMPLATES="${PRAXIME_BASE}/Templates"
-export TEMPLATES=$PRAXON_TEMPLATES
+export TEMPLATES="${PRAXON_TEMPLATES}"
 
 # we may not install Solr, but these will be defined nonetheless
 # (... maybe don't do that?)
@@ -85,7 +86,6 @@ export SOLR_CONFIG="${SOLR_CONF}/solrconfig.xml"
 export SOLR_STOPWORDS="${SOLR_CONF}/stopwords.txt"
 export SOLR_STOPWORDS_EN="${SOLR_CONF}/stopwords_en.txt"
 
-
-export PROCFILE=${VIRTUAL_ENV}/Procfile
+export PROCFILE="${VIRTUAL_ENV}/Procfile"
 export HONCHO="${INSTANCE_BIN}/honcho -f ${PROCFILE}"
-export INSTANCE_REDIS_CONF=${INSTANCE_ADNAUSEUM}/redis.conf
+export INSTANCE_REDIS_CONF="${INSTANCE_ADNAUSEUM}/redis.conf"

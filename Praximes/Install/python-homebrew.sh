@@ -33,7 +33,7 @@ then
     brew update
 fi
 
-echo "Installing python's dependencies ..."
+echo "+ Installing python dependencies via Homebrew ..."
 brew install pkg-config
 brew install git wget coreutils
 brew install sqlite gdbm readline
