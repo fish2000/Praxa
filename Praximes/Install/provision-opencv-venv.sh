@@ -4,7 +4,8 @@
 echo ""
 echo "+ Installing NumPy and SciPy ..."
 cd ${VIRTUAL_ENV}
-bin/pip install -U numpy scipy
+bin/pip install -U numpy
+bin/pip install -U scipy
 
 echo ""
 echo "+ Installing OpenCV ..."
@@ -44,11 +45,11 @@ cmake .. \
     -DWITH_FFMPEG=OFF \
     -DWITH_PYTHON=ON \
     -DBUILD_PYTHON_SUPPORT=ON \
-    -DPYTHON_LIBRARY=`python-config --prefix`/lib/libpython2.7.dylib \
+    -DPYTHON_LIBRARY="$(python-config --prefix)/lib/libpython2.7.dylib" \
     -DPYTHON_EXECUTABLE=${VIRTUAL_ENV}/bin/python2.7 \
     -DPYTHON_INCLUDE=${VIRTUAL_ENV}/include/python2.7/ \
-    -DPYTHON_PACKAGES_PATH=${VIRTUAL_ENV}/lib/python2.7/site-packages/ \
-    -DPYTHON_NUMPY_INCLUDE_DIR=${VIRTUAL_ENV}/lib/python2.7/site-packages/numpy/core/include/ \
+    -DPYTHON_PACKAGES_PATH=${INSTANCE_PYTHON_SITE} \
+    -DPYTHON_NUMPY_INCLUDE_DIR=${INSTANCE_PYTHON_SITE}/numpy/core/include/ \
     -DENABLE_SSSE3=ON \
     -DENABLE_SSE41=ON \
     -DENABLE_SSE42=ON \
