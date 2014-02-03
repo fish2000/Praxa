@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
 
-echo ""
 echo "+ Installing NumPy and SciPy ..."
 cd ${VIRTUAL_ENV}
 bin/pip install -U numpy
-bin/pip install -U scipy
+#bin/pip install -U scipy
 
 echo ""
 echo "+ Installing OpenCV ..."
@@ -15,7 +14,7 @@ OPENCV_DIRNAME="opencv-${OPENCV_VERSION}"
 OPENCV_ZIPNAME="${OPENCV_DIRNAME}.zip"
 OPENCV_URL="http://iweb.dl.sourceforge.net/project/opencvlibrary/opencv-unix/${OPENCV_VERSION}/${OPENCV_ZIPNAME}"
 
-download_and_expand $OPENCV_URL $OPENCV_DIRNAME
+fetch_and_expand $OPENCV_URL $OPENCV_DIRNAME
 
 cd $OPENCV_DIRNAME
 

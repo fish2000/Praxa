@@ -6,14 +6,13 @@ download_to () {
     out_file="${2:?pathname expected}"
     success=0
     [[ -r $out_file ]] && echo "- Already exists: ${out_file}" && return 1
-    echo "+ Fetching URL: ${in_url}"
-    test ! -r $out_file && test -x `which wget` && wget $in_url -O $out_file && success=1
+    echo "+ Retrieving remote file: ${in_url}"
+    test ! -r $out_file && test -x `which wget` && wget --tries=40 --retry-connrefused $in_url -O $out_file && success=1
     test ! -r $out_file && test -x `which curl` && curl -L $in_url -o $out_file && success=1
     test ! -r $out_file && test -x `which http` && http -d $in_url -o $out_file && success=1
     [ $success == 0 ] && test -r $out_file && rm $out_file
     [ $success == 0 ] && echo "- Couldn't download. Tried: wget, curl, httpie" && return 1
     echo "+ Downloaded to: ${out_file}"
-    return 0
 }
 
 expand_tarball_to () {
@@ -34,7 +33,6 @@ expand_zipwad_to () {
     [[ ! -r $in_zipwad ]] && echo "- Can't read zipwad: ${in_zipwad}" && return 1
     [[ -d $out_directory ]] && rm -rf $out_directory
     echo "+ Unzipping zipwad: $(basename ${in_zipwad})"
-    #echo "+ Temporary files: ${tmp_directory}"
     echo "+ Unzip destination: ${out_directory}"
     unzip -d $tmp_directory $in_zipwad
     expanded_directory=("$tmp_directory"/*)
@@ -55,9 +53,9 @@ download_and_expand () {
     tmp_directory="$(mktemp -d -t `basename "$destination_directory"`)"
     tmp_archive="${tmp_directory}/${url_basename}"
     download_to $url $tmp_archive || return 1
-    [[ $url_suffix == *zip ]] \
+    [[ ${url_suffix,,} == *zip ]] \
         && expand_zipwad_to $tmp_archive $destination_directory
-    [[ $url_suffix != *zip ]] \
+    [[ ${url_suffix,,} != *zip ]] \
         && expand_tarball_to $tmp_archive $destination_directory
     rm $tmp_archive
     [[ -d $tmp_directory ]] && rm -rf $tmp_directory

@@ -3,8 +3,8 @@ supervisor
 superlance
 
 pylibmc
-greenlet
-eventlet
+#greenlet
+#eventlet
 gunicorn
 psycopg2
 
@@ -12,10 +12,11 @@ xerox
 bpython
 requests
 setproctitle
+beautifulsoup4
 
 yolk
 simplejson
-pyyaml
+#pyyaml
 pysolr
 
 redis
@@ -25,4 +26,4 @@ urllib3
 httpie
 boto
 honcho
-uWSGI
+#uWSGI

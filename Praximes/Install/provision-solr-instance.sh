@@ -1,19 +1,13 @@
 
-echo ""
 echo "+ Installing Apache Solr server ..."
 cd $LOCAL_LIB
-export SOLR_TARBALL_URL="http://mirror.cogentco.com/pub/apache/lucene/solr/4.6.0/solr-4.6.0.tgz"
-export SOLR_TARBALL="${VIRTUAL_ENV}/solr.tgz"
-test ! -r $SOLR_TARBALL && test -x `which wget` && wget $SOLR_TARBALL_URL -O $SOLR_TARBALL
-test ! -r $SOLR_TARBALL && test -x `which curl` && curl $SOLR_TARBALL_URL -o $SOLR_TARBALL
-test ! -r $SOLR_TARBALL && test -x `which http` && http -d $SOLR_TARBALL_URL -o $SOLR_TARBALL
-if [[ -r $SOLR_TARBALL ]];
-then
-    mkdir -p $SOLR_ROOT && \
-    cd $SOLR_ROOT && \
-    tar -xvzf $SOLR_TARBALL --strip-components=1 -C $SOLR_ROOT && \
-    rm $SOLR_TARBALL
-fi
+#export SOLR_TARBALL_URL="http://mirror.cogentco.com/pub/apache/lucene/solr/4.6.0/solr-4.6.0.tgz"
+SOLR_VERSION="4.6.0"
+SOLR_DIRNAME="solr-${SOLR_VERSION}"
+SOLR_TARBALL_NAME="${SOLR_DIRNAME}.tgz"
+SOLR_TARBALL_URL="http://mirror.cogentco.com/pub/apache/lucene/solr/${SOLR_VERSION}/${SOLR_TARBALL_NAME}"
+
+fetch_and_expand $SOLR_TARBALL_URL $SOLR_ROOT
 
 echo ""
 echo "+ Fixing Solr stopwords config file ..."

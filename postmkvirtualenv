@@ -17,6 +17,9 @@ load_praxon "Install" "provision-cheeseshop"
 # INSTALL SOLR
 load_praxon "Install" "provision-solr-instance"
 
+# PROJECT-LOCAL OPENCV
+#load_praxon "Install" "provision-opencv-venv"
+
 # PRE-TEMPLATE FILES
 load_praxon "Install" "project-template-preinit"
 
@@ -25,9 +28,6 @@ load_praxon "Install" "project-template"
 
 # POST-TEMPLATE FILES
 load_praxon "Install" "project-template-postinit"
-
-# PROJECT-LOCAL OPENCV
-#load_praxon "Install" "provision-opencv-venv"
 
 # GET RID OF THIS SHIT
 echo "+ Trashing installation artifacts ..."

@@ -95,14 +95,13 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    #'bootstrap_admin',
     'django_admin_bootstrapped',
     'django.contrib.admin',
     
     'haystack',
     'south',
     'tagging',
-    'twemoir',
+    #'twemoir',
     'gunicorn',
     'imagekit',
 )

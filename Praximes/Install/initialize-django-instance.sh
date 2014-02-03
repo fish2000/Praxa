@@ -20,4 +20,4 @@ from django.core.management import setup_environ\
 ${INSTANCE_BIN}/python -c "${setsuperuserpassword}"
 
 echo "+ Preparing static files for access ..."
-eval "vj collectstatic --noinput"
+eval "vj collectstatic --noinput > /dev/null"

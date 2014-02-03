@@ -65,6 +65,7 @@ function vremove () {
 
 # prepare download bash funcs
 load_praxon "Library" "01-download"
+load_praxon "Library" "02-urlcache"
 
 # These may be referencing things that do not yet exist
 export DJANGO_VERSION="1.5.4"
