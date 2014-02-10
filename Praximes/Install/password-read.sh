@@ -9,9 +9,12 @@ if [[ -r $INSTANCE_PASSWORD_FILE ]]; then
     echo "++ INSTANCE_PASSWORD=xxxxxxxxxxxxxxxxxx [not shown]"
     echo "++ INSTANCE_PASSWORD_HASH=${INSTANCE_PASSWORD_HASH}"
 else
-    echo "- WARNING: No readable password files found in virtualenv ${INSTANCE_NAME}"
-    echo "- WARNING: Tried path: ${INSTANCE_PASSWORD_FILE}"
-    echo "- WARNING: Errors may arise from the following unset env variables:"
-    echo "- WARNING: undefined variable INSTANCE_PASSWORD"
-    echo "- WARNING: undefined variable INSTANCE_PASSWORD_HASH"
+    if [[ -d $INSTANCE_TMP ]]; then
+        # if INSTANCE_TMP has been done, so also should the password file have been done
+        echo "- WARNING: No readable password files found in virtualenv ${INSTANCE_NAME}"
+        echo "- WARNING: Tried path: ${INSTANCE_PASSWORD_FILE}"
+        echo "- WARNING: Errors may arise from the following unset env variables:"
+        echo "- WARNING: undefined variable INSTANCE_PASSWORD"
+        echo "- WARNING: undefined variable INSTANCE_PASSWORD_HASH"
+    fi
 fi

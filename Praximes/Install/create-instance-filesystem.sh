@@ -2,7 +2,8 @@
 
 cd $VIRTUAL_ENV
 echo "+ Creating virtualenv subdirectories:"
-xset -x
+
+set -x
 mkdir -p ./etc
 mkdir -p ./var
 mkdir -p ./var/logs
@@ -27,4 +28,3 @@ mkdir -p ${LOCAL_INCLUDE}
 mkdir -p ${LOCAL_PYTHON}
 mkdir -p ${LOCAL_PYTHON_SITE}
 set +x
-echo ""

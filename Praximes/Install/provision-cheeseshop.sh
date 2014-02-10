@@ -1,46 +1,35 @@
 #!/usr/bin/env bash
 
-echo "+ Installing CheeseShop essentials ..."
 cd /tmp
-
-echo ""
-echo "+ Installing Cython ..."
+echo "+ Installing CheeseShop essentials"
+echo "+ Installing Cython:"
 ${VIRTUAL_ENV}/bin/pip install -U Cython
 
-echo ""
-echo "+ Installing numpy ..."
+echo "+ Installing numpy:"
 ${VIRTUAL_ENV}/bin/pip install -U numpy
 
-echo ""
-echo "+ Installing numexpr ..."
+echo "+ Installing numexpr:"
 ${VIRTUAL_ENV}/bin/pip install -U numexpr
 
-echo ""
-echo "+ Installing virtualenv utilities ..."
+echo "+ Installing virtualenv utilities:"
 ${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-env-tools.txt
 
-echo ""
-echo "+ Installing web utilities ..."
+echo "+ Installing web utilities:"
 ${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-web-tools.txt
 
-echo ""
 echo "+ Installing MATH POWER:"
 ${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-math.txt
 
-echo ""
-echo "+ Installing PIL/Pillow and related packages ..."
+echo "+ Installing PIL/Pillow and related packages:"
 ${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-pil.txt
 
-echo ""
-echo "+ Installing Django apps and utilities ..."
+echo "+ Installing Django apps and utilities:"
 ${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-django.txt
 
 # the requirements most likely updated django to whatever the latest is...
 # uninstall it, then reinstall the specified version
-# echo ""
-# echo "+ Refreshing Django installation back to ${DJANGO_VERSION} ..."
+# echo "+ Refreshing Django installation back to ${DJANGO_VERSION}:"
 # ${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION
 
-echo ""
-echo "+ Installing Django ${DJANGO_VERSION} ..."
+echo "+ Installing Django: ${DJANGO_VERSION}"
 ${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION

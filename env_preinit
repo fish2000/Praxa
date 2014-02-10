@@ -73,7 +73,7 @@ load_praxon "01-download"
 load_praxon "02-urlcache"
 
 # These may be referencing things that do not yet exist
-export DJANGO_VERSION="1.6.1"
+export DJANGO_VERSION="1.6.2"
 export DJANGO_SETTINGS_MODULE="settings" # NOT A MADE UP VARIABLE
 export DJANGO_ADMIN="${INSTANCE_BIN}/django-admin.py"
 export DJANGO_ADMINSITE_USER="admin"

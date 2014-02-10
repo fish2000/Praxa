@@ -3,4 +3,4 @@
 source "${WORKON_HOME}/env_preinit"
 
 # CLEAR OUT GREMLINS (e.g. ".DS_Store")
-load_praxon "Install" "clear-filesystem-gremlins"
+install_praxon "clear-filesystem-gremlins"
