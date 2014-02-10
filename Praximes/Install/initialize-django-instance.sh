@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
 cd $VIRTUAL_ENV
+if [[ -r $INSTANCE_DEVELOPMENT_DB ]]; then
+    # clear out existant sqlite file
+    echo "+ Deleting existing dev database: ${INSTANCE_DEVELOPMENT_DB}"
+    rm -f $INSTANCE_DEVELOPMENT_DB
+fi
+
 echo "+ Creating a Django dev database file [SQLite]"
 eval "vj syncdb --migrate --noinput"
 
@@ -10,11 +16,8 @@ echo ">>> password: ${INSTANCE_PASSWORD}"
 eval "vj createsuperuser --noinput --username=fish --email=yodogg@gmail.com"
 
 setsuperuserpassword="\
-from django.core.management import setup_environ\
-;import settings\
-;setup_environ(settings)\
-;from django.contrib.auth.models import User\
-;(made, fish) = User.objects.get_or_create(username='fish')\
+from django.contrib.auth.models import User\
+;(fish, made) = User.objects.get_or_create(username='fish')\
 ;made and fish.set_password('${INSTANCE_PASSWORD}')\
 ;made and fish.save()\
 "
