@@ -57,11 +57,11 @@ function is_dir () {
 }
 
 function load_praxon () {
-    source "${PRAXIME_BASE}/Library/${1:?praxtype expected}/${2:?praxon expected}.sh"
+    source "${PRAXIME_BASE}/Library/${1:?praxon expected}.sh"
 }
 
 function install_praxon () {
-    source "${PRAXIME_BASE}/Install/${1:?praxtype expected}/${2:?praxon expected}.sh"
+    source "${PRAXIME_BASE}/Install/${1:?praxon expected}.sh"
 }
 
 function vremove () {
