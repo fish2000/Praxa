@@ -1,0 +1,42 @@
+--- schema.xml	2014-01-27 13:18:54.000000000 -0500
++++ schema.xml	2014-01-27 13:18:17.000000000 -0500
+@@ -130,6 +130,10 @@
+         <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="1"/>
+       </analyzer>
+     </fieldType>
++    
++    <!-- FIELDTYPE FOR LIRE-SOLR -->
++    <fieldtype name="binaryDV" class="net.semanticmetadata.lire.solr.BinaryDocValuesField"/>
++    
+   </types>
+ 
+   <fields>
+@@ -139,6 +143,28 @@
+     <field name="django_id" type="string" indexed="true" stored="true" multiValued="false"/>
+     <field name="_version_" type="long" indexed="true" stored ="true"/>
+ 
++    <!-- LIRE-SOLR ID FIELD -->
++    <field name="text" type="string" indexed="true" stored="true" multiValued="false" />-->
++    
++    <!-- the solr file name -->
++    <field name="title" type="text_general" indexed="true" stored="true" multiValued="true"/>
++    
++    <!-- Edge Histogram -->
++    <field name="eh_ha" type="text_ws" indexed="true" stored="false" required="false"/>
++    <field name="eh_hi" type="binaryDV"  indexed="false" stored="true" required="false"/>
++    
++    <!-- ColorLayout -->
++    <field name="cl_ha" type="text_ws" indexed="true" stored="false" required="false"/>
++    <field name="cl_hi" type="binaryDV"  indexed="false" stored="true" required="false"/>
++    
++    <!-- PHOG -->
++    <field name="ph_ha" type="text_ws" indexed="true" stored="false" required="false"/>
++    <field name="ph_hi" type="binaryDV"  indexed="false" stored="true" required="false"/>
++    
++    <!-- JCD -->
++    <field name="jc_ha" type="text_ws" indexed="true" stored="false" required="false"/>
++    <field name="jc_hi" type="binaryDV"  indexed="false" stored="true" required="false"/>
++
+     <dynamicField name="*_i"  type="int"    indexed="true"  stored="true"/>
+     <dynamicField name="*_s"  type="string"  indexed="true"  stored="true"/>
+     <dynamicField name="*_l"  type="long"   indexed="true"  stored="true"/>

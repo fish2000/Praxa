@@ -1,8 +1,8 @@
 
-watchdog
-setproctitle
+#watchdog
+#setproctitle
 supervisor
-superlance
+#superlance
 honcho
 
 ipython

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-
+cd $VIRTUAL_ENV
 echo "+ Installing NumPy ..."
-cd ${VIRTUAL_ENV}
 bin/pip install -U numpy
 
+
+cd $INSTANCE_VARIANT
 echo ""
 echo "+ Installing OpenCV ..."
-cd ${INSTANCE_VARIANT}
 OPENCV_VERSION="2.4.8"
 OPENCV_DIRNAME="opencv-${OPENCV_VERSION}"
 OPENCV_ZIPNAME="${OPENCV_DIRNAME}.zip"
@@ -16,15 +16,11 @@ OPENCV_URL="http://iweb.dl.sourceforge.net/project/opencvlibrary/opencv-unix/${O
 fetch_and_expand $OPENCV_URL $OPENCV_DIRNAME
 
 cd $OPENCV_DIRNAME
-
-if [[ -d macbuild ]]; then
-    rm -rf macbuild
-fi
-
+[[ -d macbuild ]] && rm -rf macbuild
 mkdir macbuild
 cd macbuild
 cmake .. \
-    -DCMAKE_INSTALL_PREFIX=${VIRTUAL_ENV} \
+    -DCMAKE_INSTALL_PREFIX=$VIRTUAL_ENV \
     -DCMAKE_BUILD_TYPE=None \
     -DCMAKE_VERBOSE_MAKEFILE=OFF \
     -Wno-dev \
@@ -58,4 +54,5 @@ cmake .. \
         make install
 
 cd $INSTANCE_VARIANT
+echo "+ Cleaning up OpenCV build artifacts ..."
 rm -rf $OPENCV_DIRNAME

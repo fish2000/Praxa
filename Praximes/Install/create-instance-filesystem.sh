@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-echo "+ Creating virtualenv subdirectories:"
 cd $VIRTUAL_ENV
-set -x
+echo "+ Creating virtualenv subdirectories:"
+xset -x
 mkdir -p ./etc
 mkdir -p ./var
 mkdir -p ./var/logs

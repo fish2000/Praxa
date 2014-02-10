@@ -3,34 +3,35 @@
 source "${WORKON_HOME}/env_preinit"
 
 # CREATE INSTANCE FILESYSTEM LAYOUT
-load_praxon "Install" "create-instance-filesystem"
+install_praxon "create-instance-filesystem"
 
 # PROVISION VIRON
-load_praxon "Install" "provision-viron"
+install_praxon "provision-viron"
 
 # WRITE THE PASSWORD
-load_praxon "Install" "password-write"
+install_praxon "password-write"
 
 # PIP-INSTALL EVERYTHING
-load_praxon "Install" "provision-cheeseshop"
+install_praxon "provision-cheeseshop"
 
 # INSTALL SOLR
-load_praxon "Install" "provision-solr-instance"
+install_praxon "provision-solr-instance"
 
 # PROJECT-LOCAL OPENCV
-load_praxon "Install" "provision-opencv-venv"
+#install_praxon "provision-opencv-venv"
 
 # PROJECT-LOCAL NODEJS
-load_praxon "Install" "provision-nodejs-venv"
+# NB. cache the `nodeenv` download if possibe
+#install_praxon "provision-nodejs-venv"
 
 # PRE-TEMPLATE FILES
-load_praxon "Install" "project-template-preinit"
+install_praxon "project-template-preinit"
 
 # GENERATE PROJECT TEMPLATE
-load_praxon "Install" "project-template"
+install_praxon "project-template"
 
 # POST-TEMPLATE FILES
-load_praxon "Install" "project-template-postinit"
+install_praxon "project-template-postinit"
 
 # GET RID OF THIS SHIT
 echo "+ Trashing installation artifacts ..."
@@ -39,18 +40,17 @@ vremove restkit
 vremove socketpool
 
 # CONFIGURE DEV-ENVIRONMENT FUNCTIONS
-load_praxon "Library" "88-postinit"
+load_praxon "88-postinit"
 
 # INITIALIZE ALL THE DJANGO THINGS
-load_praxon "Install" "initialize-django-instance"
+install_praxon "initialize-django-instance"
 
 # SCHEMATIZE SOLR (using django-haystack)
 # AND LINK XML CONFIGS INTO etc/
-load_praxon "Install" "create-solr-schema-and-etc-links"
+install_praxon "create-solr-schema-and-etc-links"
 
-echo "+ Cleaning up ..."
-cd $VIRTUAL_ENV
+echo "+ Cleaning up ..." # LIES!!
 
 # SET UP GIT
-load_praxon "Install" "initialize-venv-git-repo"
+install_praxon "initialize-venv-git-repo"
 

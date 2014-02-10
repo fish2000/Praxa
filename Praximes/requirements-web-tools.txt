@@ -1,32 +1,39 @@
 
+#decorator
 #greenlet
 #eventlet
 pylibmc
-boto
 
-tornado
+#boto
+#python-amazon-simple-product-api
+#python-amazon-product-api
+
+#tornado
+#Werkzeug
 gunicorn
 #uWSGI
 
 psycopg2
-pysolr
 redis
+#hiredis
+pysolr
+#oursql
 
-fake-useragent
+#fake-useragent
 requests
-requests-oauthlib
-oauthlib
-oauth2
+#requests-oauthlib
+#oauthlib
+#oauth2
 httplib2
 urllib3
-pycurl
+#pycurl
 
-BeautifulSoup
+#BeautifulSoup
 beautifulsoup4
-lxml
-pyquery
+#lxml
+#pyquery
 simplejson
 ujson
-yajl
+#yajl
 tablib
 pyyaml

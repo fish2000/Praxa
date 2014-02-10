@@ -4,16 +4,16 @@ echo "+ Installing CheeseShop essentials ..."
 cd /tmp
 
 echo ""
-echo "+ Installing Django ${DJANGO_VERSION} ..."
-${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION
-
-echo ""
 echo "+ Installing Cython ..."
 ${VIRTUAL_ENV}/bin/pip install -U Cython
 
 echo ""
 echo "+ Installing numpy ..."
 ${VIRTUAL_ENV}/bin/pip install -U numpy
+
+echo ""
+echo "+ Installing numexpr ..."
+${VIRTUAL_ENV}/bin/pip install -U numexpr
 
 echo ""
 echo "+ Installing virtualenv utilities ..."
@@ -37,6 +37,10 @@ ${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-django.txt
 
 # the requirements most likely updated django to whatever the latest is...
 # uninstall it, then reinstall the specified version
+# echo ""
+# echo "+ Refreshing Django installation back to ${DJANGO_VERSION} ..."
+# ${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION
+
 echo ""
-echo "+ Refreshing Django installation back to ${DJANGO_VERSION} ..."
+echo "+ Installing Django ${DJANGO_VERSION} ..."
 ${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION

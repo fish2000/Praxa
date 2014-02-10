@@ -53,7 +53,6 @@ fetch_from_cache_to () {
     in_url="${1:?URL expected}"
     out_file="${2:?pathname expected}"
     [[ -r $out_file ]] && echo "- Already exists: ${out_file}" && return 1
-    #echo "+ Fetching: ${in_url}"
     out_cached_file="$(cache_url $in_url)"
     echo "+ Fetching from cache: ${out_cached_file}"
     cp $out_cached_file $out_file

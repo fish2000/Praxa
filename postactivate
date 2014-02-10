@@ -3,10 +3,11 @@
 source "${WORKON_HOME}/env_preinit"
 
 # CLEAR OUT GREMLINS (e.g. ".DS_Store")
-load_praxon "Install" "clear-filesystem-gremlins"
+# NB. this praxon shouldn't be called "installing"
+install_praxon "clear-filesystem-gremlins"
 
 # LOAD THE DEV-ENVIRONMENT FUNCS
-load_praxon "Library" "88-postinit"
+load_praxon "88-postinit"
 
 # READ IN THE PASSWORD
-load_praxon "Install" "password-read"
+install_praxon "password-read"

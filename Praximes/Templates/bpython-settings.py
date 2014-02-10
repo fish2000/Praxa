@@ -12,8 +12,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 fish = User.objects.get(username='fish')
 
-from tagging.models import Tag as Tagg
-
 ## web scraping stuff
 from bs4 import BeautifulSoup
 import os, sys, re, urllib2, requests, xerox

@@ -9,21 +9,23 @@ django-delegate
 #django-shapes
 
 django-memcached
-django-supervisor
+#django-supervisor
 #django-jquery-widgets
-#django-bootstrap-admin
 django-admin-bootstrapped
 
 #django-nose
 django-haystack
-django-autoslug
-django-autoslug-field
-django-uuidfield
+#django-autoslug
+#django-autoslug-field
+#django-uuidfield
 #django-multifilefield
-django-modeldict
+#django-modeldict
+django-tablib
 django-appconf
 django-postgrespool
-
 south
-python-twitter
-twitter-text-python
+
+#python-openid
+#python-twitter
+#twitter-text-python
+#tweepy

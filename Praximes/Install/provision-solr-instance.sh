@@ -1,7 +1,6 @@
 
-echo "+ Installing Apache Solr server ..."
 cd $LOCAL_LIB
-#export SOLR_TARBALL_URL="http://mirror.cogentco.com/pub/apache/lucene/solr/4.6.0/solr-4.6.0.tgz"
+echo "+ Installing Apache Solr server ..."
 SOLR_VERSION="4.6.0"
 SOLR_DIRNAME="solr-${SOLR_VERSION}"
 SOLR_TARBALL_NAME="${SOLR_DIRNAME}.tgz"

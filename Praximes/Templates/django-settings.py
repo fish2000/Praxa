@@ -100,8 +100,6 @@ INSTALLED_APPS = (
     
     'haystack',
     'south',
-    #'tagging',
-    #'twemoir',
     'gunicorn',
     'imagekit',
 )
