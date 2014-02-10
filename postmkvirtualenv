@@ -18,7 +18,10 @@ load_praxon "Install" "provision-cheeseshop"
 load_praxon "Install" "provision-solr-instance"
 
 # PROJECT-LOCAL OPENCV
-#load_praxon "Install" "provision-opencv-venv"
+load_praxon "Install" "provision-opencv-venv"
+
+# PROJECT-LOCAL NODEJS
+load_praxon "Install" "provision-nodejs-venv"
 
 # PRE-TEMPLATE FILES
 load_praxon "Install" "project-template-preinit"

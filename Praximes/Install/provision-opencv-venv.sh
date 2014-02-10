@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
 
-echo "+ Installing NumPy and SciPy ..."
+echo "+ Installing NumPy ..."
 cd ${VIRTUAL_ENV}
 bin/pip install -U numpy
-#bin/pip install -U scipy
 
 echo ""
 echo "+ Installing OpenCV ..."

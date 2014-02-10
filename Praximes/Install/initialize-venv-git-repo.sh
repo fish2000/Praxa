@@ -5,6 +5,6 @@ cd $VIRTUAL_ENV
 git init
 git add $VIRTUAL_ENV
 #git status
-git commit -m "First commit for $INSTANCE_NAME (via praxime by virtualenvwrapper hook)."
+git commit -m "First commit for $INSTANCE_NAME (via venv-git praxime)"
 echo ""
 

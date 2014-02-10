@@ -27,7 +27,7 @@ CACHES = {
     },
     'localmemory': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'ost4',
+        'LOCATION': 'PRAXA-',
     },
 }
 
@@ -84,8 +84,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
 )
 
-ROOT_URLCONF = '${INSTANCE_NAME}.urls'
-WSGI_APPLICATION = '${INSTANCE_NAME}.wsgi.application'
+ROOT_URLCONF = '${INSTANCE_SAFE_NAME}.urls'
+WSGI_APPLICATION = '${INSTANCE_SAFE_NAME}.wsgi.application'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -100,7 +100,7 @@ INSTALLED_APPS = (
     
     'haystack',
     'south',
-    'tagging',
+    #'tagging',
     #'twemoir',
     'gunicorn',
     'imagekit',

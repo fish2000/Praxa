@@ -2,7 +2,7 @@ echo "+ Initializing a new Django project ..."
 
 INSTANCE=${VIRTUAL_ENV}/instance
 INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | $(which sed) -e s/[^A-Za-z0-9]/_/g`
-INSTANCE_MODULE="${INSTANCE}/${INSTANCE_NAME}"
+INSTANCE_MODULE="${INSTANCE}/${INSTANCE_SAFE_NAME}"
 INSTANCE_BIN=${VIRTUAL_ENV}/bin
 INSTANCE_ADNAUSEUM=${VIRTUAL_ENV}/etc
 INSTANCE_VARIANT=${VIRTUAL_ENV}/var
@@ -13,7 +13,7 @@ mkdir -p ${INSTANCE_VARIANT}/web
 mkdir -p ${INSTANCE_VARIANT}/web/static
 mkdir -p ${INSTANCE_VARIANT}/web/face
 
-#cd "${INSTANCE}/${INSTANCE_NAME}"
+#cd "${INSTANCE}/${INSTANCE_SAFE_NAME}"
 
 cd $VIRTUAL_ENV
 export DJANGO_SETTINGS_MODULE="$settings"
@@ -27,11 +27,11 @@ ${VIRTUAL_ENV}/lib/python2.7/site-packages:\
 ${LOCAL_PYTHON_SITE}:\
 ${INSTANCE_MODULE}:\
 ${INSTANCE}:\
-${INSTANCE}/${INSTANCE_NAME}:\
+${INSTANCE}/${INSTANCE_SAFE_NAME}:\
 ${VIRTUAL_ENV}"
 
 cd $INSTANCE
-${VIRTUAL_ENV}/bin/mezzanine-project $INSTANCE_NAME
+${VIRTUAL_ENV}/bin/mezzanine-project $INSTANCE_SAFE_NAME
 echo ""
 
 cd $VIRTUAL_ENV

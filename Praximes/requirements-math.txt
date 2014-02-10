@@ -1,0 +1,12 @@
+
+numexpr
+h5py
+#tables # won't install without numexpr already installed
+
+scipy
+imread
+instakit
+#scikit-image
+#scikit-learn
+#matplotlib
+nltk

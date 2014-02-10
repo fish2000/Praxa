@@ -8,6 +8,7 @@ stdout
 *.orig
 *.o
 *.so
+*.class
 *.dmg
 *.jar
 .DS_Store
@@ -16,22 +17,30 @@ stdout
 *.aof
 *.rdb
 *.db
+*.doc
+*.docx
 
 *.dropbox
 .dropbox
 npm-debug.log
 
 bin/
+!local/bin/
 build/
 dist/
+etc/ipython/
 sdist/
 include/
 lib/
+!local/lib/
+local/lib/solr/
 man/
 share/
 src/
 var/cache/
 var/logs/
 var/run/
+var/tmp/
 !var/db/
 !var/web/
+var/web/face/downloads/

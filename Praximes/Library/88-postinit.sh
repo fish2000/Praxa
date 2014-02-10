@@ -8,7 +8,18 @@ function vcd () {
 }
 
 function vbp () {
-    SIGNALQUEUE_RUNMODE=SQ_SYNC ${INSTANCE_BIN}/bpython --interactive $INSTANCE_BPYTHON_SETTINGS
+    SIGNALQUEUE_RUNMODE=SQ_SYNC \
+        ${INSTANCE_BIN}/bpython \
+            --interactive \
+                $INSTANCE_BPYTHON_SETTINGS
+}
+
+function vip () {
+    SIGNALQUEUE_RUNMODE=SQ_SYNC \
+        ${INSTANCE_BIN}/ipython \
+            --no-confirm-exit --color-info \
+            --nosep --pprint \
+                $INSTANCE_BPYTHON_SETTINGS
 }
 
 function vj () {

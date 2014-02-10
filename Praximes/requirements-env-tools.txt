@@ -1,0 +1,16 @@
+
+watchdog
+setproctitle
+supervisor
+superlance
+honcho
+
+ipython
+bpython
+httpie
+
+yolk
+nose
+xerox
+
+FullContact.py

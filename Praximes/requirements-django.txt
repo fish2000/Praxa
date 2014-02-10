@@ -1,3 +1,4 @@
+
 django-tagging
 django-delegate
 #django-docfield-couchdb
@@ -6,25 +7,23 @@ django-delegate
 #django-toolbelt
 #django-countries
 #django-shapes
+
 django-memcached
 django-supervisor
 #django-jquery-widgets
 #django-bootstrap-admin
 django-admin-bootstrapped
+
 #django-nose
 django-haystack
 django-autoslug
 django-autoslug-field
 django-uuidfield
-django-multifilefield
+#django-multifilefield
+django-modeldict
 django-appconf
 django-postgrespool
 
-requests
-requests-oauthlib
-oauthlib
-oauth2
 south
 python-twitter
 twitter-text-python
-#nltk

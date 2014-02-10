@@ -7,6 +7,7 @@ mkdir -p ./etc
 mkdir -p ./var
 mkdir -p ./var/logs
 mkdir -p ./instance
+mkdir -p ${IPYTHONDIR}
 mkdir -p ${INSTANCE_VARIANT_DATA}
 mkdir -p ${INSTANCE_VARIANT_DATA}/redis
 mkdir -p ${INSTANCE_VARIANT_DATA}/postgresql

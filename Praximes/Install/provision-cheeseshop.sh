@@ -7,13 +7,25 @@ echo ""
 echo "+ Installing Django ${DJANGO_VERSION} ..."
 ${VIRTUAL_ENV}/bin/pip install -U django==$DJANGO_VERSION
 
-# echo ""
-# echo "+ Installing Cython ..."
-# ${VIRTUAL_ENV}/bin/pip install -U Cython
+echo ""
+echo "+ Installing Cython ..."
+${VIRTUAL_ENV}/bin/pip install -U Cython
+
+echo ""
+echo "+ Installing numpy ..."
+${VIRTUAL_ENV}/bin/pip install -U numpy
+
+echo ""
+echo "+ Installing virtualenv utilities ..."
+${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-env-tools.txt
 
 echo ""
 echo "+ Installing web utilities ..."
 ${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-web-tools.txt
+
+echo ""
+echo "+ Installing MATH POWER:"
+${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/requirements-math.txt
 
 echo ""
 echo "+ Installing PIL/Pillow and related packages ..."
