@@ -1,10 +1,13 @@
 .DS_Store
 .password
+*.pyc
 */
 !Praximes/
 !Install/
 !Library/
 !Python/
+!praxa-cli
+!praxa
 !Praximes/Install/*
 !Praximes/Library/*
 !Praximes/Python/*
@@ -15,3 +18,4 @@ hook.log
 hook.log.*
 !pre*
 !post*
+!*.py
