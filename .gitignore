@@ -2,10 +2,12 @@
 .password
 */
 !Praximes/
-!Library/
 !Install/
-!Praximes/Library/*
+!Library/
+!Python/
 !Praximes/Install/*
+!Praximes/Library/*
+!Praximes/Python/*
 !Templates/
 PipCache/*
 */PipCache/*
