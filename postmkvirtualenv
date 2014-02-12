@@ -3,19 +3,19 @@
 source "${WORKON_HOME}/env_preinit"
 
 # CREATE INSTANCE FILESYSTEM LAYOUT
-install_praxon "create-instance-filesystem"
+install_praxon "create-venv-filesystem"
 
 # PROVISION VIRON
 install_praxon "provision-viron"
 
 # WRITE THE PASSWORD
-install_praxon "password-write"
+install_praxon "write-password"
 
 # PIP-INSTALL EVERYTHING
-install_praxon "provision-cheeseshop"
+install_praxon "provision-cheeseshop-venv"
 
 # INSTALL SOLR
-install_praxon "provision-solr-instance"
+install_praxon "provision-solr-venv"
 
 # PROJECT-LOCAL OPENCV
 #install_praxon "provision-opencv-venv"
@@ -25,13 +25,13 @@ install_praxon "provision-solr-instance"
 #install_praxon "provision-nodejs-venv"
 
 # PRE-TEMPLATE FILES
-install_praxon "project-template-preinit"
+install_praxon "setup-instance-template-preinit"
 
 # GENERATE PROJECT TEMPLATE
-install_praxon "project-template"
+install_praxon "setup-instance-template"
 
 # POST-TEMPLATE FILES
-install_praxon "project-template-postinit"
+install_praxon "setup-instance-template-postinit"
 
 # GET RID OF THIS SHIT
 echo "+ Trashing installation artifacts ..."
@@ -40,17 +40,17 @@ vremove restkit
 vremove socketpool
 
 # CONFIGURE DEV-ENVIRONMENT FUNCTIONS
-load_praxon "88-postinit"
+load_praxon "venv-functions"
 
 # INITIALIZE ALL THE DJANGO THINGS
-install_praxon "initialize-django-instance"
+install_praxon "setup-instance-django-db"
 
 # SCHEMATIZE SOLR (using django-haystack)
 # AND LINK XML CONFIGS INTO etc/
-install_praxon "create-solr-schema-and-etc-links"
+install_praxon "make-solr-etc-files"
 
 echo "+ Cleaning up ..." # LIES!!
 
 # SET UP GIT
-install_praxon "initialize-venv-git-repo"
+install_praxon "initialize-git-repo"
 

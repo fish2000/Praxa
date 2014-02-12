@@ -143,16 +143,18 @@ def _args_to_workon_command(venv, *cmdargs):
 @named('exec')
 @command
 def vexec(venv=None, *cmd):
-    import commands
+    import subprocess
     if venv is None:
         venv = getenv("INSTANCE_NAME")
     
     if venv == getenv("INSTANCE_NAME"):
-        commands.getoutput(u" ".join(cmd))
+        subprocess.call(cmd)
         return
     
-    print(commands.getoutput(
-        _args_to_workon_command(venv, *cmd)))
+    print(subprocess.call([
+        '/usr/local/bin/bash', '--login', '-c',
+        _args_to_workon_command(venv, *cmd)
+    ]))
     return
 
 def main(*argv):
@@ -161,11 +163,11 @@ def main(*argv):
     parser = ArghParser()
     parser.add_commands([dump, load], namespace="env",
         title="Environment Manipulation")
-    parser.add_commands([vexec])
+    parser.add_commands([vexec]) # the default
     
-    # if len(arguments):
-        # if arguments[0] not in ('dump', 'load', 'exec'):
-            # arguments.insert(0, 'exec')
+    if len(arguments):
+        if arguments[0] not in ('dump', 'load', 'exec'):
+            arguments.insert(0, 'exec')
     
     parser.dispatch(argv=arguments)
     return 0
@@ -174,4 +176,4 @@ if __name__ == '__main__':
     # import sys
     # sys.exit(main(*sys.argv[1:]))
     # main('--venv', 'TESSAR', 'ls', '-la')
-    main('exec', '--venv', 'TESSAR', '"ls -la"')
+    main('--venv', 'TESSAR', 'ls', '..')

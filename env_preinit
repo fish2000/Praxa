@@ -69,9 +69,9 @@ function vremove () {
     is_dir "${VIRTUAL_ENV}/${1:?pathname expected}" && rm -rf "${VIRTUAL_ENV}/${1}"
 }
 
-# prepare download bash funcs
-load_praxon "01-download"
-load_praxon "02-urlcache"
+# prepare bash funcs for download/install praxons 
+load_praxon "download"
+load_praxon "urlcache"
 
 # These may be referencing things that do not yet exist
 export DJANGO_VERSION="1.6.2"
