@@ -2,5 +2,5 @@
 # This hook is run before every virtualenv is deactivated.
 source "${WORKON_HOME}/env_preinit"
 
-# CLEAR OUT GREMLINS (e.g. ".DS_Store")
-install_praxon "clear-filesystem-gremlins"
+# CLEAN OUT THE GREMLINS (e.g. ".DS_Store")
+load_praxon "clean-filesystem"
