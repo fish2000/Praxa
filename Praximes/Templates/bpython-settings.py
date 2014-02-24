@@ -4,9 +4,8 @@ import time
 t1 = time.time()
 
 ## setup django
-from django.core.management import setup_environ
-import ${INSTANCE_SAFE_NAME}.settings
-setup_environ(${INSTANCE_SAFE_NAME}.settings)
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', '${INSTANCE_SAFE_NAME}.settings')
 
 from django.conf import settings
 from django.contrib.auth.models import User
