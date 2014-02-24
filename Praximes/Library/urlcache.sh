@@ -64,7 +64,8 @@ fetch_and_expand () {
     url_basename="$(basename ${url})"
     url_suffix="${url_basename#*.}"
     destination_directory="${2:-${url_basename%%.*}}"
-    tmp_directory="$(mktemp -d -t `basename "$destination_directory"`)"
+    #tmp_directory="$(mktemp -d -t `basename "$destination_directory"`)"
+    tmp_directory="$(mktemp -d)"
     tmp_archive="${tmp_directory}/${url_basename}"
     fetch_from_cache_to $url $tmp_archive || return 1
     [[ ${url_suffix,,} == *zip ]] \
