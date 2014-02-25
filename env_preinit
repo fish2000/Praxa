@@ -15,6 +15,13 @@ export VENV=$VIRTUAL_ENV
 export INSTANCE="${VIRTUAL_ENV}/instance"
 export LOCAL="${VIRTUAL_ENV}/local"
 
+# these strings operates like lambda functions --
+# you use them like so: `if [[ DEPLOYED ]]; then` ...
+# the string comparison's evaluated truthiness yields
+# the properly bash-ist return value, in your context.
+export DEPLOYED="eval [[ ${HOSTNAME,,} != *local ]]"
+export SUPERUSER="eval [[ ${USER,,} == root ]]"
+
 export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | sed -e s/[^A-Za-z0-9]/_/g`
 export INSTANCE_SAFE_NAME=${INSTANCE_NAME,,} # two commas = lowercase
 export INSTANCE_SRC=`echo "$(basename ${VIRTUAL_ENV})"`
@@ -73,18 +80,45 @@ function vremove () {
 load_praxon "download"
 load_praxon "urlcache"
 
-# These may be referencing things that do not yet exist
+# We don't create separate '-deploy' versions of Django settings or admin scripts --
+# conditional deployment logic is DRYer if implemented in Python, as needed
+# NB. DJANGO_* variables may be referencing things that do not yet exist
 export DJANGO_VERSION="1.6.2"
 export DJANGO_SETTINGS_MODULE="settings" # NOT A MADE UP VARIABLE
 export DJANGO_ADMIN="${INSTANCE_BIN}/django-admin.py"
 export DJANGO_ADMINSITE_USER="admin"
 
-export SUPERVISORD_CONF="${INSTANCE_ADNAUSEUM}/supervisord.conf"
+# These are set whenever env_preinit is evaluated, to prepare the `vrun` func.
+if [[ $DEPLOYED ]]; then
+    export SUPERVISORD_CONF="${INSTANCE_ADNAUSEUM}/supervisord-deploy.conf"
+    export UWSGI_INI="${INSTANCE_ADNAUSEUM}/uwsgi-deploy.ini"
+    export INSTANCE_REDIS_CONF="${INSTANCE_ADNAUSEUM}/redis-deploy.conf"
+else
+    export SUPERVISORD_CONF="${INSTANCE_ADNAUSEUM}/supervisord.conf"
+    export UWSGI_INI="${INSTANCE_ADNAUSEUM}/uwsgi.ini"
+    export INSTANCE_REDIS_CONF="${INSTANCE_ADNAUSEUM}/redis.conf"
+fi
+
+# Procfile is symlinked to the appropriate file during the Praxa instance build,
+# see 
+export PROCFILE_DEVELOP="${VIRTUAL_ENV}/Procfile.develop"
+export PROCFILE_DEPLOY="${VIRTUAL_ENV}/Procfile.deploy"
+export PROCFILE="${VIRTUAL_ENV}/Procfile"
+
+# We then always set SUPERVISORD_DEPLOY_CONF and friends --
+# used for both preparing instance templates and for development maintenance praxons
+export SUPERVISORD_DEPLOY_CONF="${INSTANCE_ADNAUSEUM}/supervisord-deploy.conf"
+export UWSGI_DEPLOY_INI="${INSTANCE_ADNAUSEUM}/uwsgi-deploy.ini"
+export INSTANCE_REDIS_DEPLOY_CONF="${INSTANCE_ADNAUSEUM}/redis-deploy.conf"
+
+# And now, these values conditionally depend on whether we are deployed
+# ... they are strings that are evaluated by the relevant v* funcs,
+# see the `venv-functions` library praxon for the definitions.
 export SUPERVISORD="${INSTANCE_BIN}/supervisord -n -c ${SUPERVISORD_CONF}"
 export SUPERVISORCTL="${INSTANCE_BIN}/supervisorctl -c ${SUPERVISORD_CONF}"
 
 export PRAXON_TEMPLATES="${PRAXIME_BASE}/Templates"
-export TEMPLATES=$PRAXON_TEMPLATES
+export TEMPLATES=$PRAXON_TEMPLATES # this is sugar
 
 # we may not install Solr, but these will be defined nonetheless
 # (... maybe don't do that?)
@@ -96,9 +130,8 @@ export SOLR_STOPWORDS="${SOLR_CONF}/stopwords.txt"
 export SOLR_STOPWORDS_EN="${SOLR_CONF}/stopwords_en.txt"
 export SOLR_LIRE_SCHEMA_PATCH="${INSTANCE_ADNAUSEUM}/solr-lire-schema-fields.patch"
 
-export PROCFILE="${VIRTUAL_ENV}/Procfile"
 export MAKEFILE="${VIRTUAL_ENV}/Makefile"
 export HONCHO="${INSTANCE_BIN}/honcho -f ${PROCFILE}"
-export INSTANCE_REDIS_CONF="${INSTANCE_ADNAUSEUM}/redis.conf"
 export INSTANCE_BPYTHON_SETTINGS="${INSTANCE_ADNAUSEUM}/bpython-settings.py"
 export IPYTHONDIR="${INSTANCE_ADNAUSEUM}/ipython" # NOT A MADE UP VARIABLE
+export README="${VIRTUAL_ENV}/README.md"
