@@ -24,6 +24,8 @@ stdout
 .dropbox
 npm-debug.log
 
+Procfile
+
 bin/
 !local/bin/
 build/

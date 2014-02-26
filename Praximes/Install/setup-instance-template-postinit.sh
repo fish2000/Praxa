@@ -25,6 +25,12 @@ echo "+ Setting up redis.conf and redis-deploy.conf ..."
 bin/viron ${TEMPLATES}/redis.conf > $INSTANCE_REDIS_CONF
 bin/viron ${TEMPLATES}/redis.conf > $INSTANCE_REDIS_DEPLOY_CONF
 
+echo "+ Preparing deploy template for ${INSTANCE_NAME}.nginx.conf"
+bin/viron ${TEMPLATES}/nginx.conf > ${INSTANCE_ADNAUSEUM}/${INSTANCE_NAME}.nginx.conf
+
+echo "+ Preparing deploy template for ${INSTANCE_NAME}.supervisord-init.sh"
+bin/viron ${TEMPLATES}/supervisord-init.sh > ${INSTANCE_ADNAUSEUM}/${INSTANCE_NAME}.supervisord-init.sh
+
 echo "+ Preparing the executable Django admin script ..."
 DJANGO_ROOT=`bin/python -c "import django,os;print os.path.dirname(django.__file__)"`
 DJANGO_ADMIN_SCRIPT="${DJANGO_ROOT}/bin/django-admin.py"

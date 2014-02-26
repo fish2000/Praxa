@@ -1,6 +1,10 @@
 # Django settings for the $INSTANCE_NAME project.
 
-DEBUG = True
+import platform
+BASE_HOSTNAME = platform.node().lower()
+DEPLOYED = not BASE_HOSTNAME.endswith('.local')
+
+DEBUG = not DEPLOYED
 TEMPLATE_DEBUG = DEBUG
 ADMINS = ()
 MANAGERS = ADMINS
@@ -19,21 +23,23 @@ DATABASES = {
     }
 }
 
+memcache = {
+    'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+    'LOCATION': virtualpath('var', 'run', 'memcached.sock'),
+    'KEY_PREFIX': '${INSTANCE_SAFE_NAME}' }
+
+localmemory = {
+    'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    'LOCATION': '${INSTANCE_SAFE_NAME}' }
+
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
-        'LOCATION': '${INSTANCE_RUN}/memcached.sock',
-        'KEY_PREFIX': '${INSTANCE_NAME}-',
-    },
-    'localmemory': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'PRAXA-',
-    },
+    'default': DEPLOYED and memcache or localmemory
 }
 
-CACHE_MIDDLEWARE_SECONDS = 60
-CACHE_MIDDLEWARE_KEY_PREFIX = "${INSTANCE_NAME}-cache"
-SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+if DEPLOYED:
+    CACHE_MIDDLEWARE_SECONDS = 60
+    CACHE_MIDDLEWARE_KEY_PREFIX = "${INSTANCE_SAFE_NAME}_cache"
+    SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 
 TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'en-us'
@@ -63,7 +69,9 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.eggs.Loader',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = DEPLOYED and (
+    # Caching is enabled.
+    # N.B. The order of these matters, evidently
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -73,6 +81,14 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+) or (
+    # Caching is disabled.
+    'django.middleware.gzip.GZipMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -162,7 +178,7 @@ SQ_QUEUES = {
     #    'ENGINE': 'signalqueue.worker.backends.RedisSetQueue',
     #    'INTERVAL': 30, # 1/3 sec
     #    'OPTIONS': dict(
-    #        port=0, unix_socket_path="${INSTANCE_RUN}/redis.sock"),
+    #        port=0, unix_socket_path=virtualpath('var', 'run', "/redis.sock")),
     #},
 }
 
