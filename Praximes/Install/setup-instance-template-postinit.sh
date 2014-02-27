@@ -38,9 +38,3 @@ chmod +x $DJANGO_ADMIN_SCRIPT
 chmod g+x $DJANGO_ADMIN_SCRIPT
 export DJANGO_ADMIN="${INSTANCE_BIN}/$(basename $DJANGO_ADMIN_SCRIPT)"
 test ! -r $DJANGO_ADMIN && ln -s $DJANGO_ADMIN_SCRIPT $DJANGO_ADMIN
-
-echo "+ Preparing README.md stub ..."
-# This next bit here is how bash does markdown
-export INSTANCE_H1=`echo $INSTANCE_NAME | sed -e s/[A-Za-z0-9_-]/=/g`
-export YEAR=`date '+%Y'`
-bin/viron ${TEMPLATES}/README.stub.md > $README

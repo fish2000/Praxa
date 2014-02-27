@@ -6,11 +6,13 @@
 !Install/
 !Library/
 !Python/
+!Requirements/
 !praxa-cli
 !praxa
 !Praximes/Install/*
 !Praximes/Library/*
 !Praximes/Python/*
+!Praximes/Requirements/*
 !Templates/
 PipCache/*
 */PipCache/*
