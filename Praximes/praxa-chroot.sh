@@ -1,20 +1,26 @@
 #!/usr/bin/env bash
 # N.B. turn this into a makefile
 
-export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python # real variable (virtualenvwrapper)
-export PIP_RESPECT_VIRTUALENV=true # real variable (pip)
-export WORKON_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "/Users/fish/Praxa/env.sh"
 export WORKON_DEST="/usr/local/Praxa" # real variable (virtualenvwrapper)
+ 
+# export PRAXON_INSTALL="${PRAXIME_BASE}/Install"
+# export PRAXON_LIBRARY="${PRAXIME_BASE}/Library"
+# export PRAXON_REQUIREMENTS="${PRAXIME_BASE}/Requirements"
+# export PRAXON_TEMPLATES="${PRAXIME_BASE}/Templates"
+ 
+# function load_praxon () {
+#     source "${PRAXIME_BASE}/${1:?praxtype expected}/${2:?praxon expected}.sh"
+# } 
 
-export PRAXIME_BASE="${WORKON_HOME}/Praximes" # but a dream
-export PIP_DOWNLOAD_CACHE="${PRAXIME_BASE}/PipCache" # real variable
-export PRAXA_DOWNLOAD_CACHE="${PRAXIME_BASE}/PraxaCache" # but a dream
-export PRAXON_INSTALL="${PRAXIME_BASE}/Install"
-export PRAXON_LIBRARY="${PRAXIME_BASE}/Library"
-export PRAXON_REQUIREMENTS="${PRAXIME_BASE}/Requirements"
-export PRAXON_TEMPLATES="${PRAXIME_BASE}/Templates"
+if [[ -d $WORKON_DEST ]]; then
+    cd "${WORKON_DEST}/.." && rm -rf $WORKON_DEST
+fi
 
-function load_praxon () {
-    source "${PRAXIME_BASE}/${1:?praxtype expected}/${2:?praxon expected}.sh"
-}
+mkdir -p $WORKON_DEST
 
+if [[ -x `which ditto` ]]; then
+    ditto -V $WORKON_HOME $WORKON_DEST | grep -v "bytes for"
+else
+    cp -a -v $WORKON_HOME/ $WORKON_DEST
+fi
