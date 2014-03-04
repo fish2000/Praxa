@@ -14,6 +14,7 @@
 !Praximes/Python/*
 !Praximes/Requirements/*
 !Templates/
+!EnvHooks/
 PipCache/*
 */PipCache/*
 hook.log

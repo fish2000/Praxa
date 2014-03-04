@@ -29,8 +29,7 @@ expand_tarball_to () {
 expand_zipwad_to () {
     in_zipwad="${1:?zipwad expected}"
     out_directory="${2:?pathname expected}"
-    #tmp_directory="$(mktemp -d -t `basename "$in_zipwad" | sed -e "s#.zip##"`)"
-    tmp_directory="$(mktemp -d)"
+    tmp_directory="$(mktemp -d -t XXXXX)"
     [[ ! -r $in_zipwad ]] && echo "- Can't read zipwad: ${in_zipwad}" && return 1
     [[ -d $out_directory ]] && rm -rf $out_directory
     echo "+ Unzipping zipwad: $(basename ${in_zipwad})"
@@ -51,8 +50,7 @@ download_and_expand () {
     url_basename="$(basename ${url})"
     url_suffix="${url_basename#*.}"
     destination_directory="${2:-${url_basename%%.*}}"
-    #tmp_directory="$(mktemp -d -t `basename "$destination_directory"`)"
-    tmp_directory="$(mktemp -d)"
+    tmp_directory="$(mktemp -d -t XXXXX)"
     tmp_archive="${tmp_directory}/${url_basename}"
     download_to $url $tmp_archive || return 1
     [[ ${url_suffix,,} == *zip ]] \

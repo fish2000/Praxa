@@ -19,8 +19,8 @@ export LOCAL="${VIRTUAL_ENV}/local"
 # you use them like so: `if [[ DEPLOYED ]]; then` ...
 # the string comparison's evaluated truthiness yields
 # the properly bash-ist return value, in your context.
-export DEPLOYED="eval [[ ${HOSTNAME,,} != *local ]]"
-export SUPERUSER="eval [[ ${USER,,} == root ]]"
+export DEPLOYED="[[ ${HOSTNAME,,} != *local ]]"
+export SUPERUSER="[[ ${USER,,} == root ]]"
 
 export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | sed -e s/[^A-Za-z0-9]/_/g`
 export INSTANCE_SAFE_NAME=${INSTANCE_NAME,,} # two commas = lowercase

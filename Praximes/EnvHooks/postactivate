@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # This hook is run after every virtualenv is activated.
-source "${WORKON_HOME}/env_preinit"
+source "${VIRTUALENVWRAPPER_HOOK_DIR}/env_preinit"
 
 # CLEAR OUT GREMLINS (e.g. ".DS_Store")
 load_praxon "clean-filesystem"

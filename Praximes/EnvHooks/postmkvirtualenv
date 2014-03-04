@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # This hook is run after a new virtualenv is activated.
-source "${WORKON_HOME}/env_preinit"
+source "${VIRTUALENVWRAPPER_HOOK_DIR}/env_preinit"
 
 # CREATE INSTANCE FILESYSTEM LAYOUT
 install_praxon "create-venv-filesystem"
