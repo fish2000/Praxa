@@ -12,7 +12,7 @@ bin/viron ${TEMPLATES}/uwsgi.ini > $UWSGI_DEPLOY_INI
 echo "+ Setting up development and deployment Procfiles ..."
 bin/viron ${TEMPLATES}/Procfile > $PROCFILE_DEVELOP
 bin/viron ${TEMPLATES}/Procfile > $PROCFILE_DEPLOY
-if [[ $DEPLOYED ]]; then
+if DEPLOYED; then
     ln -s $PROCFILE_DEPLOY $PROCFILE
 else
     ln -s $PROCFILE_DEVELOP $PROCFILE

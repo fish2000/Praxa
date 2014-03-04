@@ -15,12 +15,19 @@ export VENV=$VIRTUAL_ENV
 export INSTANCE="${VIRTUAL_ENV}/instance"
 export LOCAL="${VIRTUAL_ENV}/local"
 
-# these strings operate like lambda functions --
-# you use them like so: `if [[ DEPLOYED ]]; then` ...
-# the string comparison's evaluated truthiness yields
-# the properly bash-ist return value, in your context.
-export DEPLOYED="[[ ${HOSTNAME,,} != *local ]]"
-export SUPERUSER="[[ ${USER,,} == root ]]"
+function DEPLOYED () {
+    if [[ ${HOSTNAME,,} != *local ]]; then
+        return 0
+    fi
+    return 1
+}
+
+function SUPERUSER () {
+    if [[ ${USER,,} == root ]]; then
+        return 0
+    fi
+    return 1
+}
 
 export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | sed -e s/[^A-Za-z0-9]/_/g`
 export INSTANCE_SAFE_NAME=${INSTANCE_NAME,,} # two commas = lowercase
@@ -90,7 +97,7 @@ export DJANGO_ADMIN="${INSTANCE_BIN}/django-admin.py"
 export DJANGO_ADMINSITE_USER="admin"
 
 # These are set whenever env_preinit is evaluated, to prepare the `vrun` func.
-if [[ $DEPLOYED ]]; then
+if DEPLOYED; then
     export SUPERVISORD_CONF="${INSTANCE_ADNAUSEUM}/supervisord-deploy.conf"
     export UWSGI_INI="${INSTANCE_ADNAUSEUM}/uwsgi-deploy.ini"
     export INSTANCE_REDIS_CONF="${INSTANCE_ADNAUSEUM}/redis-deploy.conf"
