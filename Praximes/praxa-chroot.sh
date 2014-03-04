@@ -2,6 +2,7 @@
 # N.B. turn this into a makefile
 
 source "/Users/fish/Praxa/env.sh"
+export WORKON_SRC="/Users/fish/Praxa"
 export WORKON_DEST="/usr/local/Praxa" # real variable (virtualenvwrapper)
  
 # export PRAXON_INSTALL="${PRAXIME_BASE}/Install"
@@ -24,3 +25,6 @@ if [[ -x `which ditto` ]]; then
 else
     cp -a -v $WORKON_HOME/ $WORKON_DEST
 fi
+
+find $WORKON_DEST -type f -print -exec sed -i '~' -E -e 's#${WORKON_SRC}#${WORKON_DEST}#' {} +
+#find $WORKON_DEST -name "\*~" -print -delete
