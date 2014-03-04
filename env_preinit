@@ -15,7 +15,7 @@ export VENV=$VIRTUAL_ENV
 export INSTANCE="${VIRTUAL_ENV}/instance"
 export LOCAL="${VIRTUAL_ENV}/local"
 
-# these strings operates like lambda functions --
+# these strings operate like lambda functions --
 # you use them like so: `if [[ DEPLOYED ]]; then` ...
 # the string comparison's evaluated truthiness yields
 # the properly bash-ist return value, in your context.
