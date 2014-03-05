@@ -7,7 +7,7 @@ export VIRTUALENVWRAPPER_VIRTUALENV="/usr/local/bin/virtualenv" # real variable 
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages' # real variable (virtualenvwrapper)
 export VIRTUALENVWRAPPER_SCRIPT="/usr/local/bin/virtualenvwrapper.sh" # real variable (virtualenvwrapper)
 
-export WORKON_HOME="$(cd "$( dirname "${BASH_SOURCE[0]}")" && pwd)" # real variable (virtualenvwrapper)
+export WORKON_HOME=$(cd $(dirname ${BASH_SOURCE[0]}) && pwd) # real variable (virtualenvwrapper)
 export PROJECT_HOME="${WORKON_HOME}/Projects" # real variable (virtualenvwrapper)
 export PRAXIME_BASE="${WORKON_HOME}/Praximes" # but a dream
 export PRAXA_DOWNLOAD_CACHE="${PRAXIME_BASE}/PraxaCache" # but a dream
