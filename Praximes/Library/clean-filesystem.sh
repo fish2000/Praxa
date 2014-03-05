@@ -2,4 +2,4 @@
 
 cd $VIRTUAL_ENV
 echo "+ Clearing filesystem gremlins..."
-find $VIRTUAL_ENV -iname ".DS_Store" -print -delete
+DEPLOYED || find $VIRTUAL_ENV -iname ".DS_Store" -print -delete
