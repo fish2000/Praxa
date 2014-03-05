@@ -109,8 +109,8 @@ fi
 
 # Procfile is symlinked to the appropriate file during the Praxa instance build,
 # see 
-export PROCFILE_DEVELOP="${VIRTUAL_ENV}/Procfile.develop"
-export PROCFILE_DEPLOY="${VIRTUAL_ENV}/Procfile.deploy"
+export PROCFILE_DEVELOP="${INSTANCE_ADNAUSEUM}/Procfile.develop"
+export PROCFILE_DEPLOY="${INSTANCE_ADNAUSEUM}/Procfile.deploy"
 export PROCFILE="${VIRTUAL_ENV}/Procfile"
 
 # We then always set SUPERVISORD_DEPLOY_CONF and friends --
