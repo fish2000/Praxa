@@ -44,11 +44,11 @@ if [[ -x ${INSTANCE_BIN}/node ]]; then
     #bin/viron ${TEMPLATES}/npm-package.json > ${NODECODE}/package.json
     #${INSTANCE_BIN}/npm update
     
-    cd $NODECODE
-    echo "Initializing instance javascript scaffolding via Grunt"
-    grunt-init ${NODE_GRUNT_TEMPLATE}
+    #cd $NODECODE
+    #echo "Initializing instance javascript scaffolding via Grunt"
+    #grunt-init ${NODE_GRUNT_TEMPLATE}
     
-    cd ${VIRTUAL_ENV}
+    #cd ${VIRTUAL_ENV}
     
 else
     echo "- WARNING: no node executeable found in ${INSTANCE_BIN}"
