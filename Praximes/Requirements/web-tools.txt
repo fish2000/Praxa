@@ -1,7 +1,7 @@
 
 #decorator
-#greenlet
-#eventlet
+greenlet
+eventlet
 pylibmc
 
 #boto
@@ -11,7 +11,7 @@ pylibmc
 #tornado
 #Werkzeug
 gunicorn
-#uWSGI
+uWSGI
 
 psycopg2
 redis

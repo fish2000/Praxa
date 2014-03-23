@@ -2,7 +2,8 @@
 django-tagging
 django-delegate
 #django-docfield-couchdb
-#django-twemoir
+django-twemoir
+#django-signalqueue
 #django-storages
 #django-toolbelt
 #django-countries
@@ -16,15 +17,15 @@ django-admin-bootstrapped
 #django-nose
 django-haystack
 #django-autoslug
-#django-uuidfield
+django-uuidfield
 #django-multifilefield
 #django-modeldict
-django-tablib
+#django-tablib
 django-appconf
 django-postgrespool
 south
 
-#python-openid
-#python-twitter
-#twitter-text-python
-#tweepy
+python-openid
+python-twitter
+twitter-text-python
+tweepy

@@ -1,0 +1,25 @@
+{
+    "name": "${INSTANCE_NAME}",
+    "description": "${INSTANCE_NAME} (Praxa-generated grunt-node project)",
+    "version": "0.1.0",
+    "main": "index.js",
+    "scripts": {
+        "test": "grunt nodeunit"
+    },
+    "repository": {
+        "type": "git",
+        "url": "${REPO_GUESS}"
+    },
+    "keywords": ["${INSTANCE_SAFE_NAME}","praxon"],
+    "author": "${USER_NAME}",
+    "license": "ISC",
+    "bugs": {
+        "url": "${HOMEPAGE_GUESS}/issues"
+    },
+    "homepage": "${HOMEPAGE_GUESS}",
+    
+    "dependencies": {
+        "grunt": ">= 0.4.4",
+        "grunt-init": ">= 0.3.1"
+    }
+}

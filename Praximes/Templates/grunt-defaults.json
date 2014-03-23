@@ -1,0 +1,17 @@
+{
+    "name": "${INSTANCE_NAME}",
+    "description": "${INSTANCE_NAME} (Praxa-generated grunt-node project)",
+    "version": "0.1.0",
+    "repository": "${REPO_GUESS}",
+    "homepage": "${HOMEPAGE_GUESS}",
+    "bugs": "",
+    "licenses": "",
+    "author": "${USER_NAME}",
+    "author_name": "${USER_NAME}",
+    "author_email": "${USER_EMAIL}",
+    "author_url": "${USER_URL}",
+    "node_version": ">= ${NODE_VERSION}",
+    "main": "index.js",
+    "npm_test": "grunt nodeunit",
+    "travis": "n"
+}

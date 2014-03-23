@@ -22,7 +22,7 @@ install_praxon "provision-solr-venv"
 
 # PROJECT-LOCAL NODEJS
 # NB. cache the `nodeenv` download if possibe
-#install_praxon "provision-nodejs-venv"
+install_praxon "provision-nodejs-venv"
 
 # PRE-TEMPLATE FILES
 install_praxon "setup-instance-template-preinit"

@@ -13,6 +13,7 @@ ${VIRTUAL_ENV}:\
 
 export VENV=$VIRTUAL_ENV
 export INSTANCE="${VIRTUAL_ENV}/instance"
+export NODECODE="${VIRTUAL_ENV}/nodecode"
 export LOCAL="${VIRTUAL_ENV}/local"
 
 function DEPLOYED () {
@@ -54,6 +55,11 @@ export LOCAL_INCLUDE="${LOCAL}/include"
 export LOCAL_PYTHON="${LOCAL_LIB}/python${PYTHON_NUMBER}"
 export LOCAL_PYTHON_SITE="${LOCAL_PYTHON}/site-packages"
 
+export NODE_MODULES_DIRECTORY="${INSTANCE_LIB}/node_modules"
+export NODE_GRUNT_TEMPLATE="${LOCAL_LIB}/grunt-init-template"
+export NODECODE_MODULES="${NODECODE}/node_modules"
+export NODECODE_BIN="${NODECODE_MODULES}/.bin"
+
 export PYTHONPATH="\
 ${LOCAL_PYTHON_SITE}:\
 ${INSTANCE_MODULE}:\
@@ -62,9 +68,15 @@ ${INSTANCE_PYTHON_SITE}:\
 ${VIRTUAL_ENV}:\
 ."
 
+export NODE_PATH="\
+${NODECODE_MODULES}:\
+${NODE_MODULES_DIRECTORY}:\
+."
+
 export PATH="\
 ${LOCAL_BIN}:\
 ${INSTANCE_BIN}:\
+${NODECODE_BIN}:\
 ${__PATH__}:\
 ."
 

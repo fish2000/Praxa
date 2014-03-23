@@ -1,5 +1,5 @@
 """
-WSGI config for base project.
+WSGI config for ${INSTANCE_NAME}.
 
 This module contains the WSGI application used by Django's development server
 and any production WSGI deployments. It should expose a module-level variable
