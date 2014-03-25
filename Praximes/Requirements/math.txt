@@ -2,7 +2,7 @@
 #h5py
 #tables # won't install without numexpr already installed
 #scipy
-imread
+#imread
 #mahotas
 #pandas
 
@@ -10,4 +10,4 @@ imread
 #scikit-image
 #scikit-learn
 #matplotlib
-nltk
+#nltk

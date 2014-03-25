@@ -5,7 +5,7 @@ supervisor
 #superlance
 honcho
 
-ipython
+#ipython
 bpython
 httpie
 

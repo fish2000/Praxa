@@ -8,7 +8,7 @@ pylibmc
 #python-amazon-simple-product-api
 #python-amazon-product-api
 
-#tornado
+tornado
 #Werkzeug
 gunicorn
 uWSGI
@@ -21,11 +21,11 @@ pysolr
 
 #fake-useragent
 requests
-#requests-oauthlib
-#oauthlib
-#oauth2
-httplib2
-urllib3
+requests-oauthlib
+oauthlib
+oauth2
+#httplib2
+#urllib3
 #pycurl
 
 #BeautifulSoup
@@ -35,5 +35,5 @@ beautifulsoup4
 simplejson
 ujson
 #yajl
-tablib
-pyyaml
+#tablib
+#pyyaml

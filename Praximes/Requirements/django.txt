@@ -29,3 +29,8 @@ python-openid
 python-twitter
 twitter-text-python
 tweepy
+
+sockjs-tornado
+django-sockjs-tornado
+django-social-auth
+django-ios-notifications
