@@ -28,16 +28,20 @@ Procfile
 
 bin/
 !local/bin/
+local/bin/redis-*
+local/bin/memcached
 build/
 dist/
 etc/ipython/
 sdist/
 include/
+local/include/
 lib/
-!local/lib/
-local/lib/solr/
+local/lib/
+!local/lib/python2.7/
 man/
 share/
+l
 src/
 var/cache/
 var/logs/

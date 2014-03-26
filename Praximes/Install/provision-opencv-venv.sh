@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 cd $VIRTUAL_ENV
-echo "+ Installing NumPy ..."
+echo "+ Installing NumPy"
 bin/pip install -U numpy
 
 
 cd $INSTANCE_VARIANT
 echo ""
-echo "+ Installing OpenCV ..."
+echo "+ Installing OpenCV"
 OPENCV_VERSION="2.4.8"
 OPENCV_DIRNAME="opencv-${OPENCV_VERSION}"
 OPENCV_ZIPNAME="${OPENCV_DIRNAME}.zip"
@@ -54,5 +54,5 @@ cmake .. \
         make install
 
 cd $INSTANCE_VARIANT
-echo "+ Cleaning up OpenCV build artifacts ..."
+echo "+ Cleaning up OpenCV build artifacts"
 rm -rf $OPENCV_DIRNAME

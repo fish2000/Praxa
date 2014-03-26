@@ -118,8 +118,6 @@ INSTALLED_APPS = (
     'south',
     'gunicorn',
     'imagekit',
-    
-    '${INSTANCE_SAFE_NAME}',
 )
 
 HAYSTACK_CONNECTIONS = {

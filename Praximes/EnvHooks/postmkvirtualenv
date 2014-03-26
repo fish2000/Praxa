@@ -11,18 +11,23 @@ install_praxon "provision-viron"
 # WRITE THE PASSWORD
 install_praxon "write-password"
 
-# PIP-INSTALL EVERYTHING
-install_praxon "provision-cheeseshop-venv"
+# PROJECT-LOCAL REDIS & MEMCACHE SERVERS
+# includes a local installation of libevent
+install_praxon "provision-memcached-venv"
+install_praxon "provision-redis-venv"
 
-# INSTALL SOLR
+# INSTALL SOLR (JAVA)
 install_praxon "provision-solr-venv"
 
-# PROJECT-LOCAL OPENCV
-#install_praxon "provision-opencv-venv"
+# PIP-INSTALL EVERYTHING
+install_praxon "provision-cheeseshop-venv"
 
 # PROJECT-LOCAL NODEJS
 # NB. cache the `nodeenv` download if possibe
 install_praxon "provision-nodejs-venv"
+
+# PROJECT-LOCAL OPENCV
+#install_praxon "provision-opencv-venv"
 
 # PRE-TEMPLATE FILES
 install_praxon "setup-instance-template-preinit"
