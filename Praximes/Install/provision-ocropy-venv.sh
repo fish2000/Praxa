@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# DO YOU KNOW WHAT THIS MEANS
+# IT MEANS THAT THIS DAMNED THING DOESN'T WORK
+
+
 cd $INSTANCE_TMP
 fetch_and_expand http://cairographics.org/releases/py2cairo-1.10.0.tar.bz2 py2cairo
 cd py2cairo
