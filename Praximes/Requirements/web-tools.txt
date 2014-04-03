@@ -8,7 +8,7 @@ pylibmc
 #python-amazon-simple-product-api
 #python-amazon-product-api
 
-tornado
+#tornado
 #Werkzeug
 gunicorn
 uWSGI

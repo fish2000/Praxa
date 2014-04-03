@@ -2,7 +2,7 @@
 django-tagging
 django-delegate
 #django-docfield-couchdb
-django-twemoir
+#django-twemoir
 #django-signalqueue
 #django-storages
 #django-toolbelt
@@ -21,15 +21,16 @@ django-uuidfield
 #django-multifilefield
 #django-modeldict
 #django-tablib
+
 django-appconf
 django-postgrespool
 south
 
-python-openid
-python-twitter
-twitter-text-python
-tweepy
+#python-openid
+#python-twitter
+#twitter-text-python
+#tweepy
 
-sockjs-tornado
-django-social-auth
-django-ios-notifications
+#sockjs-tornado
+#django-social-auth
+#django-ios-notifications
