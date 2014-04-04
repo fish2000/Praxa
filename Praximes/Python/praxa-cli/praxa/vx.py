@@ -33,7 +33,7 @@ def _path_to_tuple(path_var, unique=True):
     if not unique:
         return tuple(path_var.split(PATHSEP))
     
-    # The main deal -- for an explanation of this technique, see also:
+    # The main deal -- for an explanation, see:
     # http://stackoverflow.com/a/480227/298171
     seen = set()
     seen_add = seen.add
@@ -49,20 +49,24 @@ def _current_env_to_dict(env_alt={}):
     env = env_alt or dict(environ)
     return dict(zip(
         env.keys(),
-        map(lambda env_value: PATHSEP in env_value and _path_to_tuple(env_value) or env_value,
+        map(lambda env_value: PATHSEP in env_value \
+                and _path_to_tuple(env_value) \
+                or env_value,
             env.values())))
 
 def _dict_to_env_commands(env_dict, dry_run=False):
     env = dict(zip(
         env_dict.keys(),
-        map(lambda val: type(val) in six.string_types and val or _sequence_to_path(val),
+        map(lambda val: type(val) in six.string_types \
+                and val \
+                or _sequence_to_path(val),
             env_dict.values())))
     return u";\\\n".join(['export %s="%s"' % (k, v) for k, v in env.items()])
 
 
 @arg('--path', '-D', default=None)
 @arg('--pid', '-P', default=None)
-@arg('--with-json', '-J', default=None)
+@arg('--json', '-J', default=None)
 def dump(**kwargs):
     """ Dump environment (or an arbitrary JSON string) out to a file
         with the PID in the name """
@@ -97,7 +101,7 @@ def dump(**kwargs):
 
 @arg('--path', '-D', default=None)
 @arg('--pid', '-P', default=None)
-@arg('--with-json', '-J', default=None)
+@arg('--json', '-J', default=None)
 def load(**kwargs):
     """ Load most recent environment (or an arbitrary JSON string)
         from a previously dumped file -- we expect the PID
@@ -175,5 +179,5 @@ def main(*argv):
 if __name__ == '__main__':
     # import sys
     # sys.exit(main(*sys.argv[1:]))
-    # main('--venv', 'TESSAR', 'ls', '-la')
+    #main('--venv', 'TESSAR', 'ls', '-la')
     main('--venv', 'TESSAR', 'ls', '..')
