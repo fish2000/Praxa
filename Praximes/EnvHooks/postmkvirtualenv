@@ -13,7 +13,7 @@ install_praxon "write-password"
 
 # PROJECT-LOCAL REDIS & MEMCACHE SERVERS
 # includes a local installation of libevent
-install_praxon "provision-memcached-venv"
+#install_praxon "provision-memcached-venv"
 install_praxon "provision-redis-venv"
 
 # INSTALL SOLR (JAVA)
