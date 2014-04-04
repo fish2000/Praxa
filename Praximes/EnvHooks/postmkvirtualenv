@@ -17,17 +17,17 @@ install_praxon "provision-memcached-venv"
 install_praxon "provision-redis-venv"
 
 # INSTALL SOLR (JAVA)
-#install_praxon "provision-solr-venv"
+install_praxon "provision-solr-venv"
 
 # PIP-INSTALL EVERYTHING
 install_praxon "provision-cheeseshop-venv"
 
 # PROJECT-LOCAL NODEJS
 # NB. cache the `nodeenv` download if possibe
-#install_praxon "provision-nodejs-venv"
+install_praxon "provision-nodejs-venv"
 
 # PROJECT-LOCAL OPENCV
-install_praxon "provision-opencv-venv"
+#install_praxon "provision-opencv-venv"
 
 # PRE-TEMPLATE FILES
 install_praxon "setup-instance-template-preinit"
