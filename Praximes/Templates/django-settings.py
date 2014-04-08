@@ -9,6 +9,9 @@ TEMPLATE_DEBUG = DEBUG
 ADMINS = ()
 MANAGERS = ADMINS
 
+if DEPLOYED:
+    ALLOWED_HOSTS = ['*']
+
 import os
 virtualpath = lambda *pths: os.path.join('$VIRTUAL_ENV', *pths)
 

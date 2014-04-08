@@ -35,8 +35,9 @@ Usage:
     vx split <SPLITEE> <PYTHON-MODULE> [--path=<where-to>]
     vx destroy <CONDEMNED-ENV-NAME>
     
-    vx dump (--pid | --file | --raw-json) <where-to>
-    vx load (--pid | --file | --raw-json) <from-whence>
+    vx env
+    vx env dump (--pid | --file | --raw-json) <where-to>
+    vx env load (--pid | --file | --raw-json) <from-whence>
     
     
 
