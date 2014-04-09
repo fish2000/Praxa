@@ -151,6 +151,9 @@ export SOLR_STOPWORDS="${SOLR_CONF}/stopwords.txt"
 export SOLR_STOPWORDS_EN="${SOLR_CONF}/stopwords_en.txt"
 export SOLR_LIRE_SCHEMA_PATCH="${INSTANCE_ADNAUSEUM}/solr-lire-schema-fields.patch"
 
+export ES_HOME=${LOCAL_LIB}/elasticsearch
+export ES_CLASSPATH=$ES_CLASSPATH:$ES_HOME/lib/elasticsearch-1.1.0.jar:$ES_HOME/lib/*:$ES_HOME/lib/sigar/
+
 export MAKEFILE="${VIRTUAL_ENV}/Makefile"
 export HONCHO="${INSTANCE_BIN}/honcho -f ${PROCFILE}"
 export INSTANCE_BPYTHON_SETTINGS="${INSTANCE_ADNAUSEUM}/bpython-settings.py"
