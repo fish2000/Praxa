@@ -4,7 +4,7 @@
 ORIG_PREFIX_FILE="lib/python2.7/orig-prefix.txt"
 ORIG_PREFIX=$(cat ${ORIG_PREFIX_FILE})
 OLD_VERSION=$(echo $ORIG_PREFIX | awk -F/ '{ print $6 }')
-PY_VERSION=$(/usr/local/bin/python -c 'import sys; print sys.version.split(" ")[0]')
+PY_VERSION="$(/usr/local/bin/python -c 'import sys; print sys.version.split(" ")[0]')_1"
 NEW_PREFIX=$(echo $ORIG_PREFIX | sed "s#${OLD_VERSION}#${PY_VERSION}#g")
 
 echo "ORIG PREFIX: ${ORIG_PREFIX}"
