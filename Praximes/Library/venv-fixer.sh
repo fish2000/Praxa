@@ -5,12 +5,13 @@ ORIG_PREFIX_FILE="lib/python2.7/orig-prefix.txt"
 ORIG_PREFIX=$(cat ${ORIG_PREFIX_FILE})
 OLD_VERSION=$(echo $ORIG_PREFIX | awk -F/ '{ print $6 }')
 PY_VERSION="$(/usr/local/bin/python -c 'import sys; print sys.version.split(" ")[0]')_1"
-NEW_PREFIX=$(echo $ORIG_PREFIX | sed "s#${OLD_VERSION}#${PY_VERSION}#g")
+#NEW_PREFIX=$(echo $ORIG_PREFIX | sed "s#${OLD_VERSION}#${PY_VERSION}#g")
+NEW_PREFIX=$(/usr/local/bin/python -c 'import sys; print sys.prefix')
 
 echo "ORIG PREFIX: ${ORIG_PREFIX}"
 echo "NEW PREFIX: ${NEW_PREFIX}"
 
-echo $NEW_PREFIX > $ORIG_PREFIX_FILE
+#echo $NEW_PREFIX > $ORIG_PREFIX_FILE
 
 function relink () {
     file=$1
@@ -18,7 +19,7 @@ function relink () {
     bs=`basename $file`
     if [ ! -e `readlink -n $file` ]; then
         [[ $dir = "." ]] && newfile="${NEW_PREFIX}/$(echo $bs | sed 's#.##')" || newfile="${NEW_PREFIX}/$(echo $dir | sed 's#./##')/${bs}"
-        #echo $newfile
+        echo $newfile
         if [ -e $newfile ]; then
             rm $file && ln -s $newfile $file
         fi
@@ -34,6 +35,6 @@ for bad_link in $bad_links; do
 done
 
 for bad_link in $bad_links; do
-    #echo "BAD LINK: ${bad_link}"
+    echo "BAD LINK: ${bad_link}"
     relink $bad_link
 done

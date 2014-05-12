@@ -5,7 +5,13 @@
 #if (!)
 export __PATH__="${PATH}"
 
-export PYTHON_NUMBER=`${VIRTUAL_ENV}/bin/python -c "import platform;print '%s.%s' % platform.python_version_tuple()[:2]"`
+# PYTHON_NUMBER=`${VIRTUAL_ENV}/bin/python -c "import platform;print '%s.%s' % platform.python_version_tuple()[:2]"`
+# if [ `test -z "$PYTHON_NUMBER"` ]; then
+#     PYTHON_NUMBER="2.7" # sensible default
+# fi
+PYTHON_NUMBER="2.7"
+export PYTHON_NUMBER
+
 export PYTHONPATH="\
 ${VIRTUAL_ENV}/lib/python${PYTHON_NUMBER}/site-packages:\
 ${VIRTUAL_ENV}:\
