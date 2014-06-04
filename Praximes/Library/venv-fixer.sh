@@ -11,8 +11,6 @@ NEW_PREFIX=$(/usr/local/bin/python -c 'import sys; print sys.prefix')
 echo "ORIG PREFIX: ${ORIG_PREFIX}"
 echo "NEW PREFIX: ${NEW_PREFIX}"
 
-#echo $NEW_PREFIX > $ORIG_PREFIX_FILE
-
 function relink () {
     file=$1
     dir=`dirname $file`
@@ -38,3 +36,5 @@ for bad_link in $bad_links; do
     echo "BAD LINK: ${bad_link}"
     relink $bad_link
 done
+
+echo $NEW_PREFIX > $ORIG_PREFIX_FILE
