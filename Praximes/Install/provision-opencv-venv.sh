@@ -8,7 +8,7 @@ bin/pip install -U numpy
 cd $INSTANCE_VARIANT
 echo ""
 echo "+ Installing OpenCV"
-OPENCV_VERSION="2.4.8"
+OPENCV_VERSION="2.4.9"
 OPENCV_DIRNAME="opencv-${OPENCV_VERSION}"
 OPENCV_ZIPNAME="${OPENCV_DIRNAME}.zip"
 OPENCV_URL="http://iweb.dl.sourceforge.net/project/opencvlibrary/opencv-unix/${OPENCV_VERSION}/${OPENCV_ZIPNAME}"

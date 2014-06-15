@@ -3,14 +3,14 @@
 #setproctitle
 supervisor
 #superlance
-honcho
+#honcho
 
 ipython
 bpython
 httpie
 
 yolk
-nose
+#nose
 xerox
 
 FullContact.py

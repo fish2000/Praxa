@@ -23,7 +23,7 @@ django-uuidfield
 #django-tablib
 
 django-appconf
-django-postgrespool
+#django-postgrespool
 south
 
 #python-openid

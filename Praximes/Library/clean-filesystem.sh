@@ -3,3 +3,4 @@
 cd $VIRTUAL_ENV
 echo "+ Clearing filesystem gremlins..."
 DEPLOYED || find $VIRTUAL_ENV -iname ".DS_Store" -print -delete
+DEPLOYED || rm ${PIP_DOWNLOAD_CACHE}/*master.zip

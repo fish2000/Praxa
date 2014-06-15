@@ -5,7 +5,7 @@ echo "+ Installing Redis server"
 
 cd $INSTANCE_TMP
 
-REDIS_VERSION="2.8.8"
+REDIS_VERSION="2.8.11"
 REDIS_DIRNAME="redis-${REDIS_VERSION}"
 REDIS_TARBALL="${REDIS_DIRNAME}.tar.gz"
 REDIS_URL="http://download.redis.io/releases/${REDIS_TARBALL}"
