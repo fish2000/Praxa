@@ -10,3 +10,6 @@ load_praxon "read-password"
 
 # LOAD THE DEV-ENVIRONMENT FUNCS
 load_praxon "venv-functions"
+
+# update venv symlinks if python was updated
+load_praxon "update-venv-symlinks"
