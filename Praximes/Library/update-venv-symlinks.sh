@@ -19,7 +19,7 @@ if [[ $ORIG_PREFIX == $NEW_PREFIX ]]; then
     exit 127
 fi
 
-function relink () {
+function __relink__ () {
     file=$1
     dir=`dirname $file`
     bs=`basename $file`
@@ -45,7 +45,7 @@ done
 
 echo ""
 for bad_link in $bad_links; do
-    relink $bad_link
+    __relink__ $bad_link
     echo ""
 done
 
