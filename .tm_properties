@@ -1,0 +1,11 @@
+#TM_PYTHON = "/Users/fish/Praxa/TESSAR/bin/python"
+#TM_PYTHONPATH = "/Users/fish/Praxa/TESSAR/local/lib/python2.7/site-packages:/Users/fish/Praxa/TESSAR/instance/TESSAR:/Users/fish/Praxa/TESSAR/instance:/Users/fish/Praxa/TESSAR/lib/python2.7/site-packages:/Users/fish/Praxa/TESSAR:."
+#PYTHONPATH = "/Users/fish/Praxa/TESSAR/local/lib/python2.7/site-packages:/Users/fish/Praxa/TESSAR/instance/TESSAR:/Users/fish/Praxa/TESSAR/instance:/Users/fish/Praxa/TESSAR/lib/python2.7/site-packages:/Users/fish/Praxa/TESSAR:."
+#DJANGO_SETTINGS_MODULE = "tessar.settings"
+
+
+CLASSPATH = "/usr/local/opt/libreadline-java/share/libreadline-java/libreadline-java.jar:/Users/fish/Praxa/TESSAR/java/lire-solr/dist/lire-request-handler.jar:/Users/fish/Praxa/TESSAR/java/lire-solr/lib/lire.jar:/Users/fish/Praxa/TESSAR/java/lire-solr/lib/commons-codec-1.9.jar"
+
+[*.*]
+windowTitle = "<<<<< PRAXA >>>>> • $TM_DISPLAYNAME"
+
