@@ -49,4 +49,10 @@ for bad_link in $bad_links; do
     echo ""
 done
 
+echo "+ Writing new prefix to ${ORIG_PREFIX_FILE}"
 echo $NEW_PREFIX > $ORIG_PREFIX_FILE
+
+echo "+ Committing changes"
+git addremove $VIRTUAL_ENV && git commit -m "New python version (via update-venv-symlinks praxon)"
+
+return 0
