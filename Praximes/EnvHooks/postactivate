@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # This hook is run after every virtualenv is activated.
+
+# set up env variables
 source "${VIRTUALENVWRAPPER_HOOK_DIR}/env_preinit"
 
 # CLEAR OUT GREMLINS (e.g. ".DS_Store")
@@ -11,5 +13,5 @@ load_praxon "read-password"
 # LOAD THE DEV-ENVIRONMENT FUNCS
 load_praxon "venv-functions"
 
-# update venv symlinks if python was updated
+# firstly, update venv symlinks if python was updated
 load_praxon "update-venv-symlinks"
