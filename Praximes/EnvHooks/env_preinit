@@ -36,6 +36,14 @@ function SUPERUSER () {
     return 1
 }
 
+function PYPY () {
+    arch=`bin/python -c "import sys; print hasattr(sys, 'pypy_version_info') and 'pypy' or 'cpython'"`
+    if [[ $arch == pypy ]]; then
+        return 0
+    fi
+    return 1
+}
+
 export INSTANCE_NAME=`echo "$(basename ${VIRTUAL_ENV})" | sed -e s/[^A-Za-z0-9]/_/g`
 export INSTANCE_SAFE_NAME=${INSTANCE_NAME,,} # two commas = lowercase
 export INSTANCE_SRC=`echo "$(basename ${VIRTUAL_ENV})"`

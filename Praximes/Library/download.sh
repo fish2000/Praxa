@@ -34,7 +34,7 @@ expand_zipwad_to () {
     [[ -d $out_directory ]] && rm -rf $out_directory
     echo "+ Unzipping zipwad: $(basename ${in_zipwad})"
     echo "+ Unzip destination: ${out_directory}"
-    unzip -d $tmp_directory $in_zipwad
+    unzip -q -d $tmp_directory $in_zipwad
     expanded_directory=("$tmp_directory"/*)
     if (( ${#tmp_directory[@]} == 1 )) && [[ -d $tmp_directory ]]; then
         mv "${tmp_directory}"/* $out_directory && rm -rf $tmp_directory

@@ -5,10 +5,11 @@ echo "+ Installing CheeseShop essentials"
 echo "+ Installing Cython:"
 ${VIRTUAL_ENV}/bin/pip install -U Cython
 
-# echo "+ Installing numpy:"
-${VIRTUAL_ENV}/bin/pip install -U numpy
+# install numpy or numpypy conditionally
+install_praxon "provision-numpy"
 
-# echo "+ Installing numexpr:"
+cd /tmp
+echo "+ Installing numexpr:"
 ${VIRTUAL_ENV}/bin/pip install -U numexpr
 
 echo "+ Installing virtualenv utilities:"
