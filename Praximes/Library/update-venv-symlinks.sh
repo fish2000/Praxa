@@ -11,13 +11,13 @@ ORIG_PREFIX=$(cat ${ORIG_PREFIX_FILE})
 
 NEW_PREFIX=$(/usr/local/bin/python -c 'import sys; print sys.prefix')
 
+if [[ $ORIG_PREFIX == $NEW_PREFIX ]]; then
+    echo "- Linked python version is current"
+    return 127
+fi
+
 echo "OLD PREFIX: ${ORIG_PREFIX}"
 echo "NEW PREFIX: ${NEW_PREFIX}"
-
-if [[ $ORIG_PREFIX == $NEW_PREFIX ]]; then
-    echo "- Prefixes are the same, not relinking"
-    exit 127
-fi
 
 function __relink__ () {
     file=$1
