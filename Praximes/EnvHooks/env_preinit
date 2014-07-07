@@ -21,6 +21,7 @@ export VENV=$VIRTUAL_ENV
 export INSTANCE="${VIRTUAL_ENV}/instance"
 export NODECODE="${VIRTUAL_ENV}/nodecode"
 export LOCAL="${VIRTUAL_ENV}/local"
+export INSTANCE_ARCH=`${VIRTUAL_ENV}/bin/python -c "import sys; print hasattr(sys, 'pypy_version_info') and 'pypy' or 'cpython'"`
 
 function DEPLOYED () {
     if [[ ${HOSTNAME,,} != *local ]]; then
@@ -37,8 +38,7 @@ function SUPERUSER () {
 }
 
 function PYPY () {
-    arch=`bin/python -c "import sys; print hasattr(sys, 'pypy_version_info') and 'pypy' or 'cpython'"`
-    if [[ $arch == pypy ]]; then
+    if [[ $INSTANCE_ARCH == pypy ]]; then
         return 0
     fi
     return 1

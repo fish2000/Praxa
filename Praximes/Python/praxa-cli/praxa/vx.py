@@ -13,7 +13,6 @@ from argh import arg, command, named, ArghParser
 from argparse import REMAINDER
 
 import re
-import six
 import json
 import subprocess
 
@@ -70,11 +69,13 @@ def _current_env_to_dict(env_alt={}):
 def _dict_to_env_commands(env_dict, dry_run=False):
     env = dict(zip(
         env_dict.keys(),
-        map(lambda val: type(val) in six.string_types \
+        map(lambda val: hasattr(val, 'lower') \
                 and val \
                 or _sequence_to_path(val),
             env_dict.values())))
-    return u";\\\n".join(['export %s="%s"' % (k, v) for k, v in env.items()])
+    return u";\\\n".join([u'export %s="%s"' % (
+        unicode(k),
+        unicode(v)) for k, v in env.items()])
 
 
 @arg('--path', '-D', default=None)
@@ -101,7 +102,7 @@ def dump(**kwargs):
     
     filename = 'env.%s.%d.json' % (
         getenv('INSTANCE_NAME', "Praxa"),
-        'pid' in kwargs and int(kwargs.get('pid')) or getpid())
+        kwargs.get('pid') and int(kwargs.get('pid')) or getpid())
     
     if not kwargs.get('path'):
         resources.user.write(
@@ -127,18 +128,18 @@ def load(**kwargs):
     
     filename = 'env.%s.%d.json' % (
         getenv('INSTANCE_NAME', "Praxa"),
-        kwargs.get('pid', getpid()))
+        kwargs.get('pid') and int(kwargs.get('pid')) or getpid())
     
-    if kwargs['json'] is not None:
+    if kwargs['json'] is None:
         pth = kwargs.get('path') or resources.user.path
         load_path = join(pth, filename)
         with open(load_path, 'rb') as handle:
             load_json = handle.read()
     else:
-        load_json = kwargs['json']
+        load_json = unicode(kwargs['json'])
     
     loaded_dict = json.loads(load_json)
-    print(_dict_to_env_commands(loaded_dict))
+    print(_dict_to_env_commands(loaded_dict).encode('UTF-8'))
 
 def _args_to_workon_command(venv, *cmdargs):
     global andand
@@ -188,7 +189,12 @@ def main(*argv):
         makedirs(resources.user.path)
     
     arguments = list(argv)
+    if not arguments:
+        from sys import argv
+        arguments = argv[1:]
+    
     parser = ArghParser()
+    parser.add_help = True
     parser.add_commands([dump, load], namespace="env",
         title="Environment Manipulation")
     parser.add_commands([vexec]) # the default

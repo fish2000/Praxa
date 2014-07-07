@@ -20,9 +20,10 @@
 
 cd $TMP
 
-PYTHON_VERSION="2.7.6"
-SETUPTOOLS_VERSION="1.3.2"
-PIP_VERSION="1.4.1"
+PYTHON_VERSION="2.7.8"
+#SETUPTOOLS_VERSION="1.3.2"
+SETUPTOOLS_VERSION="5.4.1"
+PIP_VERSION="1.5.6"
 MACOSX_DEPLOYMENT_TARGET="10.9"
 
 echo "+ Preparing to build python from source tarball ..."
@@ -30,7 +31,7 @@ PYTHON_URL="http://python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSI
 PYTHON_SRC="${TMP}/python-${PYTHON_VERSION}-src"
 SETUPTOOLS_URL="https://pypi.python.org/packages/source/s/setuptools/setuptools-${SETUPTOOLS_VERSION}.tar.gz"
 SETUPTOOLS_SRC="${TMP}/setuptools-${SETUPTOOLS_VERSION}-src"
-PIP_URL="https://pypi.python.org/packages/source/p/pip/pip-1.4.1.tar.gz"
+PIP_URL="https://pypi.python.org/packages/source/p/pip/pip-${PIP_VERSION}.tar.gz"
 PIP_SRC="${TMP}/pip-${PIP_VERSION}-src"
 export PYTHON_BINARY="${BIN}/python"
 
@@ -79,7 +80,7 @@ cd $SETUPTOOLS_SRC && test -x $PYTHON_BINARY && \
             --prefix=${USR_LOCAL} \
             --install-scripts=${BIN}
 
-echo "+ Downloading and installing setuptools ${SETUPTOOLS_VERSION} ..."
+echo "+ Downloading and installing pip ${PIP_VERSION} ..."
 cd $TMP
 download_and_expand $PIP_URL $PIP_SRC
 cd $PIP_SRC && test -x $PYTHON_BINARY && \

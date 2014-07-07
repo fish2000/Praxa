@@ -1,6 +1,15 @@
 # Django settings for the $INSTANCE_NAME project.
 
-import platform
+import platform, os, hashlib
+virtualpath = lambda *pths: os.path.join('$VIRTUAL_ENV', *pths)
+hasher = lambda token: hashlib.sha256(token).hexdigest()
+
+secret = "${INSTANCE_PASSWORD_HASH}"
+if os.path.isfile(virtualpath('.password')):
+    with open(virtualpath('.password'), 'rb') as passfile:
+        password = passfile.read()
+        secret = hasher(password)
+
 BASE_HOSTNAME = platform.node().lower()
 DEPLOYED = not BASE_HOSTNAME.endswith('.local')
 
@@ -8,12 +17,10 @@ DEBUG = not DEPLOYED
 TEMPLATE_DEBUG = DEBUG
 ADMINS = ()
 MANAGERS = ADMINS
+SECRET_KEY = secret
 
 if DEPLOYED:
     ALLOWED_HOSTS = ['*']
-
-import os
-virtualpath = lambda *pths: os.path.join('$VIRTUAL_ENV', *pths)
 
 DATABASES = {
     'default': {
@@ -63,9 +70,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = "${INSTANCE_PASSWORD_HASH}"
-
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
@@ -114,6 +118,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    'django_admin_bootstrapped.bootstrap3',
     'django_admin_bootstrapped',
     'django.contrib.admin',
     
@@ -155,36 +160,5 @@ LOGGING = {
             'handlers': ['console'],
             'propagate': False,
         },
-        'raven': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'sentry.errors': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
     },
 }
-
-SQ_QUEUES = {
-    'default': {
-        'ENGINE': 'signalqueue.worker.backends.DatabaseQueueProxy',
-        'INTERVAL': 30, # 1/3 sec
-        'OPTIONS': dict(
-            app_label='signalqueue', modl_name='EnqueuedSignal'),
-    },
-    #'redis': {
-    #    'ENGINE': 'signalqueue.worker.backends.RedisSetQueue',
-    #    'INTERVAL': 30, # 1/3 sec
-    #    'OPTIONS': dict(
-    #        port=0, unix_socket_path=virtualpath('var', 'run', "/redis.sock")),
-    #},
-}
-
-SQ_RUNMODE = 'SQ_ASYNC_REQUEST'
-SQ_WORKER_PORT = 11231
-
-import platform
-BASE_HOSTNAME = platform.node().lower()

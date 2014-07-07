@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 cd $VIRTUAL_ENV
-echo "+ Installing NumPy"
-bin/pip install -U numpy
-
+# install numpy or numpypy conditionally
+install_praxon "provision-numpy"
 
 cd $INSTANCE_VARIANT
 echo ""

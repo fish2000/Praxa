@@ -11,8 +11,8 @@ mkdir -p ./instance
 mkdir -p ${IPYTHONDIR}
 mkdir -p ${INSTANCE_VARIANT_DATA}
 mkdir -p ${INSTANCE_VARIANT_DATA}/redis
-mkdir -p ${INSTANCE_VARIANT_DATA}/postgresql
-mkdir -p ${INSTANCE_VARIANT_DATA}/mysql
+#mkdir -p ${INSTANCE_VARIANT_DATA}/postgresql
+#mkdir -p ${INSTANCE_VARIANT_DATA}/mysql
 mkdir -p ${INSTANCE_VARIANT}/web
 mkdir -p ${INSTANCE_VARIANT}/web/static
 mkdir -p ${INSTANCE_VARIANT}/web/face
