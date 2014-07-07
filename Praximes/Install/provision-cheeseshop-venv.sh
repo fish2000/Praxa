@@ -18,7 +18,7 @@ ${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/Requirements/env-tools.txt
 echo "+ Installing web utilities:"
 ${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/Requirements/web-tools.txt
 
-# echo "+ Installing MATH POWER:"
+echo "+ Installing MATH POWER:"
 ${VIRTUAL_ENV}/bin/pip install -U -r ${PRAXIME_BASE}/Requirements/math.txt
 
 echo "+ Installing PIL/Pillow and related packages:"
