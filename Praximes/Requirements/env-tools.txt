@@ -1,6 +1,6 @@
 
 #watchdog
-#setproctitle
+setproctitle
 supervisor
 #superlance
 #honcho

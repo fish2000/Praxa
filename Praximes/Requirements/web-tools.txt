@@ -36,4 +36,4 @@ simplejson
 ujson
 #yajl
 #tablib
-#pyyaml
+pyyaml

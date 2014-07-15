@@ -7,9 +7,9 @@ scipy
 #pandas
 
 instakit
-scikit-image
-scikit-learn
-matplotlib
+#scikit-image
+#scikit-learn
+#matplotlib
 #nltk
 
 https://github.com/fish2000/imread/archive/master.zip
