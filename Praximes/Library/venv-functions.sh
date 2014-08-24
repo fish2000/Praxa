@@ -18,9 +18,15 @@ function vbp () {
 
 function vip () {
     SIGNALQUEUE_RUNMODE=SQ_SYNC \
-        ${INSTANCE_BIN}/ipython \
-            --no-confirm-exit --color-info \
-            --nosep --pprint \
+        ${INSTANCE_BIN}/ipython $@ \
+            --ipython-dir=${IPYTHONDIR} \
+            --profile-dir=${INSTANCE_IPYTHON_PROFILE} \
+            --deep-reload \
+            --no-confirm-exit \
+            --autoindent \
+            --color-info \
+            --nosep \
+            --pprint -i \
                 $INSTANCE_BPYTHON_SETTINGS
 }
 

@@ -8,9 +8,10 @@ mkdir -p ./etc
 mkdir -p ./var
 mkdir -p ./var/logs
 mkdir -p ./instance
-mkdir -p ${IPYTHONDIR}
 mkdir -p ${INSTANCE_VARIANT_DATA}
 mkdir -p ${INSTANCE_VARIANT_DATA}/redis
+mkdir -p ${INSTANCE_IPYTHON_PROFILE}
+mkdir -p ${IPYTHONDIR}
 #mkdir -p ${INSTANCE_VARIANT_DATA}/postgresql
 #mkdir -p ${INSTANCE_VARIANT_DATA}/mysql
 mkdir -p ${INSTANCE_VARIANT}/web
