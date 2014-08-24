@@ -62,7 +62,7 @@ fetch_from_cache_to () {
 fetch_and_expand () {
     url="${1:?URL expected}"
     url_basename="$(basename ${url})"
-    url_suffix="${url_basename#*.}"
+    url_suffix="${url_basename##*.}"
     destination_directory="${2:-${url_basename%%.*}}"
     tmp_directory="$(mktemp -d -t XXXXX)"
     tmp_archive="${tmp_directory}/${url_basename}"
