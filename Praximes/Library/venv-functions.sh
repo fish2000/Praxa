@@ -30,6 +30,22 @@ function vip () {
                 $INSTANCE_BPYTHON_SETTINGS
 }
 
+function vnb () {
+    SIGNALQUEUE_RUNMODE=SQ_SYNC \
+        ${INSTANCE_BIN}/ipython notebook \
+            --ipython-dir=${IPYTHONDIR} \
+            --profile-dir=${INSTANCE_IPYTHON_PROFILE} \
+            --notebook-dir=${INSTANCE_NOTEBOOKS} \
+            --logfile=${INSTANCE_LOGS}/ipy-notebook.log \
+            --gui=osx \
+            --pylab=osx \
+            --deep-reload \
+            --autoindent \
+            --color-info \
+            --nosep \
+            --pprint
+}
+
 function vj () {
     DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE \
         eval "${DJANGO_ADMIN} $@"

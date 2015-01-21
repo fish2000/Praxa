@@ -6,6 +6,9 @@ supervisor
 #honcho
 
 ipython
+pyzmq
+Sphinx
+jinja2
 bpython
 httpie
 

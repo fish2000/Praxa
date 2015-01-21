@@ -1,5 +1,4 @@
 
-#decorator
 greenlet
 eventlet
 pylibmc
@@ -8,7 +7,7 @@ pylibmc
 #python-amazon-simple-product-api
 #python-amazon-product-api
 
-#tornado
+tornado
 #Werkzeug
 gunicorn
 uWSGI
@@ -35,5 +34,5 @@ beautifulsoup4
 simplejson
 ujson
 #yajl
-#tablib
+tablib
 pyyaml

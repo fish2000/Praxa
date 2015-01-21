@@ -12,8 +12,6 @@
 !Praximes/Requirements/*
 !Templates/
 !EnvHooks/
-PipCache/*
-*/PipCache/*
 PraxaCache/*
 */PraxaCache/*
 hook.log

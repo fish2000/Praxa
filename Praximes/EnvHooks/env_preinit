@@ -49,6 +49,7 @@ export INSTANCE_SAFE_NAME=${INSTANCE_NAME,,} # two commas = lowercase
 export INSTANCE_SRC=`echo "$(basename ${VIRTUAL_ENV})"`
 export INSTANCE_MODULE="${INSTANCE}/${INSTANCE_SAFE_NAME}"
 export INSTANCE_STATIC="${INSTANCE_MODULE}/static"
+export INSTANCE_NOTEBOOKS="${VIRTUAL_ENV}/notebooks"
 export INSTANCE_BIN="${VIRTUAL_ENV}/bin"
 export INSTANCE_LIB="${VIRTUAL_ENV}/lib"
 export INSTANCE_INCLUDE="${VIRTUAL_ENV}/include"

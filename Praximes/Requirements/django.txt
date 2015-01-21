@@ -1,7 +1,7 @@
 
 django-tagging
 django-delegate
-#django-docfield-couchdb
+django-docfield-couchdb
 #django-twemoir
 #django-signalqueue
 #django-storages
@@ -16,11 +16,11 @@ django-admin-bootstrapped
 
 #django-nose
 django-haystack
-#django-autoslug
+django-autoslug
 django-uuidfield
 #django-multifilefield
-#django-modeldict
-#django-tablib
+django-modeldict
+django-tablib
 
 django-appconf
 #django-postgrespool
@@ -33,4 +33,4 @@ south
 
 #sockjs-tornado
 #django-social-auth
-#django-ios-notifications
+django-ios-notifications

@@ -8,6 +8,7 @@ mkdir -p ./etc
 mkdir -p ./var
 mkdir -p ./var/logs
 mkdir -p ./instance
+mkdir -p ${INSTANCE_NOTEBOOKS}
 mkdir -p ${INSTANCE_VARIANT_DATA}
 mkdir -p ${INSTANCE_VARIANT_DATA}/redis
 mkdir -p ${INSTANCE_IPYTHON_PROFILE}

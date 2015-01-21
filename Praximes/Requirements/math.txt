@@ -1,16 +1,16 @@
 
-#h5py # currently won't build due to mismatched APIs
-#tables # won't install without numexpr already installed
+h5py # currently won't build due to mismatched APIs
+tables # won't install without numexpr already installed
 scipy
 #imread
-#mahotas
-#pandas
+mahotas
+pandas
 
 instakit
-#scikit-image
+scikit-image
 #scikit-learn
-#matplotlib
-#nltk
+matplotlib
+nltk
 
 https://github.com/fish2000/imread/archive/master.zip
 https://github.com/fish2000/imfeat/archive/master.zip
