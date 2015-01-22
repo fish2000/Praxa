@@ -23,6 +23,7 @@ stdout
 *.dropbox
 .dropbox
 npm-debug.log
+pip-selfcheck.json
 
 Procfile
 
