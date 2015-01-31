@@ -42,7 +42,7 @@ cache_url () {
     cache_file="$(__url_cache_filename ${url})"
     __cache_has_url $url || download_to $url $cache_file 1>&2
     if [[ ! -r $cache_file ]]; then
-        echo "ERROR: no cached file: ${cache_file}" 1>&2
+        echo "- ERROR: no cached file: ${cache_file}" 1>&2
         echo ""
         return 1
     fi

@@ -1,7 +1,2 @@
 #!/usr/bin/env bash
 # This hook is run before every virtualenv is activated.
-
-#if [ ! -n "${OLD_PYTHONPATH}" ]
-#then
-#    export OLD_PYTHONPATH=$PYTHONPATH
-#fi

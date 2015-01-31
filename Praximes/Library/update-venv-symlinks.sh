@@ -3,12 +3,6 @@
 
 ORIG_PREFIX_FILE="lib/python2.7/orig-prefix.txt"
 ORIG_PREFIX=$(cat ${ORIG_PREFIX_FILE})
-
-#OLD_VERSION=$(echo $ORIG_PREFIX | awk -F/ '{ print $6 }')
-#PY_VERSION="$(/usr/local/bin/python -c 'import sys; print sys.version.split(" ")[0]')_2"
-#PY_VERSION=$(basename $(greadlink -f `brew --prefix python`))
-#NEW_PREFIX=$(echo $ORIG_PREFIX | sed "s#${OLD_VERSION}#${PY_VERSION}#g")
-
 NEW_PREFIX=$(/usr/local/bin/python -c 'import sys; print sys.prefix')
 
 if [[ $ORIG_PREFIX == $NEW_PREFIX ]]; then

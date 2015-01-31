@@ -39,7 +39,7 @@ expand_zipwad_to () {
     if (( ${#tmp_directory[@]} == 1 )) && [[ -d $tmp_directory ]]; then
         mv "${tmp_directory}"/* $out_directory && rm -rf $tmp_directory
     else
-        echo "Unzip failed, deleting temporary files: ${tmp_directory}"
+        echo "- Unzip failed, deleting temporary files: ${tmp_directory}"
         [[ -d $tmp_directory ]] && rm -rf $tmp_directory
         return 1
     fi
