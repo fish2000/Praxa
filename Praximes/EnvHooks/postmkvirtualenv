@@ -27,7 +27,7 @@ install_praxon "provision-cheeseshop-venv"
 #install_praxon "provision-nodejs-venv"
 
 # PROJECT-LOCAL OPENCV
-install_praxon "provision-opencv-venv"
+# install_praxon "provision-opencv-venv"
 
 # PRE-TEMPLATE FILES
 install_praxon "setup-instance-template-preinit"

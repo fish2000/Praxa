@@ -7,10 +7,11 @@ install_praxon "provision-numpy"
 cd $INSTANCE_VARIANT
 echo ""
 echo "+ Installing OpenCV"
-OPENCV_VERSION="2.4.9"
+OPENCV_VERSION="3.0.0-beta"
 OPENCV_DIRNAME="opencv-${OPENCV_VERSION}"
-OPENCV_ZIPNAME="${OPENCV_DIRNAME}.zip"
-OPENCV_URL="http://iweb.dl.sourceforge.net/project/opencvlibrary/opencv-unix/${OPENCV_VERSION}/${OPENCV_ZIPNAME}"
+OPENCV_ZIPNAME="${OPENCV_VERSION}.zip"
+# OPENCV_URL="http://iweb.dl.sourceforge.net/project/opencvlibrary/opencv-unix/${OPENCV_VERSION}/${OPENCV_ZIPNAME}"
+OPENCV_URL="https://github.com/Itseez/opencv/archive/${OPENCV_ZIPNAME}"
 
 fetch_and_expand $OPENCV_URL $OPENCV_DIRNAME
 
@@ -18,6 +19,11 @@ cd $OPENCV_DIRNAME
 [[ -d macbuild ]] && rm -rf macbuild
 mkdir macbuild
 cd macbuild
+
+CC="$(brew --prefix llvm)/bin/clang" \
+CXX="$(brew --prefix llvm)/bin/clang++" \
+CXXFLAGS="-std=c++11 --stdlib=libc++" \
+LDFLAGS="-lc++" \
 cmake .. \
     -DCMAKE_INSTALL_PREFIX=$VIRTUAL_ENV \
     -DCMAKE_BUILD_TYPE=None \
@@ -28,12 +34,13 @@ cmake .. \
     -DBUILD_ZLIB=OFF \
     -DBUILD_TIFF=OFF \
     -DBUILD_PNG=OFF \
-    -DBUILD_PNG=OFF \
     -DBUILD_JPEG=OFF \
     -DBUILD_JASPER=OFF \
     -DBUILD_TESTS=OFF \
     -DBUILD_PERF_TESTS=OFF \
     -DWITH_TBB=ON \
+    -DWITH_GCD=ON \
+    -DWITH_CONCURRENCY=ON \
     -DWITH_OPENCL=ON \
     -DWITH_FFMPEG=OFF \
     -DWITH_PYTHON=ON \

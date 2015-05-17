@@ -19,5 +19,5 @@ else
     # We're under cpython --
     # do a typical numpy pip-install
     echo "+ Installing numpy:"
-    ${VIRTUAL_ENV}/bin/pip install -U numpy
+    ${VIRTUAL_ENV}/bin/pip --verbose install -U numpy
 fi

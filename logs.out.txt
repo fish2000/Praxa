@@ -1,0 +1,63 @@
+
+-DNDEBUG -DNULL_STR=\\uFFFF -DREST_API="http://api.textmate.org"
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc \
+-c -pipe -fPIC -gdwarf-2 -Os -m64 -mmacosx-version-min=10.9 -funsigned-char -fcolor-diagnostics \
+-I/Users/fish/Dropbox/little-acorn/Shared/include \
+-DNDEBUG -DNULL_STR=\\uFFFF -DREST_API="http://api.textmate.org" \
+-Wall -Wwrite-strings -Wformat -Winit-self -Wmissing-include-dirs -Wno-parentheses -Wno-sign-compare \
+-Wno-switch -fcolor-diagnostics -std=c99 -x c-header \
+/Users/fish/Dropbox/little-acorn/Shared/PCH/prelude.c -o Shared/PCH/prelude.c.pch
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ \
+-c -pipe -fPIC -gdwarf-2 -Os -m64 -mmacosx-version-min=10.9 -funsigned-char -fcolor-diagnostics \
+-I/Users/fish/Dropbox/little-acorn/Shared/include -I/usr/local/opt/capnp/include \
+-DNDEBUG -DNULL_STR=\\uFFFF -DREST_API="http://api.textmate.org" \
+-Wall -Wwrite-strings -Wformat -Winit-self -Wmissing-include-dirs -Wno-parentheses -Wno-sign-compare \
+-Wno-switch -fcolor-diagnostics -std=c++1y -stdlib=libc++ -x c++-header \
+/Users/fish/Dropbox/little-acorn/Shared/PCH/prelude.cc -o Shared/PCH/prelude.cc.pch
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc \
+-c -pipe -fPIC -gdwarf-2 -Os -m64 -mmacosx-version-min=10.9 -funsigned-char -fcolor-diagnostics \
+-I/Users/fish/Dropbox/little-acorn/Shared/include \
+-DNDEBUG -DNULL_STR=\\uFFFF -DREST_API="http://api.textmate.org" \
+-Wall -Wwrite-strings -Wformat -Winit-self -Wmissing-include-dirs -Wno-parentheses -Wno-sign-compare \
+-Wno-switch -fcolor-diagnostics -fobjc-abi-version=3 -fobjc-arc -std=c99 -x objective-c-header \
+/Users/fish/Dropbox/little-acorn/Shared/PCH/prelude.m -o Shared/PCH/prelude.m.pch
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ \
+-c -pipe -fPIC -gdwarf-2 -Os -m64 -mmacosx-version-min=10.9 -funsigned-char -fcolor-diagnostics \
+-Wall -Wwrite-strings -Wformat -Winit-self -Wmissing-include-dirs -Wno-parentheses -Wno-sign-compare \
+-I/Users/fish/Dropbox/little-acorn/Shared/include -I/usr/local/opt/capnp/include \
+-DNDEBUG -DNULL_STR=\\uFFFF -DREST_API="http://api.textmate.org" \
+-Wno-switch -fcolor-diagnostics -fobjc-abi-version=3 -std=c++1y -stdlib=libc++ \
+-fobjc-arc -fobjc-call-cxx-cdtors -x objective-c++-header \
+/Users/fish/Dropbox/little-acorn/Shared/PCH/prelude.mm -o Shared/PCH/prelude.mm.pch
+
+
+
+who might go home after work
+
+and break the neck of his neighbor's dog 
+
+
+
+-fno-objc-arc
+
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc \
+-c -pipe -fPIC -gdwarf-2 -Os -m64 -mmacosx-version-min=10.9 -funsigned-char -fcolor-diagnostics \
+-I/Users/fish/Dropbox/little-acorn/Shared/include -fno-objc-arc \
+-DNDEBUG -DNULL_STR=\\uFFFF -DREST_API="http://api.textmate.org" \
+-Wall -Wwrite-strings -Wformat -Winit-self -Wmissing-include-dirs -Wno-parentheses -Wno-sign-compare \
+-Wno-switch -fcolor-diagnostics -fobjc-abi-version=3 -std=c99 -x objective-c-header \
+/Users/fish/Dropbox/little-acorn/Shared/PCH/prelude.m -o Shared/PCH/prelude.m-no-arc.pch
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ \
+-c -pipe -fPIC -gdwarf-2 -Os -m64 -mmacosx-version-min=10.9 -funsigned-char -fcolor-diagnostics \
+-Wall -Wwrite-strings -Wformat -Winit-self -Wmissing-include-dirs -Wno-parentheses -Wno-sign-compare \
+-I/Users/fish/Dropbox/little-acorn/Shared/include -I/usr/local/opt/capnp/include -fno-objc-arc \
+-DNDEBUG -DNULL_STR=\\uFFFF -DREST_API="http://api.textmate.org" \
+-Wno-switch -fcolor-diagnostics -fobjc-abi-version=3 -std=c++1y -stdlib=libc++ \
+-fobjc-call-cxx-cdtors -x objective-c++-header \
+/Users/fish/Dropbox/little-acorn/Shared/PCH/prelude.mm -o Shared/PCH/prelude.mm-no-arc.pch

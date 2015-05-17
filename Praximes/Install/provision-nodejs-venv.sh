@@ -8,7 +8,7 @@ bin/pip install -U nodeenv
 echo ""
 if [[ -x $(which nodeenv) ]]; then
     echo "+ Installing node.js"
-    bin/nodeenv -p -v -c -n 0.11.13 $NODE_MODULES_DIRECTORY
+    bin/nodeenv -j 4 -p -v -c -n 0.12.3 $NODE_MODULES_DIRECTORY
 else
     echo "- WARNING: couldn't find the nodeenv script"
 fi

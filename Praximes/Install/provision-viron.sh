@@ -2,4 +2,4 @@
 
 cd $VIRTUAL_ENV
 echo "+ Installing the viron template tool"
-bin/pip install -U argparse argh viron
+bin/pip --verbose install -U argparse argh viron

@@ -49,6 +49,15 @@ cache_url () {
     echo $cache_file
 }
 
+hash_url () {
+    url="${1:?URL expected}"
+    hasher="${2:-$(which sha256deep) -zk}"
+    cached_file="$(cache_url $url)"
+    echo "+ Hashing content of URL: ${cached_file}"
+    # echo "+ Using hasher: \`${hasher}\`"
+    echo "> $($hasher $cached_file)"
+}
+
 fetch_from_cache_to () {
     in_url="${1:?URL expected}"
     out_file="${2:?pathname expected}"
