@@ -1,5 +1,4 @@
 */
-Projects/
 !Praximes/
 !Install/
 !Library/
@@ -13,7 +12,10 @@ Projects/
 !Praximes/Requirements/*
 !Templates/
 !EnvHooks/
-!Projects/ntopng-honcho/
+!Projects/
+!Projects/ntopng-honcho/*
+Projects/homebrew-praxa/
+Projects/homebrew-praxa/*
 PraxaCache/*
 */PraxaCache/*
 hook.log
