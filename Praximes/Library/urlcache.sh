@@ -7,7 +7,7 @@ __url_hash_filename () {
     url="${1:?URL expected}"
     url_basename="$(basename ${url})"
     url_suffix="${2:-${url_basename##*.}}"
-    hasher="${3:-$(which sha1deep)}"
+    hasher="${3:-$(which sha256deep)}"
     url_hash=$(echo $url | $hasher)
     echo "${url_hash}.${url_suffix,,}"
 }
